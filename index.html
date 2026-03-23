@@ -1773,11 +1773,13 @@
         startEngine();
       });
 
-      // ── Wheel (trackpad) — pas de scroll natif, on injecte directement dans la vélocité ──
+      // ── Wheel (trackpad) — horizontal only on desktop, vertical scrolls the page ──
       let wheelTimer = null;
       outer.addEventListener('wheel', e => {
+        const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+        if (!isHorizontal) return; // let vertical scroll pass through to the page
         e.preventDefault();
-        const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        const delta = e.deltaX;
         vel += delta * 0.3;
         vel = Math.max(-80, Math.min(80, vel)); // cap
         if (phase !== 'drag') phase = 'inertia';
@@ -1831,6 +1833,17 @@
       document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1, true));
       document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1, true));
       dots.forEach((d, i) => d.addEventListener('click', () => goTo(i, true)));
+
+      // ── Arrow keys (desktop only, uniquement quand la souris est sur le carrousel) ──
+      let carouselHovered = false;
+      const carouselSection = outer.closest('section') || outer.parentElement;
+      carouselSection.addEventListener('mouseenter', () => { carouselHovered = true; });
+      carouselSection.addEventListener('mouseleave', () => { carouselHovered = false; });
+      document.addEventListener('keydown', e => {
+        if (!carouselHovered) return;
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1, true); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1, true); }
+      });
 
       // ── Init ──
       requestAnimationFrame(() => {
