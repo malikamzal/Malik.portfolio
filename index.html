@@ -926,6 +926,139 @@
     }
 
     /* ── Skin Scanner Modal ── */
+    /* ── GL PROJECT PAGE ── */
+    #glPage {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--bg);
+      overflow-y: auto;
+      overflow-x: hidden;
+      transform: translateY(100%);
+      transition: transform .6s cubic-bezier(.16,1,.3,1);
+      pointer-events: none;
+    }
+    #glPage.open {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .gl-close {
+      position: fixed; top: 20px; right: 24px;
+      z-index: 9001;
+      background: rgba(16,16,16,.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text);
+      font-size: 1rem; font-family: var(--font-display); font-weight: 600;
+      padding: 8px 18px; border-radius: 100px;
+      cursor: none;
+      display: flex; align-items: center; gap: 8px;
+      transition: border-color .2s, background .2s;
+      opacity: 0;
+      transition: opacity .4s .3s, border-color .2s, background .2s;
+    }
+    #glPage.open .gl-close { opacity: 1; }
+    .gl-close:hover { border-color: rgba(255,255,255,.3); background: rgba(30,30,30,.9); }
+
+    .gl-hero {
+      width: 100%;
+      height: 70vh;
+      min-height: 420px;
+      background-color: #f2b8d6;
+      position: relative;
+      overflow: hidden;
+    }
+    .gl-hero img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gl-hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,.2) 50%, transparent 100%);
+    }
+
+    .gl-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 64px 32px 120px;
+    }
+    .gl-label {
+      font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); font-family: var(--font-display); font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .gl-h1 {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+    .gl-meta {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      margin-bottom: 48px;
+    }
+    .gl-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .gl-meta-key {
+      font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); font-family: var(--font-display);
+    }
+    .gl-meta-val {
+      font-size: .9rem; color: var(--text); font-weight: 400;
+    }
+    .gl-desc {
+      font-size: 1.1rem; line-height: 1.75;
+      color: rgba(240,237,232,.75);
+      margin-bottom: 64px;
+    }
+    .gl-desc strong { color: var(--text); font-weight: 400; }
+    .gl-section-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 1.4rem; color: var(--text);
+      margin-bottom: 20px;
+    }
+    .gl-full-img {
+      width: calc(100% + 64px);
+      margin-left: -32px;
+      margin-bottom: 64px;
+      background-color: #f2b8d6;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .gl-full-img img { width: 100%; display: block; }
+    .gl-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 64px;
+    }
+    .gl-tag {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: .75rem; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--muted); font-family: var(--font-display);
+    }
+
+    /* anim stagger sur le contenu */
+    #glPage .gl-content > * {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    #glPage.open .gl-content > * { opacity: 1; transform: translateY(0); }
+    #glPage.open .gl-content > *:nth-child(1) { transition-delay: .25s; }
+    #glPage.open .gl-content > *:nth-child(2) { transition-delay: .32s; }
+    #glPage.open .gl-content > *:nth-child(3) { transition-delay: .38s; }
+    #glPage.open .gl-content > *:nth-child(4) { transition-delay: .44s; }
+    #glPage.open .gl-content > *:nth-child(5) { transition-delay: .50s; }
+    #glPage.open .gl-content > *:nth-child(6) { transition-delay: .55s; }
+    #glPage.open .gl-content > *:nth-child(n+7) { transition-delay: .6s; }
+
+    /* ── SKIN MODAL ── */
     #skinModal {
       display: none;
       position: fixed; inset: 0; z-index: 9999;
@@ -1294,7 +1427,7 @@
       <div class="carousel-track" id="carouselTrack">
 
         <div class="project-card active-card">
-          <div class="project-img-wrap"><img src="01_SOURCES/GALERIES_LAFAYETTE_PROJECT.png" style="width:100%;height:100%;object-fit:cover;display:block;" alt=""></div>
+          <div class="project-img-wrap" style="background-color:#f2b8d6;"><img src="01_SOURCES/GALERIES_LAFAYETTE_PROJECT.png" style="width:100%;height:100%;object-fit:cover;display:block;" alt=""></div>
           <div class="project-overlay">
             <div class="project-brand-logo"><img src="01_SOURCES/GALERIES_LAFAYETTE_LOGO.png" alt="Galeries Lafayette" style="width:100%;height:100%;object-fit:contain;">
             </div>
@@ -1374,7 +1507,7 @@
       <div class="wallet-track" id="walletTrack">
 
       <div class="wallet-card" data-index="0">
-        <div class="project-img-wrap"><img src="01_SOURCES/GALERIES_LAFAYETTE_PROJECT.png" style="width:100%;height:100%;object-fit:cover;display:block;" alt=""></div>
+        <div class="project-img-wrap" style="background-color:#f2b8d6;"><img src="01_SOURCES/GALERIES_LAFAYETTE_PROJECT.png" style="width:100%;height:100%;object-fit:cover;display:block;" alt=""></div>
         <div class="project-overlay"><div class="project-brand-logo"><img src="01_SOURCES/GALERIES_LAFAYETTE_LOGO.png" alt="Galeries Lafayette" style="width:100%;height:100%;object-fit:contain;"></div><div class="project-overlay-text"><div class="project-brand-name">Galeries Lafayette</div><div class="project-name">Ecosystème digital</div></div></div>
       </div>
 
@@ -1613,6 +1746,66 @@
 
     </div>
   </section>
+
+  <!-- Galeries Lafayette Project Page -->
+  <div id="glPage">
+    <button class="gl-close" id="glClose">← Retour</button>
+
+    <div class="gl-hero">
+      <img src="01_SOURCES/GALERIES_LAFAYETTE_PROJECT.png" alt="Galeries Lafayette — Ecosystème digital">
+    </div>
+
+    <div class="gl-content">
+      <div class="gl-label">Projet 01 — Galeries Lafayette</div>
+      <h1 class="gl-h1">Ecosystème<br>digital</h1>
+
+      <div class="gl-meta">
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Année</span>
+          <span class="gl-meta-val">2019 — 2026</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Rôle</span>
+          <span class="gl-meta-val">Product Designer</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Client</span>
+          <span class="gl-meta-val">Galeries Lafayette</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Périmètre</span>
+          <span class="gl-meta-val">iOS · Android · Web</span>
+        </div>
+      </div>
+
+      <p class="gl-desc">
+        Depuis 2019, je pilote le design de l'<strong>écosystème digital</strong> des Galeries Lafayette —
+        de l'application mobile flagship aux outils internes utilisés par les équipes métier.
+        Mon rôle couvre l'ensemble du spectre : <strong>UX Research, UI Design, Design System</strong>
+        et accompagnement produit en mode agile.
+      </p>
+
+      <div class="gl-full-img">
+        <img src="01_SOURCES/GALERIES_LAFAYETTE_PROJECT.png" alt="Aperçu du projet">
+      </div>
+
+      <h2 class="gl-section-title">Ce que j'ai fait</h2>
+      <p class="gl-desc">
+        Refonte complète de l'expérience d'achat en ligne, conception du Design System unifié,
+        itérations continues sur les parcours panier et checkout, et design de nouvelles
+        features comme la liste de souhaits, le scan produit en magasin ou encore les recommandations personnalisées.
+      </p>
+
+      <div class="gl-tags">
+        <span class="gl-tag">UX Research</span>
+        <span class="gl-tag">UI Design</span>
+        <span class="gl-tag">Design System</span>
+        <span class="gl-tag">Prototypage</span>
+        <span class="gl-tag">Figma</span>
+        <span class="gl-tag">Mobile First</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Skin Scanner Modal -->
   <div id="skinModal">
@@ -2636,6 +2829,35 @@
       // Fermer avec Escape
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+      });
+    })();
+
+    // ── GL PROJECT PAGE ──
+    (function() {
+      const page = document.getElementById('glPage');
+      const closeBtn = document.getElementById('glClose');
+
+      function openGLPage() {
+        page.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        page.scrollTop = 0;
+      }
+      function closeGLPage() {
+        page.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      // Clic sur les cartes GL (desktop + mobile)
+      document.querySelectorAll('.project-card, .wallet-card').forEach(card => {
+        if (card.querySelector('img[src*="GALERIES_LAFAYETTE_PROJECT"]')) {
+          card.addEventListener('click', openGLPage);
+          card.style.cursor = 'none';
+        }
+      });
+
+      closeBtn.addEventListener('click', closeGLPage);
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && page.classList.contains('open')) closeGLPage();
       });
     })();
 </script>
