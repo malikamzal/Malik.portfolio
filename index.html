@@ -1042,22 +1042,27 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      border-radius: 16px;
+      border-radius: 0;
     }
     .gl-mosaic-scroll-track {
       display: flex;
       height: 100%;
-      animation: mosaicScroll 18s linear infinite;
+      gap: 0;
+      will-change: transform;
+      animation: mosaicScroll 22s linear infinite;
     }
     .gl-mosaic-scroll-track img {
       height: 100%;
       width: auto;
       flex-shrink: 0;
       display: block;
+      margin: 0;
+      padding: 0;
+      vertical-align: top;
     }
     @keyframes mosaicScroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
     /* ── Full-width visual block ── */
     .gl-visual-full {
@@ -2109,12 +2114,12 @@
       <p class="gl-visuals-caption">Génération de modèles • Création d'un panel de mannequins et de poses via Weavy afin de réaliser des portées de vêtements.</p>
 
       <!-- Bloc visuel 2e rangée -->
-      <div class="gl-visuals-grid">
+      <div class="gl-visuals-grid" style="grid-auto-rows: 655px;">
         <div class="gl-visual-block">
           <div class="gl-phone-unit">
             <div class="gl-phone-wrap">
               <div class="gl-phone-screen">
-                <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+                <video id="glLookVideo" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
                   <source src="01_SOURCES/PROJET_GL/GL_LOOK.mp4" type="video/mp4">
                 </video>
               </div>
@@ -2122,7 +2127,7 @@
             </div>
           </div>
         </div>
-        <div class="gl-visual-block" style="padding:0;overflow:hidden;">
+        <div class="gl-visual-block" style="padding:24px 0;overflow:hidden;">
           <div class="gl-mosaic-scroll-wrap">
             <div class="gl-mosaic-scroll-track">
               <img src="01_SOURCES/PROJET_GL/GL_LOOK_MOSAIC.png" alt="Look Mosaic">
@@ -2131,6 +2136,8 @@
           </div>
         </div>
       </div>
+
+      <p class="gl-visuals-caption">Génération de looks • Exploration autour de la recommandation de tenues pour divers évènements via Midjourney.</p>
 
       <h2 class="gl-section-title">Ce que j'ai fait</h2>
       <p class="gl-desc">
@@ -3253,6 +3260,13 @@
     initCarousel('glCarouselTrack', 'glCarouselDots', 0);
 
     // GL Model switcher
+    const lookVideo = document.getElementById('glLookVideo');
+    if (lookVideo) {
+      lookVideo.addEventListener('click', () => {
+        lookVideo.paused ? lookVideo.play() : lookVideo.pause();
+      });
+    }
+
     document.querySelectorAll('.gl-model-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const set = btn.dataset.set;
