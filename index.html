@@ -1037,6 +1037,28 @@
       letter-spacing: 0.02em;
       margin: 4px 0 40px;
     }
+    /* ── Mosaic scroll ── */
+    .gl-mosaic-scroll-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+    .gl-mosaic-scroll-track {
+      display: flex;
+      height: 100%;
+      animation: mosaicScroll 18s linear infinite;
+    }
+    .gl-mosaic-scroll-track img {
+      height: 100%;
+      width: auto;
+      flex-shrink: 0;
+      display: block;
+    }
+    @keyframes mosaicScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
     /* ── Full-width visual block ── */
     .gl-visual-full {
       width: 100%;
@@ -1122,7 +1144,7 @@
         "a b c"
         "a d c";
       gap: 6px;
-      padding: 6px;
+      padding: 6px 0 6px 6px;
       border-radius: 0 16px 16px 0;
       overflow: hidden;
       transition: opacity 0.2s;
@@ -1164,7 +1186,7 @@
     }
     .gl-visual-block.gl-visual-full {
       flex-direction: row;
-      padding: 16px 0 16px 16px;
+      padding: 16px;
       align-items: stretch;
       justify-content: flex-start;
       gap: 10px;
@@ -2085,6 +2107,30 @@
       </div>
 
       <p class="gl-visuals-caption">Génération de modèles • Création d'un panel de mannequins et de poses via Weavy afin de réaliser des portées de vêtements.</p>
+
+      <!-- Bloc visuel 2e rangée -->
+      <div class="gl-visuals-grid">
+        <div class="gl-visual-block">
+          <div class="gl-phone-unit">
+            <div class="gl-phone-wrap">
+              <div class="gl-phone-screen">
+                <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+                  <source src="01_SOURCES/PROJET_GL/GL_LOOK.mp4" type="video/mp4">
+                </video>
+              </div>
+              <img class="gl-phone-frame" src="01_SOURCES/iphone-frame.png" alt="iPhone frame">
+            </div>
+          </div>
+        </div>
+        <div class="gl-visual-block" style="padding:0;overflow:hidden;">
+          <div class="gl-mosaic-scroll-wrap">
+            <div class="gl-mosaic-scroll-track">
+              <img src="01_SOURCES/PROJET_GL/GL_LOOK_MOSAIC.png" alt="Look Mosaic">
+              <img src="01_SOURCES/PROJET_GL/GL_LOOK_MOSAIC.png" alt="Look Mosaic">
+            </div>
+          </div>
+        </div>
+      </div>
 
       <h2 class="gl-section-title">Ce que j'ai fait</h2>
       <p class="gl-desc">
