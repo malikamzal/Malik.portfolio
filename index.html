@@ -1026,11 +1026,75 @@
       width: calc(100% + 64px);
       margin-left: -32px;
       margin-bottom: 64px;
-      background-color: #f2b8d6;
       border-radius: 12px;
       overflow: hidden;
     }
     .gl-full-img img { width: 100%; display: block; }
+
+    /* ── Phone Showcase ── */
+    .gl-phone-section {
+      width: calc(100% + 64px);
+      margin-left: -32px;
+      margin-bottom: 64px;
+      background-color: #F5F0E8;
+      border-radius: 12px;
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    .gl-phone-wrap {
+      position: relative;
+      width: 240px;
+    }
+    .gl-phone-screen {
+      position: absolute;
+      top: 5.8%;
+      left: 4.7%;
+      width: 90.6%;
+      height: 88.4%;
+      border-radius: 36px;
+      overflow: hidden;
+      background: #000;
+    }
+    .gl-carousel-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform .5s cubic-bezier(.77,0,.18,1);
+    }
+    .gl-carousel-track img {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gl-phone-frame {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: block;
+      pointer-events: none;
+    }
+    .gl-carousel-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .gl-carousel-dots button {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0,0,0,.2);
+      cursor: pointer;
+      padding: 0;
+      transition: background .3s, transform .3s;
+    }
+    .gl-carousel-dots button.active {
+      background: #1a1a1a;
+      transform: scale(1.4);
+    }
     .gl-tags {
       display: flex; flex-wrap: wrap; gap: 8px;
       margin-bottom: 64px;
@@ -1781,8 +1845,23 @@
         et accompagnement produit en mode agile.
       </p>
 
-      <div class="gl-full-img">
-        <img src="01_SOURCES/GALERIES_LAFAYETTE_PROJECT.png" alt="Aperçu du projet">
+      <div class="gl-phone-section">
+        <div class="gl-phone-wrap">
+          <div class="gl-phone-screen">
+            <div class="gl-carousel-track" id="glCarouselTrack">
+              <img src="01_SOURCES/PROJET_GL/GL_APP1.png" alt="GL App 1">
+              <img src="01_SOURCES/PROJET_GL/GL_APP2.png" alt="GL App 2">
+              <img src="01_SOURCES/PROJET_GL/GL_APP3.png" alt="GL App 3">
+              <img src="01_SOURCES/PROJET_GL/GL_APP4.png" alt="GL App 4">
+              <img src="01_SOURCES/PROJET_GL/GL_APP5.png" alt="GL App 5">
+              <img src="01_SOURCES/PROJET_GL/GL_APP6.png" alt="GL App 6">
+              <img src="01_SOURCES/PROJET_GL/GL_APP7.png" alt="GL App 7">
+              <img src="01_SOURCES/PROJET_GL/GL_APP8.png" alt="GL App 8">
+            </div>
+          </div>
+          <img class="gl-phone-frame" src="01_SOURCES/iphone-frame.png" alt="iPhone frame">
+        </div>
+        <div class="gl-carousel-dots" id="glCarouselDots"></div>
       </div>
 
       <h2 class="gl-section-title">Ce que j'ai fait</h2>
@@ -2854,6 +2933,53 @@
       closeBtn.addEventListener('click', closeGLPage);
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && page.classList.contains('open')) closeGLPage();
+      });
+    })();
+
+    // ── GL CAROUSEL ──
+    (function() {
+      const track = document.getElementById('glCarouselTrack');
+      const dotsWrap = document.getElementById('glCarouselDots');
+      if (!track || !dotsWrap) return;
+
+      const slides = track.querySelectorAll('img');
+      const total = slides.length;
+      let current = 0;
+      let timer = null;
+
+      // Créer les dots
+      slides.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(btn);
+      });
+      const dots = dotsWrap.querySelectorAll('button');
+
+      function goTo(idx) {
+        current = (idx + total) % total;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+
+      function next() { goTo(current + 1); }
+
+      function startAuto() { timer = setInterval(next, 3000); }
+      function stopAuto()  { clearInterval(timer); }
+
+      goTo(0);
+      startAuto();
+
+      // Pause au hover
+      track.closest('.gl-phone-section').addEventListener('mouseenter', stopAuto);
+      track.closest('.gl-phone-section').addEventListener('mouseleave', startAuto);
+
+      // Swipe touch
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; stopAuto(); }, { passive: true });
+      track.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) diff > 0 ? next() : goTo(current - 1);
+        startAuto();
       });
     })();
 </script>
