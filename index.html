@@ -1047,6 +1047,7 @@
     .gl-phone-wrap {
       position: relative;
       width: 240px;
+      height: 491px; /* 240 × (1320/644) */
     }
     .gl-phone-screen {
       position: absolute;
@@ -1057,6 +1058,7 @@
       border-radius: 36px;
       overflow: hidden;
       background: #000;
+      cursor: pointer;
     }
     .gl-carousel-track {
       display: flex;
@@ -1069,6 +1071,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: top;
       display: block;
     }
     .gl-phone-frame {
@@ -2972,6 +2975,9 @@
       // Pause au hover
       track.closest('.gl-phone-section').addEventListener('mouseenter', stopAuto);
       track.closest('.gl-phone-section').addEventListener('mouseleave', startAuto);
+
+      // Clic pour avancer
+      track.closest('.gl-phone-screen').addEventListener('click', () => { next(); stopAuto(); startAuto(); });
 
       // Swipe touch
       let touchStartX = 0;
