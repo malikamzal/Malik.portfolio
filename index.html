@@ -1121,9 +1121,10 @@
       padding: 20px 18px;
       z-index: 2;
       pointer-events: none;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      transform: translateZ(1px);
+      transition: opacity 0.15s;
+    }
+    .gl-card-flip.flipped .gl-card-front-info {
+      opacity: 0;
     }
     .gl-card-front-title {
       font-size: 14px;
