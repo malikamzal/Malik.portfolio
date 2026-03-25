@@ -1068,23 +1068,118 @@
       width: 100%;
       aspect-ratio: 9 / 16;
       border-radius: 14px;
-      overflow: hidden;
       background: #1c1c1c;
+      cursor: pointer;
     }
-    .gl-carousel-card-img img {
+    .gl-carousel-card-label {
+      display: none;
+    }
+    /* ── Flip card ── */
+    .gl-carousel-card-img {
+      perspective: 1200px;
+    }
+    .gl-card-flip {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(.4,0,.2,1);
+    }
+    .gl-card-flip.flipped {
+      transform: rotateY(180deg);
+    }
+    .gl-card-front,
+    .gl-card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .gl-card-front img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: top center;
       display: block;
+    }
+    /* Gradient + info overlay sur le recto */
+    .gl-card-front::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 38%, transparent 60%);
+      border-radius: 14px;
       pointer-events: none;
     }
-    .gl-carousel-card-label {
-      font-size: 12px;
+    .gl-card-front-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 18px;
+      z-index: 2;
+      pointer-events: none;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform: translateZ(1px);
+    }
+    .gl-card-front-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .gl-card-front-cta {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 500;
       color: rgba(255,255,255,0.5);
-      letter-spacing: 0.03em;
-      padding: 0 2px;
-      line-height: 1.4;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .gl-card-front-cta svg {
+      width: 12px;
+      height: 12px;
+      opacity: 0.5;
+    }
+    .gl-card-back {
+      transform: rotateY(180deg);
+      background: #1a1a1a;
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .flip-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+    .flip-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+    }
+    .flip-detail {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.55;
+      font-style: italic;
+    }
+    .flip-arrow {
+      font-size: 13px;
+      color: #CCFF00;
+      font-weight: 600;
+      line-height: 1.45;
+      margin-top: auto;
     }
     /* ── Mosaic scroll ── */
     .gl-mosaic-scroll-wrap {
@@ -2185,36 +2280,172 @@
       <!-- Carrousel Apple TV style -->
       <div class="gl-carousel-section">
         <div class="gl-carousel-track" id="glSheetCarousel">
+          <!-- Carte 1 -->
           <div class="gl-carousel-card">
-            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE1.png" alt=""></div>
+            <div class="gl-carousel-card-img">
+              <div class="gl-card-flip">
+                <div class="gl-card-front">
+                  <img src="01_SOURCES/PROJET_GL/GL_ELSE1.png" alt="Premiumisation du site">
+                  <div class="gl-card-front-info">
+                    <p class="gl-card-front-title">Premiumisation du site</p>
+                    <span class="gl-card-front-cta">Voir plus <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+                <div class="gl-card-back">
+                  <p class="flip-title">Premiumisation du site</p>
+                  <p class="flip-desc">Élever l'expérience e-commerce aux standards du luxe pour attirer de nouvelles maisons.</p>
+                  <p class="flip-detail">Refonte des UI, hiérarchie visuelle et micro-interactions.</p>
+                  <p class="flip-arrow">→ Intégration de marques premium (Louis Vuitton, Céline, Alaïa, Buccellati).</p>
+                </div>
+              </div>
+            </div>
             <p class="gl-carousel-card-label">Premiumisation du site</p>
           </div>
+          <!-- Carte 2 -->
           <div class="gl-carousel-card">
-            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE2.png" alt=""></div>
+            <div class="gl-carousel-card-img">
+              <div class="gl-card-flip">
+                <div class="gl-card-front">
+                  <img src="01_SOURCES/PROJET_GL/GL_ELSE2.png" alt="Agent conversationnel">
+                  <div class="gl-card-front-info">
+                    <p class="gl-card-front-title">Agent conversationnel</p>
+                    <span class="gl-card-front-cta">Voir plus <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+                <div class="gl-card-back">
+                  <p class="flip-title">Agent conversationnel</p>
+                  <p class="flip-desc">Guider l'achat et positionner les Galeries Lafayette comme destination cadeau.</p>
+                  <p class="flip-detail">Conception d'un agent incarné : ton, cas d'usage et interactions clés.</p>
+                  <p class="flip-arrow">→ Amélioration de la conversion et baisse des sollicitations au service client.</p>
+                </div>
+              </div>
+            </div>
             <p class="gl-carousel-card-label">Naissance de Gala, agent conversationnel</p>
           </div>
+          <!-- Carte 3 -->
           <div class="gl-carousel-card">
-            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE3.png" alt=""></div>
+            <div class="gl-carousel-card-img">
+              <div class="gl-card-flip">
+                <div class="gl-card-front">
+                  <img src="01_SOURCES/PROJET_GL/GL_ELSE3.png" alt="Design System">
+                  <div class="gl-card-front-info">
+                    <p class="gl-card-front-title">Design System</p>
+                    <span class="gl-card-front-cta">Voir plus <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+                <div class="gl-card-back">
+                  <p class="flip-title">Design System</p>
+                  <p class="flip-desc">Créer une cohérence de marque sur l'ensemble des produits digitaux.</p>
+                  <p class="flip-detail">Structuration du Design System et accompagnement des équipes à son adoption.</p>
+                  <p class="flip-arrow">→ Expérience harmonisée et production accélérée.</p>
+                </div>
+              </div>
+            </div>
             <p class="gl-carousel-card-label">Création de Showcase, Design System des Galeries Lafayette</p>
           </div>
+          <!-- Carte 4 -->
           <div class="gl-carousel-card">
-            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE4.png" alt=""></div>
+            <div class="gl-carousel-card-img">
+              <div class="gl-card-flip">
+                <div class="gl-card-front">
+                  <img src="01_SOURCES/PROJET_GL/GL_ELSE4.png" alt="Site Wellness">
+                  <div class="gl-card-front-info">
+                    <p class="gl-card-front-title">Site Wellness</p>
+                    <span class="gl-card-front-cta">Voir plus <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+                <div class="gl-card-back">
+                  <p class="flip-title">Site Wellness</p>
+                  <p class="flip-desc">Rendre visible l'espace Wellness du magasin Haussmann et simplifier la prise de rendez-vous.</p>
+                  <p class="flip-detail">Refonte du parcours de réservation, tests utilisateurs et intégration via CMS.</p>
+                  <p class="flip-arrow">→ Lancement en cours.</p>
+                </div>
+              </div>
+            </div>
             <p class="gl-carousel-card-label">Intégration du site Wellness Galerie dans galerieslafayette.com</p>
           </div>
+          <!-- Carte 5 -->
           <div class="gl-carousel-card">
-            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE5.png" alt=""></div>
-            <p class="gl-carousel-card-label">Rencontre avec les utilisateurs via des Test Utilisateurs en labo et Guerrilla.</p>
+            <div class="gl-carousel-card-img">
+              <div class="gl-card-flip">
+                <div class="gl-card-front">
+                  <img src="01_SOURCES/PROJET_GL/GL_ELSE5.png" alt="Tests utilisateurs">
+                  <div class="gl-card-front-info">
+                    <p class="gl-card-front-title">Tests utilisateurs</p>
+                    <span class="gl-card-front-cta">Voir plus <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+                <div class="gl-card-back">
+                  <p class="flip-title">Tests utilisateurs</p>
+                  <p class="flip-desc">Valider les concepts et sécuriser les choix de conception.</p>
+                  <p class="flip-detail">Tests en laboratoire (1 par mois) et en conditions réelles en magasin, itérations basées sur des insights terrain.</p>
+                  <p class="flip-arrow">→ Décisions produit éclairées et réduction des risques.</p>
+                </div>
+              </div>
+            </div>
+            <p class="gl-carousel-card-label">Rencontre avec les utilisateurs via des Tests en labo et Guerrilla.</p>
           </div>
+          <!-- Carte 6 -->
           <div class="gl-carousel-card">
-            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE6.png" alt=""></div>
-            <p class="gl-carousel-card-label">Intégration et evangelisation de l'I.A au sein des Galeries Lafayette</p>
+            <div class="gl-carousel-card-img">
+              <div class="gl-card-flip">
+                <div class="gl-card-front">
+                  <img src="01_SOURCES/PROJET_GL/GL_ELSE6.png" alt="Acculturation IA">
+                  <div class="gl-card-front-info">
+                    <p class="gl-card-front-title">Acculturation IA</p>
+                    <span class="gl-card-front-cta">Voir plus <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+                <div class="gl-card-back">
+                  <p class="flip-title">Acculturation IA</p>
+                  <p class="flip-desc">Explorer les opportunités de l'IA au service de l'expérience utilisateur.</p>
+                  <p class="flip-detail">Identification des usages et conception de premières expériences.</p>
+                  <p class="flip-arrow">→ Accélération de l'innovation et montée en compétence des équipes via des présentations internes.</p>
+                </div>
+              </div>
+            </div>
+            <p class="gl-carousel-card-label">Intégration et évangélisation de l'I.A au sein des Galeries Lafayette</p>
           </div>
+          <!-- Carte 7 -->
           <div class="gl-carousel-card">
-            <div class="gl-carousel-card-img" style="outline: 1px solid rgba(255,255,255,0.15); outline-offset: -1px;"><img src="01_SOURCES/PROJET_GL/GL_ELSE7.png" alt=""></div>
+            <div class="gl-carousel-card-img" style="outline: 1px solid rgba(255,255,255,0.15); outline-offset: -1px;">
+              <div class="gl-card-flip">
+                <div class="gl-card-front">
+                  <img src="01_SOURCES/PROJET_GL/GL_ELSE7.png" alt="App & international">
+                  <div class="gl-card-front-info">
+                    <p class="gl-card-front-title">App &amp; international</p>
+                    <span class="gl-card-front-cta">Voir plus <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+                <div class="gl-card-back">
+                  <p class="flip-title">App &amp; international</p>
+                  <p class="flip-desc">Adapter les produits aux enjeux des marchés internationaux.</p>
+                  <p class="flip-detail">Optimisation des parcours et alignement des expériences avec le marché pilote FR.</p>
+                  <p class="flip-arrow">→ Expérience cohérente et performante à l'échelle globale.</p>
+                </div>
+              </div>
+            </div>
             <p class="gl-carousel-card-label">Accompagnement au développement des sites et app à l'international</p>
           </div>
+          <!-- Carte 8 -->
           <div class="gl-carousel-card">
-            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE8.png" alt=""></div>
+            <div class="gl-carousel-card-img">
+              <div class="gl-card-flip">
+                <div class="gl-card-front">
+                  <img src="01_SOURCES/PROJET_GL/GL_ELSE8.png" alt="Écosystème digital interne">
+                  <div class="gl-card-front-info">
+                    <p class="gl-card-front-title">Écosystème digital interne</p>
+                    <span class="gl-card-front-cta">Voir plus <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+                <div class="gl-card-back">
+                  <p class="flip-title">Écosystème digital interne</p>
+                  <p class="flip-desc">Simplifier et unifier les parcours au sein de l'écosystème digital.</p>
+                  <p class="flip-detail">Création de nombreuses expériences : écrans de caisses automatiques (Gourmet, BHV, Eataly), app low-code, emailing, etc.</p>
+                  <p class="flip-arrow">→ Expérience plus fluide et lisible pour les utilisateurs.</p>
+                </div>
+              </div>
+            </div>
             <p class="gl-carousel-card-label">Refonte complète de l'éco-système digital interne</p>
           </div>
         </div>
@@ -3402,21 +3633,51 @@
       });
     });
 
-  /* ── Sheet Carousel drag-to-scroll ── */
+  /* ── Sheet Carousel drag-to-scroll + flip ── */
   (function () {
     const track = document.getElementById('glSheetCarousel');
     if (!track) return;
-    let isDown = false, startX = 0, scrollLeft = 0;
+    let isDown = false, startX = 0, scrollLeft = 0, dragDist = 0;
+
     track.addEventListener('mousedown', e => {
-      isDown = true; track.style.cursor = 'grabbing';
-      startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft;
+      isDown = true; dragDist = 0;
+      track.style.cursor = 'grabbing';
+      startX = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
     });
     track.addEventListener('mouseleave', () => { isDown = false; track.style.cursor = 'grab'; });
-    track.addEventListener('mouseup',    () => { isDown = false; track.style.cursor = 'grab'; });
+    track.addEventListener('mouseup', () => { isDown = false; track.style.cursor = 'grab'; });
     track.addEventListener('mousemove', e => {
       if (!isDown) return; e.preventDefault();
-      track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.2;
+      const dx = e.pageX - track.offsetLeft - startX;
+      dragDist = Math.abs(dx);
+      track.scrollLeft = scrollLeft - dx * 1.2;
     });
+
+    /* Flip on click — only if no drag */
+    track.addEventListener('click', e => {
+      if (dragDist > 6) return;
+      const img = e.target.closest('.gl-carousel-card-img');
+      if (!img) return;
+      const flip = img.querySelector('.gl-card-flip');
+      if (flip) flip.classList.toggle('flipped');
+    });
+
+    /* Touch support for flip */
+    let touchStartX = 0, touchStartY = 0;
+    track.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+      const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+      if (dx > 8 || dy > 8) return; /* was a swipe */
+      const img = e.target.closest('.gl-carousel-card-img');
+      if (!img) return;
+      const flip = img.querySelector('.gl-card-flip');
+      if (flip) flip.classList.toggle('flipped');
+    }, { passive: true });
   })();
 
 </script>
