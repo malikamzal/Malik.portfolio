@@ -1037,6 +1037,55 @@
       letter-spacing: 0.02em;
       margin: 4px 0 40px;
     }
+
+    /* ── Carousel section ── */
+    .gl-carousel-section {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .gl-carousel-track {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+      user-select: none;
+    }
+    .gl-carousel-track:active { cursor: grabbing; }
+    .gl-carousel-track::-webkit-scrollbar { display: none; }
+    .gl-carousel-card {
+      flex-shrink: 0;
+      width: 340px;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gl-carousel-card-img {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #1c1c1c;
+    }
+    .gl-carousel-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      pointer-events: none;
+    }
+    .gl-carousel-card-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.03em;
+      padding: 0 2px;
+      line-height: 1.4;
+    }
     /* ── Mosaic scroll ── */
     .gl-mosaic-scroll-wrap {
       width: 100%;
@@ -2132,6 +2181,44 @@
       </div>
 
       <p class="gl-visuals-caption">Génération de looks • Exploration autour de la recommandation de tenues pour divers évènements via Midjourney.</p>
+
+      <!-- Carrousel Apple TV style -->
+      <div class="gl-carousel-section">
+        <div class="gl-carousel-track" id="glSheetCarousel">
+          <div class="gl-carousel-card">
+            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE1.png" alt=""></div>
+            <p class="gl-carousel-card-label">Premiumisation du site</p>
+          </div>
+          <div class="gl-carousel-card">
+            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE2.png" alt=""></div>
+            <p class="gl-carousel-card-label">Naissance de Gala, agent conversationnel</p>
+          </div>
+          <div class="gl-carousel-card">
+            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE3.png" alt=""></div>
+            <p class="gl-carousel-card-label">Création de Showcase, Design System des Galeries Lafayette</p>
+          </div>
+          <div class="gl-carousel-card">
+            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE4.png" alt=""></div>
+            <p class="gl-carousel-card-label">Intégration du site Wellness Galerie dans galerieslafayette.com</p>
+          </div>
+          <div class="gl-carousel-card">
+            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE5.png" alt=""></div>
+            <p class="gl-carousel-card-label">Rencontre avec les utilisateurs via des Test Utilisateurs en labo et Guerrilla.</p>
+          </div>
+          <div class="gl-carousel-card">
+            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE6.png" alt=""></div>
+            <p class="gl-carousel-card-label">Intégration et evangelisation de l'I.A au sein des Galeries Lafayette</p>
+          </div>
+          <div class="gl-carousel-card">
+            <div class="gl-carousel-card-img" style="outline: 1px solid rgba(255,255,255,0.15); outline-offset: -1px;"><img src="01_SOURCES/PROJET_GL/GL_ELSE7.png" alt=""></div>
+            <p class="gl-carousel-card-label">Accompagnement au développement des sites et app à l'international</p>
+          </div>
+          <div class="gl-carousel-card">
+            <div class="gl-carousel-card-img"><img src="01_SOURCES/PROJET_GL/GL_ELSE8.png" alt=""></div>
+            <p class="gl-carousel-card-label">Refonte complète de l'éco-système digital interne</p>
+          </div>
+        </div>
+      </div>
 
       <h2 class="gl-section-title">Ce que j'ai fait</h2>
       <p class="gl-desc">
@@ -3314,6 +3401,24 @@
         }, 200);
       });
     });
+
+  /* ── Sheet Carousel drag-to-scroll ── */
+  (function () {
+    const track = document.getElementById('glSheetCarousel');
+    if (!track) return;
+    let isDown = false, startX = 0, scrollLeft = 0;
+    track.addEventListener('mousedown', e => {
+      isDown = true; track.style.cursor = 'grabbing';
+      startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft;
+    });
+    track.addEventListener('mouseleave', () => { isDown = false; track.style.cursor = 'grab'; });
+    track.addEventListener('mouseup',    () => { isDown = false; track.style.cursor = 'grab'; });
+    track.addEventListener('mousemove', e => {
+      if (!isDown) return; e.preventDefault();
+      track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.2;
+    });
+  })();
+
 </script>
 </body>
 </html>
