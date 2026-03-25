@@ -1040,29 +1040,23 @@
     /* ── Mosaic scroll ── */
     .gl-mosaic-scroll-wrap {
       width: 100%;
-      height: 100%;
+      flex: 1;
       overflow: hidden;
       border-radius: 0;
+      position: relative;
     }
     .gl-mosaic-scroll-track {
-      display: flex;
+      position: absolute;
+      top: 0; left: 0;
       height: 100%;
+      display: flex;
       gap: 0;
       will-change: transform;
-      animation: mosaicScroll 22s linear infinite;
     }
     .gl-mosaic-scroll-track img {
-      height: 100%;
-      width: auto;
       flex-shrink: 0;
       display: block;
-      margin: 0;
-      padding: 0;
-      vertical-align: top;
-    }
-    @keyframes mosaicScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      margin: 0; padding: 0;
     }
     /* ── Full-width visual block ── */
     .gl-visual-full {
@@ -3187,10 +3181,47 @@
       const page = document.getElementById('glPage');
       const closeBtn = document.getElementById('glClose');
 
+      function initMosaicScroll() {
+        const wrap  = document.querySelector('.gl-mosaic-scroll-wrap');
+        const track = document.querySelector('.gl-mosaic-scroll-track');
+        if (!wrap || !track) return;
+        const firstImg = track.querySelector('img');
+        if (!firstImg || !firstImg.naturalWidth) return;
+
+        const h = wrap.offsetHeight;
+        if (!h) return;
+
+        const gap   = 10; // px entre les 2 copies
+        const imgW  = Math.round(h * firstImg.naturalWidth / firstImg.naturalHeight);
+        const shift = imgW + gap; // distance exacte pour loop parfaite
+
+        track.style.gap = gap + 'px';
+        track.querySelectorAll('img').forEach(img => {
+          img.style.width  = imgW + 'px';
+          img.style.height = h + 'px';
+        });
+
+        let styleEl = document.getElementById('gl-mosaic-anim');
+        if (!styleEl) {
+          styleEl = document.createElement('style');
+          styleEl.id = 'gl-mosaic-anim';
+          document.head.appendChild(styleEl);
+        }
+        styleEl.textContent =
+          `@keyframes mosaicScrollPx{from{transform:translateX(0)}to{transform:translateX(-${shift}px)}}`;
+
+        track.style.animation = 'none';
+        track.offsetWidth; // reflow
+        const speed = Math.round(shift / 80); // ~80px/s
+        track.style.animation = `mosaicScrollPx ${speed}s linear infinite`;
+      }
+
       function openGLPage() {
         page.classList.add('open');
         document.body.style.overflow = 'hidden';
         page.scrollTop = 0;
+        // Init mosaic after 2 frames so layout is resolved
+        requestAnimationFrame(() => requestAnimationFrame(initMosaicScroll));
       }
       function closeGLPage() {
         page.classList.remove('open');
