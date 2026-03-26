@@ -1208,6 +1208,9 @@
       opacity: 1;
       width: auto;
     }
+    /* ── Flèches showcase : cachées sur desktop ── */
+    .gl-sc-arrow { display: none; }
+
     @media (max-width: 768px) {
 
       /* ── Blocs 1 & 3 : grille 2 cols → colonne unique ── */
@@ -1221,58 +1224,125 @@
         padding: 32px 20px;
       }
 
-      /* ── Bloc 2 : Showcase — visuel en haut, pills en bas ── */
+      /* MacBook dans bloc 1 : sans padding, plus grand */
+      .gl-visual-macbook-block {
+        padding: 0 !important;
+        min-height: auto !important;
+        overflow: hidden;
+        border-radius: 16px;
+      }
+      .gl-visual-macbook-block .gl-macbook-wrap {
+        width: 115%;
+        margin-left: -7.5%;
+      }
+
+      /* ── Bloc 2 : Showcase — visuel en haut, pills + flèches en bas ── */
       .gl-showcase {
-        height: 660px;
+        height: 680px;
       }
       .gl-showcase-overlay { display: none; }
 
-      /* Pills repositionnées en bas en colonne */
+      /* Nav : row avec flèches de chaque côté */
       .gl-showcase-nav {
-        left: 14px; right: 14px;
+        left: 10px; right: 10px;
         top: auto !important; bottom: 14px;
         transform: none !important;
-        flex-direction: column;
+        flex-direction: row;
         align-items: stretch;
         gap: 8px;
         width: auto;
       }
 
-      /* Toutes les pills : full width, facile à tapper */
-      .gl-showcase-btn,
+      /* Pills fermées masquées sur mobile */
+      .gl-showcase-btn:not(.open) {
+        display: none !important;
+      }
+      /* Pill ouverte prend l'espace disponible */
       .gl-showcase-btn.open {
-        width: 100% !important;
-        align-self: stretch;
+        flex: 1 !important;
+        width: auto !important;
+        min-width: 0;
       }
-
-      /* Pill ouverte s'ouvre vers le haut : description au-dessus du label */
       .gl-showcase-btn.open .gl-showcase-btn-texts {
-        flex-direction: column-reverse;
+        flex-direction: column;
       }
-      /* Garde le label lisible sous la description */
       .gl-showcase-btn.open .gl-showcase-btn-label {
         max-height: 20px !important;
         opacity: 0.45 !important;
         font-size: 11px !important;
       }
 
-      /* Visuels : centrés dans la zone haute */
+      /* Flèches de navigation */
+      .gl-sc-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 64px;
+        flex-shrink: 0;
+        align-self: center;
+        background: rgba(20,20,20,0.75);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1.5px solid rgba(255,255,255,0.15);
+        border-radius: 14px;
+        color: rgba(255,255,255,0.85);
+        font-size: 26px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0;
+        transition: background 0.2s;
+      }
+      .gl-sc-arrow:active { background: rgba(40,40,40,0.9); }
+
+      /* Pill ouverte : texte compact 2 lignes sur mobile */
+      .gl-showcase-btn.open .gl-showcase-btn-open {
+        font-size: 11.5px !important;
+        line-height: 1.4 !important;
+        max-height: 34px !important;
+        overflow: hidden !important;
+      }
+      .gl-showcase-btn.open {
+        padding: 10px 12px 10px 10px !important;
+      }
+      /* Label visible compact */
+      .gl-showcase-btn.open .gl-showcase-btn-label {
+        max-height: 18px !important;
+        font-size: 10px !important;
+        opacity: 0.4 !important;
+      }
+
+      /* Visuels : centrés et agrandis dans la zone haute */
       .gl-showcase-phones {
         left: 0 !important; right: 0 !important;
-        top: 14px;
+        top: 0 !important; bottom: 110px !important;
         justify-content: center;
+        align-items: center;
         gap: 0;
       }
-      /* 1 seul iphone visible sur mobile */
-      .gl-showcase-phone-wrap { width: 200px !important; }
+      .gl-showcase-phone-wrap { width: 250px !important; }
       .gl-showcase-phone-wrap:nth-child(2) { display: none !important; }
 
-      /* Visuels DS & Innovation : limités à la zone haute */
+      /* Visuels DS & MacBook : centrés dans la zone haute */
       .gl-showcase-visual[data-visual-idx="1"],
       .gl-showcase-visual[data-visual-idx="2"] {
-        bottom: auto !important;
-        height: 320px;
-        padding: 20px !important;
+        left: 0 !important; right: 0 !important;
+        top: 0 !important; bottom: 110px !important;
+        height: auto !important;
+        padding: 16px 10px !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      /* DS image : largeur forcée, hauteur auto */
+      .gl-showcase-visual[data-visual-idx="1"] img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+      }
+      /* MacBook showcase : agrandir sur toute la largeur */
+      .gl-showcase-visual[data-visual-idx="2"] .gl-macbook-wrap {
+        width: 100% !important;
+        max-width: 100% !important;
       }
 
       /* ── Bloc 4 : Génération de modèles ── */
@@ -1450,7 +1520,7 @@
       border-radius: 12px;
     }
     .gl-model-btn.active::after {
-      background: rgba(0,0,0,0);
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
     }
     .gl-model-btn:not(.active)::after {
       background: rgba(0,0,0,0.45);
@@ -2410,7 +2480,7 @@
           </div>
         </div>
         <!-- Bloc 2 : MacBook + PDF -->
-        <div class="gl-visual-block">
+        <div class="gl-visual-block gl-visual-macbook-block">
           <div class="gl-macbook-wrap">
             <div class="gl-macbook-screen">
               <img class="gl-desktop-scroll" src="01_SOURCES/PROJET_GL/GL_DESKTOP1_page.jpg" alt="GL Desktop">
@@ -2429,6 +2499,7 @@
         <div class="gl-showcase-overlay"></div>
         <!-- Buttons -->
         <div class="gl-showcase-nav" id="glShowcaseNav">
+          <button class="gl-sc-arrow" id="glScPrev" aria-label="Précédent">&#8249;</button>
           <button class="gl-showcase-btn open" data-idx="0">
             <span class="gl-showcase-btn-dot"></span>
             <span class="gl-showcase-btn-texts">
@@ -2457,6 +2528,7 @@
               <span class="gl-showcase-btn-open"><strong>Recherche</strong><span class="gl-sc-sep">•</span>Application de la méthodologie Design Thinking. Idéation, maquettage, prototypage et tests utilisateurs en labo ou Guerrilla pour valider les concepts.</span>
             </span>
           </button>
+          <button class="gl-sc-arrow" id="glScNext" aria-label="Suivant">&#8250;</button>
         </div>
         <!-- 2 iPhones décalés — visible uniquement pour pill 0 -->
         <div class="gl-showcase-phones gl-showcase-visual active" data-visual-idx="0">
@@ -3767,21 +3839,38 @@
     const btns    = showcase.querySelectorAll('.gl-showcase-btn');
     const visuals = showcase.querySelectorAll('.gl-showcase-visual');
 
+    function openIdx(idx) {
+      btns.forEach(b => b.classList.remove('open'));
+      visuals.forEach(v => v.classList.remove('active'));
+      btns[idx].classList.add('open');
+      const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
+      if (visual) visual.classList.add('active');
+    }
+
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
         const wasOpen = btn.classList.contains('open');
-        /* ferme tout + masque visuels */
         btns.forEach(b => b.classList.remove('open'));
         visuals.forEach(v => v.classList.remove('active'));
-        /* si ce n'était pas déjà ouvert, ouvre */
         if (!wasOpen) {
           btn.classList.add('open');
-          /* affiche le visuel correspondant s'il existe */
           const idx = parseInt(btn.dataset.idx);
           const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
           if (visual) visual.classList.add('active');
         }
       });
+    });
+
+    /* Flèches mobile */
+    const prevBtn = document.getElementById('glScPrev');
+    const nextBtn = document.getElementById('glScNext');
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      const cur = [...btns].findIndex(b => b.classList.contains('open'));
+      openIdx((cur - 1 + btns.length) % btns.length);
+    });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+      const cur = [...btns].findIndex(b => b.classList.contains('open'));
+      openIdx((cur + 1) % btns.length);
     });
 
     /* ── Slideshow auto 4s (un timer par iPhone) ── */
