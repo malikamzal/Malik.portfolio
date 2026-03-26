@@ -1209,20 +1209,93 @@
       width: auto;
     }
     @media (max-width: 768px) {
-      .gl-showcase { height: 520px; }
-      .gl-showcase-overlay {
-        background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.05) 100%);
+
+      /* ── Blocs 1 & 3 : grille 2 cols → colonne unique ── */
+      .gl-visuals-grid {
+        grid-template-columns: 1fr !important;
+        grid-auto-rows: auto !important;
+        gap: 12px;
       }
+      .gl-visual-block {
+        min-height: 340px;
+        padding: 32px 20px;
+      }
+
+      /* ── Bloc 2 : Showcase — visuel en haut, pills en bas ── */
+      .gl-showcase {
+        height: 660px;
+      }
+      .gl-showcase-overlay { display: none; }
+
+      /* Pills repositionnées en bas en colonne */
       .gl-showcase-nav {
-        left: 16px; right: 16px;
-        top: auto; bottom: 20px;
-        transform: none;
-        flex-direction: row;
-        flex-wrap: wrap;
+        left: 14px; right: 14px;
+        top: auto !important; bottom: 14px;
+        transform: none !important;
+        flex-direction: column;
+        align-items: stretch;
         gap: 8px;
         width: auto;
       }
-      .gl-showcase-btn { width: auto; font-size: 13px; }
+
+      /* Toutes les pills : full width, facile à tapper */
+      .gl-showcase-btn,
+      .gl-showcase-btn.open {
+        width: 100% !important;
+        align-self: stretch;
+      }
+
+      /* Pill ouverte s'ouvre vers le haut : description au-dessus du label */
+      .gl-showcase-btn.open .gl-showcase-btn-texts {
+        flex-direction: column-reverse;
+      }
+      /* Garde le label lisible sous la description */
+      .gl-showcase-btn.open .gl-showcase-btn-label {
+        max-height: 20px !important;
+        opacity: 0.45 !important;
+        font-size: 11px !important;
+      }
+
+      /* Visuels : centrés dans la zone haute */
+      .gl-showcase-phones {
+        left: 0 !important; right: 0 !important;
+        top: 14px;
+        justify-content: center;
+        gap: 0;
+      }
+      /* 1 seul iphone visible sur mobile */
+      .gl-showcase-phone-wrap { width: 200px !important; }
+      .gl-showcase-phone-wrap:nth-child(2) { display: none !important; }
+
+      /* Visuels DS & Innovation : limités à la zone haute */
+      .gl-showcase-visual[data-visual-idx="1"],
+      .gl-showcase-visual[data-visual-idx="2"] {
+        bottom: auto !important;
+        height: 320px;
+        padding: 20px !important;
+      }
+
+      /* ── Bloc 4 : Génération de modèles ── */
+      .gl-visual-full {
+        height: auto !important;
+        flex-direction: column !important;
+        padding: 12px !important;
+        gap: 10px;
+      }
+      .gl-models-col {
+        width: 100% !important;
+        flex-direction: row !important;
+        height: 120px;
+        gap: 10px;
+      }
+      .gl-mopho-grid {
+        height: 340px;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: 1fr 1fr !important;
+        grid-template-areas: "a b" "c d" !important;
+        padding: 0 !important;
+        border-radius: 12px !important;
+      }
     }
     /* ── Showcase macbook slides (Innovation) ── */
     .gl-sc-mac-slide {
@@ -1831,9 +1904,6 @@
 
       /* GL visuals mobile */
       .gl-content { padding: 48px 24px 80px; }
-      .gl-visuals-grid { grid-template-columns: 1fr; }
-      .gl-visual-block:last-child { display: none; }
-      .gl-visual-block { padding: 32px 16px; }
       .gl-phone-wrap { width: 200px; height: 410px; }
     }
   </style>
