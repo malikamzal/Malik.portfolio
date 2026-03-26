@@ -1079,19 +1079,19 @@
       align-items: center;
       gap: 12px;
       padding: 9px 16px 9px 12px;
-      background: rgba(0,0,0,0.07);
-      border: 1px solid rgba(0,0,0,0.12);
+      background: rgba(0,0,0,0.72);
+      border: 1px solid rgba(0,0,0,0.85);
       border-radius: 100px;
       cursor: pointer;
       font-family: inherit;
       text-align: left;
       width: fit-content;
       align-self: flex-start;
-      transition: border-radius 0.4s cubic-bezier(.4,0,.2,1),
-                  background   0.3s ease,
-                  border-color 0.3s ease,
-                  padding      0.4s cubic-bezier(.4,0,.2,1),
-                  width        0.4s cubic-bezier(.4,0,.2,1);
+      transition: border-radius 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background   0.35s ease,
+                  border-color 0.35s ease,
+                  padding      0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  width        0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .gl-showcase-btn:not(.open) { width: max-content; }
     .gl-showcase-btn:hover { background: rgba(0,0,0,0.11); }
@@ -1100,12 +1100,37 @@
     .gl-showcase-btn-dot {
       width: 20px; height: 20px;
       border-radius: 50%;
-      border: 1.5px solid rgba(0,0,0,0.25);
+      border: 1.5px solid rgba(255,255,255,0.35);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
-      font-size: 14px; line-height: 1;
-      color: rgba(0,0,0,0.35);
-      transition: background 0.3s, border-color 0.3s, color 0.3s;
+      transition: border-color 0.35s ease;
+      position: relative;
+    }
+    /* ::after = croix + (état fermé) — dessinée en gradient, pixel-perfect */
+    .gl-showcase-btn-dot::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 9px; height: 9px;
+      background:
+        linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)) center / 1.5px 100% no-repeat,
+        linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)) center / 100% 1.5px no-repeat;
+      opacity: 1;
+      transition: opacity 0.25s ease;
+    }
+    /* ::before = point vert (état ouvert) */
+    .gl-showcase-btn-dot::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #CCFF00;
+      opacity: 0;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  opacity   0.25s ease;
     }
 
     /* Container textes */
@@ -1118,12 +1143,12 @@
     /* Label fermé */
     .gl-showcase-btn-label {
       font-size: 14px; font-weight: 500;
-      color: rgba(0,0,0,0.75);
+      color: rgba(255,255,255,0.9);
       white-space: nowrap;
       max-height: 22px;
       opacity: 1;
       overflow: hidden;
-      transition: max-height 0.3s cubic-bezier(.4,0,.2,1),
+      transition: max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                   opacity     0.2s ease;
     }
 
@@ -1134,54 +1159,52 @@
       opacity: 0;
       overflow: hidden;
       font-size: 14px; font-weight: 400;
-      color: rgba(0,0,0,0.65);
+      color: rgba(255,255,255,0.7);
       line-height: 1.55;
       white-space: normal;
       width: 1px; /* évite que le texte long influence la largeur hug du bouton fermé */
-      transition: max-height 0.45s cubic-bezier(.4,0,.2,1),
-                  opacity     0.35s ease;
+      transition: max-height 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  opacity     0.4s ease 0.12s;
     }
     .gl-showcase-btn-open strong {
       font-weight: 700;
-      color: rgba(0,0,0,0.88);
+      color: rgba(255,255,255,0.95);
     }
     .gl-showcase-btn-open .gl-sc-sep {
-      color: rgba(0,0,0,0.25);
+      color: rgba(255,255,255,0.3);
       margin: 0 4px;
     }
 
     /* État ouvert */
     .gl-showcase-btn.open {
       border-radius: 18px;
-      background: rgba(0,0,0,0.08);
-      border-color: rgba(0,0,0,0.16);
+      background: rgba(0,0,0,0.80);
+      border-color: rgba(255,255,255,0.12);
       padding: 14px 18px 14px 14px;
       width: 290px;
       align-items: flex-start;
     }
-    /* Dot ouvert = anneau + point central vert citron */
+    /* Dot ouvert = anneau + point central vert citron (animé via ::after) */
     .gl-showcase-btn.open .gl-showcase-btn-dot {
       background: transparent;
-      border-color: rgba(0,0,0,0.25);
-      color: transparent;
+      border-color: rgba(255,255,255,0.35);
       margin-top: 3px;
-      position: relative;
     }
+    /* Ouvert : masque la croix + */
     .gl-showcase-btn.open .gl-showcase-btn-dot::after {
-      content: '';
-      position: absolute;
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: #CCFF00;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+    /* Ouvert : affiche le point vert */
+    .gl-showcase-btn.open .gl-showcase-btn-dot::before {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
     }
     .gl-showcase-btn.open .gl-showcase-btn-label {
       max-height: 0;
       opacity: 0;
     }
     .gl-showcase-btn.open .gl-showcase-btn-open {
-      max-height: 120px;
+      max-height: 160px;
       opacity: 1;
       width: auto;
     }
@@ -2273,7 +2296,7 @@
       <div class="gl-meta">
         <div class="gl-meta-item">
           <span class="gl-meta-key">Année</span>
-          <span class="gl-meta-val">2019 — 2026</span>
+          <span class="gl-meta-val">2023 — 2026</span>
         </div>
         <div class="gl-meta-item">
           <span class="gl-meta-key">Rôle</span>
@@ -2290,10 +2313,8 @@
       </div>
 
       <p class="gl-desc">
-        Depuis 2019, je pilote le design de l'<strong>écosystème digital</strong> des Galeries Lafayette —
-        de l'application mobile flagship aux outils internes utilisés par les équipes métier.
-        Mon rôle couvre l'ensemble du spectre : <strong>UX Research, UI Design, Design System</strong>
-        et accompagnement produit en mode agile.
+        Depuis 2023, j'essaie d'être à la hauteur du style des Galeries Lafayette — avec plus ou moins de succès.<br><br>
+        À côté de ça, je conçois des expériences digitales au sein de l'équipe Product Design, avec une obsession : créer des produits cohérents, utiles et pensés pour celles et ceux qui les utilisent au quotidien.
       </p>
 
       <div class="gl-visuals-grid">
@@ -2392,28 +2413,28 @@
             <span class="gl-showcase-btn-dot"></span>
             <span class="gl-showcase-btn-texts">
               <span class="gl-showcase-btn-label">Expérience produit</span>
-              <span class="gl-showcase-btn-open"><strong>Expérience produit</strong><span class="gl-sc-sep">•</span>Conception et optimisation des expériences digitales à grande échelle.</span>
+              <span class="gl-showcase-btn-open"><strong>Expérience produit</strong><span class="gl-sc-sep">•</span>Conception et optimisation des expériences digitales à visée des métiers, salariés, clients et à l'international.</span>
             </span>
           </button>
           <button class="gl-showcase-btn" data-idx="1">
-            <span class="gl-showcase-btn-dot">+</span>
+            <span class="gl-showcase-btn-dot"></span>
             <span class="gl-showcase-btn-texts">
               <span class="gl-showcase-btn-label">Design System</span>
-              <span class="gl-showcase-btn-open"><strong>Design System</strong><span class="gl-sc-sep">•</span>Mise en place d'une structure pour garantir cohérence et efficacité produit.</span>
+              <span class="gl-showcase-btn-open"><strong>Design System</strong><span class="gl-sc-sep">•</span>Création et mise en place de Showcase afin de garantir cohérence et efficacité lors du maquettage et développement des produits.</span>
             </span>
           </button>
           <button class="gl-showcase-btn" data-idx="2">
-            <span class="gl-showcase-btn-dot">+</span>
+            <span class="gl-showcase-btn-dot"></span>
             <span class="gl-showcase-btn-texts">
               <span class="gl-showcase-btn-label">Innovation</span>
-              <span class="gl-showcase-btn-open"><strong>Innovation</strong><span class="gl-sc-sep">•</span>Exploration de nouvelles interfaces et usages liés à l'IA.</span>
+              <span class="gl-showcase-btn-open"><strong>Innovation</strong><span class="gl-sc-sep">•</span>Génération de visuels via les outils IA Midjourney et Weavy afin d'animer les plateformes digitales. Evangélisation autour de l'IA à destination de l'interne.</span>
             </span>
           </button>
           <button class="gl-showcase-btn" data-idx="3">
-            <span class="gl-showcase-btn-dot">+</span>
+            <span class="gl-showcase-btn-dot"></span>
             <span class="gl-showcase-btn-texts">
               <span class="gl-showcase-btn-label">Recherche</span>
-              <span class="gl-showcase-btn-open"><strong>Recherche</strong><span class="gl-sc-sep">•</span>Validation des choix de conception par des approches centrées utilisateur.</span>
+              <span class="gl-showcase-btn-open"><strong>Recherche</strong><span class="gl-sc-sep">•</span>Application de la méthodologie Design Thinking. Idéation, maquettage, prototypage et tests utilisateurs en labo ou Guerrilla pour valider les concepts.</span>
             </span>
           </button>
         </div>
@@ -2452,11 +2473,11 @@
           </div>
         </div>
         <!-- Visuel Design System — pill 1 -->
-        <div class="gl-showcase-visual" data-visual-idx="1" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.45s cubic-bezier(.4,0,.2,1);">
+        <div class="gl-showcase-visual" data-visual-idx="1" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);">
           <img src="01_SOURCES/PROJET_GL/GL_DS1.png" alt="Design System" style="width:100%;height:100%;object-fit:contain;border-radius:12px;padding:8px;">
         </div>
         <!-- Visuel Innovation — pill 2 -->
-        <div class="gl-showcase-visual" data-visual-idx="2" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.45s cubic-bezier(.4,0,.2,1);padding:28px 32px;">
+        <div class="gl-showcase-visual" data-visual-idx="2" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);padding:28px 32px;">
           <div class="gl-macbook-wrap" style="max-width:760px;width:100%;aspect-ratio:2776/1688;padding-top:0;height:auto;overflow:visible;">
             <div class="gl-macbook-screen" style="overflow:hidden;width:81.8%;">
               <div class="gl-sc-mac-slide active">
@@ -2474,16 +2495,6 @@
           <div class="gl-showcase-phone-wrap">
             <div class="gl-showcase-phone-inner">
               <div class="gl-showcase-phone-screen">
-                <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
-                  <source src="01_SOURCES/PROJET_GL/GL_UXR3.mp4" type="video/mp4">
-                </video>
-              </div>
-              <img class="gl-showcase-phone-frame" src="01_SOURCES/iphone-frame.png" alt="">
-            </div>
-          </div>
-          <div class="gl-showcase-phone-wrap">
-            <div class="gl-showcase-phone-inner">
-              <div class="gl-showcase-phone-screen">
                 <div class="gl-phone-slides gl-phone-slides-right">
                   <img class="gl-phone-slide active" src="01_SOURCES/PROJET_GL/GL_UXR2.png" alt="">
                 </div>
@@ -2491,24 +2502,21 @@
               <img class="gl-showcase-phone-frame" src="01_SOURCES/iphone-frame.png" alt="">
             </div>
           </div>
+          <div class="gl-showcase-phone-wrap">
+            <div class="gl-showcase-phone-inner">
+              <div class="gl-showcase-phone-screen">
+                <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+                  <source src="01_SOURCES/PROJET_GL/GL_UXR3.mp4" type="video/mp4">
+                </video>
+              </div>
+              <img class="gl-showcase-phone-frame" src="01_SOURCES/iphone-frame.png" alt="">
+            </div>
+          </div>
         </div>
       </div>
 
-      <h2 class="gl-section-title">Ce que j'ai fait</h2>
-      <p class="gl-desc">
-        Refonte complète de l'expérience d'achat en ligne, conception du Design System unifié,
-        itérations continues sur les parcours panier et checkout, et design de nouvelles
-        features comme la liste de souhaits, le scan produit en magasin ou encore les recommandations personnalisées.
-      </p>
+      <p class="gl-visuals-caption">Champs d'action • Les 4 piliers du rôle de Product Designer au sein des Galeries Lafayette.</p>
 
-      <div class="gl-tags">
-        <span class="gl-tag">UX Research</span>
-        <span class="gl-tag">UI Design</span>
-        <span class="gl-tag">Design System</span>
-        <span class="gl-tag">Prototypage</span>
-        <span class="gl-tag">Figma</span>
-        <span class="gl-tag">Mobile First</span>
-      </div>
     </div>
   </div>
 
@@ -3686,18 +3694,12 @@
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
         const wasOpen = btn.classList.contains('open');
-        /* ferme tout + reset dots + masque visuels */
-        btns.forEach(b => {
-          b.classList.remove('open');
-          const d = b.querySelector('.gl-showcase-btn-dot');
-          if (d) d.textContent = '+';
-        });
+        /* ferme tout + masque visuels */
+        btns.forEach(b => b.classList.remove('open'));
         visuals.forEach(v => v.classList.remove('active'));
         /* si ce n'était pas déjà ouvert, ouvre */
         if (!wasOpen) {
           btn.classList.add('open');
-          const dot = btn.querySelector('.gl-showcase-btn-dot');
-          if (dot) dot.textContent = '';
           /* affiche le visuel correspondant s'il existe */
           const idx = parseInt(btn.dataset.idx);
           const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
