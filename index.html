@@ -1208,8 +1208,9 @@
       opacity: 1;
       width: auto;
     }
-    /* ── Flèches showcase : cachées sur desktop ── */
+    /* ── Flèches & dots showcase : cachés sur desktop ── */
     .gl-sc-arrow { display: none; }
+    .gl-sc-dots { display: none; }
 
     @media (max-width: 768px) {
 
@@ -1224,7 +1225,7 @@
         padding: 32px 20px;
       }
 
-      /* MacBook dans bloc 1 : sans padding, plus grand */
+      /* MacBook dans bloc 1 : grand, sans padding, bien cadré */
       .gl-visual-macbook-block {
         padding: 0 !important;
         min-height: auto !important;
@@ -1232,117 +1233,119 @@
         border-radius: 16px;
       }
       .gl-visual-macbook-block .gl-macbook-wrap {
-        width: 115%;
-        margin-left: -7.5%;
+        width: 130%;
+        margin-left: -15%;
+      }
+      .gl-visual-macbook-block .gl-macbook-screen {
+        overflow: hidden !important;
       }
 
-      /* ── Bloc 2 : Showcase — visuel en haut, pills + flèches en bas ── */
-      .gl-showcase {
-        height: 680px;
-      }
+      /* ── Bloc 2 : Showcase — visuel en haut, pill + dots en bas ── */
+      .gl-showcase { height: 680px; }
       .gl-showcase-overlay { display: none; }
+      /* Flèches cachées sur mobile */
+      .gl-sc-arrow { display: none !important; }
 
-      /* Nav : row avec flèches de chaque côté */
+      /* Nav : colonne pill → dots */
       .gl-showcase-nav {
         left: 10px; right: 10px;
         top: auto !important; bottom: 14px;
         transform: none !important;
-        flex-direction: row;
+        flex-direction: column;
         align-items: stretch;
-        gap: 8px;
+        gap: 6px;
         width: auto;
       }
 
-      /* Pills fermées masquées sur mobile */
-      .gl-showcase-btn:not(.open) {
-        display: none !important;
-      }
-      /* Pill ouverte prend l'espace disponible */
-      .gl-showcase-btn.open {
-        flex: 1 !important;
-        width: auto !important;
-        min-width: 0;
-      }
-      .gl-showcase-btn.open .gl-showcase-btn-texts {
-        flex-direction: column;
-      }
-      .gl-showcase-btn.open .gl-showcase-btn-label {
-        max-height: 20px !important;
-        opacity: 0.45 !important;
-        font-size: 11px !important;
-      }
+      /* Pills fermées masquées */
+      .gl-showcase-btn:not(.open) { display: none !important; }
 
-      /* Flèches de navigation */
-      .gl-sc-arrow {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 64px;
-        flex-shrink: 0;
-        align-self: center;
-        background: rgba(20,20,20,0.75);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1.5px solid rgba(255,255,255,0.15);
-        border-radius: 14px;
-        color: rgba(255,255,255,0.85);
-        font-size: 26px;
-        line-height: 1;
-        cursor: pointer;
-        padding: 0;
-        transition: background 0.2s;
-      }
-      .gl-sc-arrow:active { background: rgba(40,40,40,0.9); }
-
-      /* Pill ouverte : texte compact 2 lignes sur mobile */
-      .gl-showcase-btn.open .gl-showcase-btn-open {
-        font-size: 11.5px !important;
-        line-height: 1.4 !important;
-        max-height: 34px !important;
-        overflow: hidden !important;
-      }
+      /* Pill ouverte : pleine largeur, texte complet */
       .gl-showcase-btn.open {
+        width: 100% !important;
+        align-self: stretch;
         padding: 10px 12px 10px 10px !important;
       }
-      /* Label visible compact */
-      .gl-showcase-btn.open .gl-showcase-btn-label {
-        max-height: 18px !important;
-        font-size: 10px !important;
-        opacity: 0.4 !important;
+      /* Titre gris = doublon → masqué */
+      .gl-showcase-btn.open .gl-showcase-btn-label { display: none !important; }
+      /* Texte sans limitation de hauteur */
+      .gl-showcase-btn.open .gl-showcase-btn-open {
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+        max-height: none !important;
+        overflow: visible !important;
       }
 
-      /* Visuels : centrés et agrandis dans la zone haute */
+      /* Dots navigation */
+      .gl-sc-dots {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        padding: 4px 0 2px;
+      }
+      .gl-sc-dot {
+        width: 6px; height: 6px;
+        border-radius: 2px;
+        background: rgba(255,255,255,0.3);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: background 0.25s ease, width 0.25s ease;
+      }
+      .gl-sc-dot.active {
+        background: rgba(255,255,255,0.9);
+        width: 18px;
+      }
+
+      /* Phones : légère marge haut, un seul iPhone visible */
       .gl-showcase-phones {
         left: 0 !important; right: 0 !important;
-        top: 0 !important; bottom: 110px !important;
+        top: 30px !important; bottom: 160px !important;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         gap: 0;
       }
-      .gl-showcase-phone-wrap { width: 250px !important; }
+      .gl-showcase-phone-wrap { width: 230px !important; }
       .gl-showcase-phone-wrap:nth-child(2) { display: none !important; }
 
-      /* Visuels DS & MacBook : centrés dans la zone haute */
-      .gl-showcase-visual[data-visual-idx="1"],
-      .gl-showcase-visual[data-visual-idx="2"] {
+      /* DS : plein cadre, image grande */
+      .gl-showcase-visual[data-visual-idx="1"] {
         left: 0 !important; right: 0 !important;
-        top: 0 !important; bottom: 110px !important;
+        top: 20px !important; bottom: 160px !important;
         height: auto !important;
-        padding: 16px 10px !important;
-        align-items: center !important;
-        justify-content: center !important;
+        padding: 0 !important;
+        align-items: stretch !important;
+        justify-content: stretch !important;
       }
-      /* DS image : largeur forcée, hauteur auto */
       .gl-showcase-visual[data-visual-idx="1"] img {
         width: 100% !important;
-        height: auto !important;
-        object-fit: contain !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
       }
-      /* MacBook showcase : agrandir sur toute la largeur */
+
+      /* MacBook showcase : grand, tronqué à droite */
+      .gl-showcase-visual[data-visual-idx="2"] {
+        left: 0 !important; right: 0 !important;
+        top: 20px !important; bottom: 160px !important;
+        height: auto !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+      }
       .gl-showcase-visual[data-visual-idx="2"] .gl-macbook-wrap {
-        width: 100% !important;
-        max-width: 100% !important;
+        width: 130% !important;
+        max-width: 130% !important;
+      }
+
+      /* Visuel Recherche (idx=3) : même zone que phones */
+      .gl-showcase-phones[data-visual-idx="3"],
+      .gl-showcase-visual[data-visual-idx="3"] {
+        top: 30px !important;
+        bottom: 160px !important;
       }
 
       /* ── Bloc 4 : Génération de modèles ── */
@@ -1520,7 +1523,7 @@
       border-radius: 12px;
     }
     .gl-model-btn.active::after {
-      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 35%, transparent 60%);
     }
     .gl-model-btn:not(.active)::after {
       background: rgba(0,0,0,0.45);
@@ -1534,9 +1537,10 @@
       font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.9);
-      font-weight: 500;
+      color: rgba(255,255,255,1);
+      font-weight: 600;
       z-index: 3;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.9);
     }
     /* Selected indicator — full outline */
     .gl-model-btn.active::before {
@@ -2529,6 +2533,12 @@
             </span>
           </button>
           <button class="gl-sc-arrow" id="glScNext" aria-label="Suivant">&#8250;</button>
+          <div class="gl-sc-dots" id="glScDots">
+            <button class="gl-sc-dot active" data-idx="0"></button>
+            <button class="gl-sc-dot" data-idx="1"></button>
+            <button class="gl-sc-dot" data-idx="2"></button>
+            <button class="gl-sc-dot" data-idx="3"></button>
+          </div>
         </div>
         <!-- 2 iPhones décalés — visible uniquement pour pill 0 -->
         <div class="gl-showcase-phones gl-showcase-visual active" data-visual-idx="0">
@@ -3838,6 +3848,7 @@
     if (!showcase) return;
     const btns    = showcase.querySelectorAll('.gl-showcase-btn');
     const visuals = showcase.querySelectorAll('.gl-showcase-visual');
+    const dots    = showcase.querySelectorAll('.gl-sc-dot');
 
     function openIdx(idx) {
       btns.forEach(b => b.classList.remove('open'));
@@ -3845,23 +3856,22 @@
       btns[idx].classList.add('open');
       const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
       if (visual) visual.classList.add('active');
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
     }
 
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
         const wasOpen = btn.classList.contains('open');
-        btns.forEach(b => b.classList.remove('open'));
-        visuals.forEach(v => v.classList.remove('active'));
-        if (!wasOpen) {
-          btn.classList.add('open');
-          const idx = parseInt(btn.dataset.idx);
-          const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
-          if (visual) visual.classList.add('active');
-        }
+        if (!wasOpen) openIdx(parseInt(btn.dataset.idx));
       });
     });
 
-    /* Flèches mobile */
+    /* Dots navigation mobile */
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => openIdx(parseInt(dot.dataset.idx)));
+    });
+
+    /* Flèches mobile (conservées pour accessibilité) */
     const prevBtn = document.getElementById('glScPrev');
     const nextBtn = document.getElementById('glScNext');
     if (prevBtn) prevBtn.addEventListener('click', () => {
