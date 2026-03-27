@@ -2028,9 +2028,9 @@
     }
 
     /* ── Mauboussin Avant/Après ── */
-    /* Largeur = colonne 2fr de la grille au-dessus → même hauteur, intégration macbook préservée */
-    .mau-compare-block {
-      margin-top: 8px; margin-bottom: 20px;
+    .mau-compare-block { margin-top: 8px; margin-bottom: 20px; }
+    /* Wrap MacBook à la même largeur que la colonne 2fr de la grille — intégration et hauteur préservées */
+    .mau-compare-block .gl-macbook-wrap {
       max-width: calc((100% - 24px) * 2 / 3);
       margin-left: auto;
     }
