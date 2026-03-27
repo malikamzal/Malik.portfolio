@@ -2086,6 +2086,35 @@
     }
     .mau-compare-label-before { left: 10px; }
     .mau-compare-label-after  { right: 10px; }
+
+    /* ── Mauboussin Bento ── */
+    .mau-bento {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      height: 420px;
+      margin-bottom: 20px;
+    }
+    .mau-bento-cell {
+      background: #E8E2D8;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .mau-bento-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    /* A : grande cellule gauche, 2 lignes */
+    .mau-bento-a { grid-column: 1; grid-row: 1 / 3; }
+    /* B : haut droite */
+    .mau-bento-b { grid-column: 2; grid-row: 1; }
+    /* C : bas centre */
+    .mau-bento-c { grid-column: 2; grid-row: 2; }
+    /* D : haut extrême droite */
+    .mau-bento-d { grid-column: 3; grid-row: 1; }
+    /* E : bas extrême droite */
+    .mau-bento-e { grid-column: 3; grid-row: 2; }
   </style>
 </head>
 <body>
@@ -2878,6 +2907,18 @@
 
       <!-- Légende bloc 2 -->
       <p class="gl-visuals-caption"><span class="gl-vc-label">Avant / Après</span> • Glisse pour comparer l'ancienne version et la refonte.</p>
+
+      <!-- Bloc 3 : Bento -->
+      <div class="mau-bento">
+        <div class="mau-bento-cell mau-bento-a"></div>
+        <div class="mau-bento-cell mau-bento-b"></div>
+        <div class="mau-bento-cell mau-bento-c"></div>
+        <div class="mau-bento-cell mau-bento-d"></div>
+        <div class="mau-bento-cell mau-bento-e"></div>
+      </div>
+
+      <!-- Légende bloc 3 -->
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Composants & écrans</span> • À compléter.</p>
 
       <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
         <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
