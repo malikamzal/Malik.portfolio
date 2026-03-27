@@ -1225,7 +1225,7 @@
         padding: 32px 20px;
       }
 
-      /* MacBook dans bloc 1 : grand, sans padding, bien cadré */
+      /* MacBook dans bloc 1 : 120% centré — scroll intact */
       .gl-visual-macbook-block {
         padding: 0 !important;
         min-height: auto !important;
@@ -1233,11 +1233,8 @@
         border-radius: 16px;
       }
       .gl-visual-macbook-block .gl-macbook-wrap {
-        width: 130%;
-        margin-left: -15%;
-      }
-      .gl-visual-macbook-block .gl-macbook-screen {
-        overflow: hidden !important;
+        width: 120%;
+        margin-left: -10%;
       }
 
       /* ── Bloc 2 : Showcase — visuel en haut, pill + dots en bas ── */
@@ -1280,21 +1277,23 @@
       .gl-sc-dots {
         display: flex;
         justify-content: center;
+        align-items: center;
         gap: 6px;
         padding: 4px 0 2px;
       }
       .gl-sc-dot {
         width: 6px; height: 6px;
-        border-radius: 2px;
-        background: rgba(255,255,255,0.3);
+        border-radius: 50%;
+        background: rgba(255,255,255,0.25);
         border: none;
         padding: 0;
         cursor: pointer;
-        transition: background 0.25s ease, width 0.25s ease;
+        transition: background 0.3s, transform 0.3s;
+        flex-shrink: 0;
       }
       .gl-sc-dot.active {
         background: rgba(255,255,255,0.9);
-        width: 18px;
+        transform: scale(1.4);
       }
 
       /* Phones : légère marge haut, un seul iPhone visible */
@@ -1326,19 +1325,20 @@
         border-radius: 0 !important;
       }
 
-      /* MacBook showcase : grand, tronqué à droite */
+      /* MacBook showcase : très grand, ancré à gauche, tronqué à droite */
       .gl-showcase-visual[data-visual-idx="2"] {
         left: 0 !important; right: 0 !important;
         top: 20px !important; bottom: 160px !important;
         height: auto !important;
-        padding: 0 !important;
+        padding: 16px 0 0 12px !important;
         overflow: hidden !important;
-        align-items: center !important;
+        align-items: flex-start !important;
         justify-content: flex-start !important;
       }
       .gl-showcase-visual[data-visual-idx="2"] .gl-macbook-wrap {
-        width: 130% !important;
-        max-width: 130% !important;
+        width: 155% !important;
+        max-width: 155% !important;
+        flex-shrink: 0;
       }
 
       /* Visuel Recherche (idx=3) : même zone que phones */
@@ -1387,10 +1387,18 @@
       transform-origin: center center;
       display: block;
     }
-    /* ── Showcase visual generic active ── */
+    /* ── Showcase visual : slide-in depuis la droite (DS & MacBook) ── */
+    .gl-showcase-visual:not(.gl-showcase-phones) {
+      transform: translateX(28px);
+      transition: opacity 0.45s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94) !important;
+    }
     .gl-showcase-visual.active {
       opacity: 1 !important;
       pointer-events: auto !important;
+    }
+    .gl-showcase-visual:not(.gl-showcase-phones).active {
+      transform: translateX(0) !important;
     }
     /* ── Showcase phone ── */
     .gl-showcase-phones {
