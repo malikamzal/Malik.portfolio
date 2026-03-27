@@ -1744,19 +1744,43 @@
     }
 
     /* anim stagger sur le contenu */
-    #glPage .gl-content > * {
+    #glPage .gl-content > *,
+    #mauPage .gl-content > * {
       opacity: 0;
       transform: translateY(24px);
       transition: opacity .5s ease, transform .5s ease;
     }
-    #glPage.open .gl-content > * { opacity: 1; transform: translateY(0); }
-    #glPage.open .gl-content > *:nth-child(1) { transition-delay: .25s; }
-    #glPage.open .gl-content > *:nth-child(2) { transition-delay: .32s; }
-    #glPage.open .gl-content > *:nth-child(3) { transition-delay: .38s; }
-    #glPage.open .gl-content > *:nth-child(4) { transition-delay: .44s; }
-    #glPage.open .gl-content > *:nth-child(5) { transition-delay: .50s; }
-    #glPage.open .gl-content > *:nth-child(6) { transition-delay: .55s; }
-    #glPage.open .gl-content > *:nth-child(n+7) { transition-delay: .6s; }
+    #glPage.open .gl-content > *,
+    #mauPage.open .gl-content > * { opacity: 1; transform: translateY(0); }
+    #glPage.open .gl-content > *:nth-child(1),
+    #mauPage.open .gl-content > *:nth-child(1) { transition-delay: .25s; }
+    #glPage.open .gl-content > *:nth-child(2),
+    #mauPage.open .gl-content > *:nth-child(2) { transition-delay: .32s; }
+    #glPage.open .gl-content > *:nth-child(3),
+    #mauPage.open .gl-content > *:nth-child(3) { transition-delay: .38s; }
+    #glPage.open .gl-content > *:nth-child(4),
+    #mauPage.open .gl-content > *:nth-child(4) { transition-delay: .44s; }
+    #glPage.open .gl-content > *:nth-child(5),
+    #mauPage.open .gl-content > *:nth-child(5) { transition-delay: .50s; }
+    #glPage.open .gl-content > *:nth-child(6),
+    #mauPage.open .gl-content > *:nth-child(6) { transition-delay: .55s; }
+    #glPage.open .gl-content > *:nth-child(n+7),
+    #mauPage.open .gl-content > *:nth-child(n+7) { transition-delay: .6s; }
+
+    /* ── MAU PROJECT PAGE ── */
+    #mauPage {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--bg);
+      overflow-y: auto;
+      overflow-x: hidden;
+      transform: translateY(100%);
+      transition: transform .6s cubic-bezier(.16,1,.3,1);
+      pointer-events: none;
+    }
+    #mauPage.open {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
 
     /* ── SKIN MODAL ── */
     #skinModal {
@@ -2692,6 +2716,69 @@
       </div>
 
       <p class="gl-visuals-caption"><span class="gl-vc-label">Génération de modèles</span> • Création d'un panel de mannequins et de poses via Weavy afin de réaliser des portées de vêtements.</p>
+
+      <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+        <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
+        <p style="font-size: 28px; font-weight:800; font-style:italic; letter-spacing:-0.03em; color:#CCFF00; margin:0; line-height:1;">Merci pour la lecture&nbsp;:)</p>
+        <span style="font-size:13px; color:rgba(255,255,255,0.3); font-style:italic;">— Malik</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mauboussin Project Page -->
+  <div id="mauPage">
+    <div class="gl-content">
+      <div class="gl-label">Projet 02 — Mauboussin</div>
+      <h1 class="gl-h1">Refonte<br>UX/UI</h1>
+
+      <div class="gl-meta">
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Année</span>
+          <span class="gl-meta-val">2025 — 2026</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Rôle</span>
+          <span class="gl-meta-val">Product Designer</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Client</span>
+          <span class="gl-meta-val">Mauboussin</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Périmètre</span>
+          <span class="gl-meta-val">Web</span>
+        </div>
+      </div>
+
+      <p class="gl-desc">
+        Chez Mauboussin, j'ai co-conçu avec une Product Designer la refonte UX/UI du site.<br>
+        Un travail à deux voix pour simplifier les parcours, affiner les détails et proposer une expérience plus fluide, au service de celles et ceux qui choisissent une pièce souvent chargée de sens.
+      </p>
+
+      <div class="gl-visuals-grid">
+        <!-- Bloc 1 : iPhone carousel -->
+        <div class="gl-visual-block">
+          <div class="gl-phone-unit">
+            <div class="gl-phone-wrap">
+              <div class="gl-phone-screen">
+                <div class="gl-carousel-track" id="mauCarouselTrack">
+                  <img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_SITE1.png" alt="Mauboussin Site 1">
+                  <img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_SITE2.png" alt="Mauboussin Site 2">
+                  <img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_SITE3.png" alt="Mauboussin Site 3">
+                  <img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_SITE4.png" alt="Mauboussin Site 4">
+                  <img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_SITE5.png" alt="Mauboussin Site 5">
+                  <img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_SITE6.png" alt="Mauboussin Site 6">
+                  <img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_SITE7.png" alt="Mauboussin Site 7">
+                  <img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_SITE8.png" alt="Mauboussin Site 8">
+                </div>
+              </div>
+              <img class="gl-phone-frame" src="01_SOURCES/iphone-frame.png" alt="iPhone frame">
+            </div>
+            <div class="gl-carousel-dots" id="mauCarouselDots"></div>
+          </div>
+        </div>
+      </div>
 
       <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
         <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
@@ -3730,6 +3817,7 @@
     // ── GL PROJECT PAGE ──
     (function() {
       const page = document.getElementById('glPage');
+      const mauPage = document.getElementById('mauPage');
       const closeBtn = document.getElementById('glClose');
 
       function initMosaicScroll() {
@@ -3772,11 +3860,21 @@
         closeBtn.classList.add('visible');
         document.body.style.overflow = 'hidden';
         page.scrollTop = 0;
-        // Init mosaic after 2 frames so layout is resolved
         requestAnimationFrame(() => requestAnimationFrame(initMosaicScroll));
       }
       function closeGLPage() {
         page.classList.remove('open');
+        closeBtn.classList.remove('visible');
+        document.body.style.overflow = '';
+      }
+      function openMauPage() {
+        mauPage.classList.add('open');
+        closeBtn.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+        mauPage.scrollTop = 0;
+      }
+      function closeMauPage() {
+        mauPage.classList.remove('open');
         closeBtn.classList.remove('visible');
         document.body.style.overflow = '';
       }
@@ -3787,11 +3885,21 @@
           card.addEventListener('click', openGLPage);
           card.style.cursor = 'none';
         }
+        if (card.querySelector('img[src*="MAUBOUSSIN_PROJECT"]')) {
+          card.addEventListener('click', openMauPage);
+          card.style.cursor = 'none';
+        }
       });
 
-      closeBtn.addEventListener('click', closeGLPage);
+      closeBtn.addEventListener('click', () => {
+        if (page.classList.contains('open')) closeGLPage();
+        if (mauPage.classList.contains('open')) closeMauPage();
+      });
       document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && page.classList.contains('open')) closeGLPage();
+        if (e.key === 'Escape') {
+          if (page.classList.contains('open')) closeGLPage();
+          if (mauPage.classList.contains('open')) closeMauPage();
+        }
       });
     })();
 
@@ -3842,6 +3950,7 @@
     }
 
     initCarousel('glCarouselTrack', 'glCarouselDots', 0);
+    initCarousel('mauCarouselTrack', 'mauCarouselDots', 0);
 
     // GL Model switcher
     const lookVideo = document.getElementById('glLookVideo');
