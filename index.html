@@ -2026,6 +2026,62 @@
       .gl-content { padding: 48px 24px 80px; }
       .gl-phone-wrap { width: 200px; height: 410px; }
     }
+
+    /* ── Mauboussin Avant/Après ── */
+    .mau-compare-block { margin-top: 8px; }
+    .mau-compare-screen {
+      overflow: hidden !important;
+      cursor: col-resize;
+    }
+    .mau-compare-wrap {
+      position: relative;
+      width: 100%; height: 100%;
+      user-select: none; -webkit-user-select: none;
+    }
+    .mau-compare-img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      display: block; pointer-events: none;
+    }
+    .mau-compare-after {
+      clip-path: inset(0 calc(100% - var(--split, 50%)) 0 0);
+    }
+    .mau-compare-divider {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: var(--split, 50%);
+      transform: translateX(-50%);
+      width: 2px;
+      background: rgba(255,255,255,0.9);
+      pointer-events: none;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+    }
+    .mau-compare-handle {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px; height: 36px;
+      background: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #1a1a1a;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+    }
+    .mau-compare-label {
+      position: absolute;
+      top: 10px;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: white;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      padding: 3px 8px; border-radius: 4px;
+      pointer-events: none;
+    }
+    .mau-compare-label-before { right: 10px; }
+    .mau-compare-label-after  { left: 10px; }
   </style>
 </head>
 <body>
@@ -2788,6 +2844,36 @@
           </div>
         </div>
       </div>
+
+      <!-- Légende bloc 1 -->
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Refonte Web</span> • Redéfinition d'un système cohérent et plus facilement déclinable.</p>
+
+      <!-- Bloc 2 : Avant/Après MacBook -->
+      <div class="gl-visual-block gl-visual-macbook-block mau-compare-block">
+        <div class="gl-macbook-wrap">
+          <div class="gl-macbook-screen mau-compare-screen">
+            <div class="mau-compare-wrap" id="mauCompareWrap">
+              <!-- Avant (base) -->
+              <img class="mau-compare-img mau-compare-before" src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_DESTOP1.png" alt="Avant">
+              <!-- Après (clippé) -->
+              <img class="mau-compare-img mau-compare-after" src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_DESTOP2.png" alt="Après">
+              <!-- Séparateur -->
+              <div class="mau-compare-divider">
+                <div class="mau-compare-handle">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6 4L2 9L6 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 4L16 9L12 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <!-- Labels -->
+              <span class="mau-compare-label mau-compare-label-before">Avant</span>
+              <span class="mau-compare-label mau-compare-label-after">Après</span>
+            </div>
+          </div>
+          <img class="gl-macbook-frame" src="01_SOURCES/macbook-frame.png" alt="MacBook frame">
+        </div>
+      </div>
+
+      <!-- Légende bloc 2 -->
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Avant / Après</span> • Glisse pour comparer l'ancienne version et la refonte.</p>
 
       <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
         <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
@@ -4067,6 +4153,26 @@
         macSlides[mIdx].classList.add('active');
       }, 5000);
     }
+  })();
+
+  // ── Mauboussin Avant/Après ──
+  (function() {
+    const wrap = document.getElementById('mauCompareWrap');
+    if (!wrap) return;
+
+    function setSplit(clientX) {
+      const rect = wrap.getBoundingClientRect();
+      const pct = Math.min(Math.max((clientX - rect.left) / rect.width * 100, 2), 98);
+      wrap.style.setProperty('--split', pct + '%');
+    }
+
+    let dragging = false;
+    wrap.addEventListener('mousedown', e => { dragging = true; setSplit(e.clientX); });
+    document.addEventListener('mousemove', e => { if (dragging) setSplit(e.clientX); });
+    document.addEventListener('mouseup', () => { dragging = false; });
+
+    wrap.addEventListener('touchstart', e => { setSplit(e.touches[0].clientX); }, { passive: true });
+    wrap.addEventListener('touchmove', e => { e.preventDefault(); setSplit(e.touches[0].clientX); }, { passive: false });
   })();
 
 </script>
