@@ -955,7 +955,7 @@
       opacity: 0;
       transition: opacity .4s .3s, border-color .2s, background .2s;
     }
-    #glPage.open .gl-close { opacity: 1; }
+    .gl-close.visible { opacity: 1; }
     .gl-close:hover { border-color: rgba(255,255,255,.3); background: rgba(30,30,30,.9); }
 
     .gl-hero {
@@ -3769,6 +3769,7 @@
 
       function openGLPage() {
         page.classList.add('open');
+        closeBtn.classList.add('visible');
         document.body.style.overflow = 'hidden';
         page.scrollTop = 0;
         // Init mosaic after 2 frames so layout is resolved
@@ -3776,6 +3777,7 @@
       }
       function closeGLPage() {
         page.classList.remove('open');
+        closeBtn.classList.remove('visible');
         document.body.style.overflow = '';
       }
 
