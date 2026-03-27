@@ -1247,7 +1247,7 @@
       }
 
       /* ── Bloc 2 : Showcase — visuel en haut, pill + dots en bas ── */
-      .gl-showcase { height: 580px; }
+      .gl-showcase { height: 580px; overflow: hidden !important; }
       .gl-showcase-overlay { display: none; }
       /* Flèches cachées sur mobile */
       .gl-sc-arrow { display: none !important; }
@@ -1276,8 +1276,8 @@
       .gl-showcase-btn.open .gl-showcase-btn-label { display: none !important; }
       /* Texte sans limitation de hauteur */
       .gl-showcase-btn.open .gl-showcase-btn-open {
-        font-size: 12px !important;
-        line-height: 1.5 !important;
+        font-size: 14px !important;
+        line-height: 1.55 !important;
         max-height: none !important;
         overflow: visible !important;
       }
@@ -1339,7 +1339,7 @@
         left: 0 !important; right: 0 !important;
         top: 16px !important; bottom: 0 !important;
         height: auto !important;
-        padding: 16px 0 0 12px !important;
+        padding: 48px 0 0 12px !important;
         overflow: hidden !important;
         align-items: flex-start !important;
         justify-content: flex-start !important;
@@ -1398,7 +1398,7 @@
     }
     /* ── Showcase visual : slide-in depuis la droite (DS & MacBook) ── */
     .gl-showcase-visual:not(.gl-showcase-phones) {
-      transform: translateX(52px) !important;
+      transform: translateX(52px);
       transition: opacity 0.45s cubic-bezier(0.25,0.46,0.45,0.94),
                   transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94) !important;
     }
