@@ -3871,9 +3871,12 @@
       btns.forEach(b => b.classList.remove('open'));
       visuals.forEach(v => v.classList.remove('active'));
       btns[idx].classList.add('open');
-      const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
-      if (visual) visual.classList.add('active');
       dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
+      if (!visual) return;
+      // Force le navigateur à enregistrer l'état initial (translateX) avant d'animer
+      void visual.offsetWidth;
+      requestAnimationFrame(() => visual.classList.add('active'));
     }
 
     btns.forEach(btn => {
