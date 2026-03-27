@@ -1225,20 +1225,29 @@
         padding: 32px 20px;
       }
 
-      /* MacBook dans bloc 1 : 120% centré — scroll intact */
+      /* MacBook dans bloc 1 : frame masquée, contenu plein écran */
       .gl-visual-macbook-block {
         padding: 0 !important;
         min-height: auto !important;
         overflow: hidden;
         border-radius: 16px;
       }
+      .gl-visual-macbook-block .gl-macbook-frame { display: none !important; }
       .gl-visual-macbook-block .gl-macbook-wrap {
-        width: 120%;
-        margin-left: -10%;
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding-top: 80% !important;
+      }
+      .gl-visual-macbook-block .gl-macbook-screen {
+        top: 0 !important; left: 0 !important;
+        width: 100% !important; height: 100% !important;
+        border-radius: 12px !important;
+        overflow-x: hidden !important;
+        overflow-y: scroll !important;
       }
 
       /* ── Bloc 2 : Showcase — visuel en haut, pill + dots en bas ── */
-      .gl-showcase { height: 680px; }
+      .gl-showcase { height: 580px; }
       .gl-showcase-overlay { display: none; }
       /* Flèches cachées sur mobile */
       .gl-sc-arrow { display: none !important; }
@@ -1284,7 +1293,7 @@
       .gl-sc-dot {
         width: 6px; height: 6px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.25);
+        background: rgba(0,0,0,0.2);
         border: none;
         padding: 0;
         cursor: pointer;
@@ -1292,14 +1301,14 @@
         flex-shrink: 0;
       }
       .gl-sc-dot.active {
-        background: rgba(255,255,255,0.9);
+        background: #1a1a1a;
         transform: scale(1.4);
       }
 
       /* Phones : légère marge haut, un seul iPhone visible */
       .gl-showcase-phones {
         left: 0 !important; right: 0 !important;
-        top: 30px !important; bottom: 160px !important;
+        top: 20px !important; bottom: 0 !important;
         justify-content: center;
         align-items: flex-start;
         gap: 0;
@@ -1310,7 +1319,7 @@
       /* DS : plein cadre, image grande */
       .gl-showcase-visual[data-visual-idx="1"] {
         left: 0 !important; right: 0 !important;
-        top: 20px !important; bottom: 160px !important;
+        top: 16px !important; bottom: 0 !important;
         height: auto !important;
         padding: 0 !important;
         align-items: stretch !important;
@@ -1328,7 +1337,7 @@
       /* MacBook showcase : très grand, ancré à gauche, tronqué à droite */
       .gl-showcase-visual[data-visual-idx="2"] {
         left: 0 !important; right: 0 !important;
-        top: 20px !important; bottom: 160px !important;
+        top: 16px !important; bottom: 0 !important;
         height: auto !important;
         padding: 16px 0 0 12px !important;
         overflow: hidden !important;
@@ -1341,11 +1350,11 @@
         flex-shrink: 0;
       }
 
-      /* Visuel Recherche (idx=3) : même zone que phones */
+      /* Visuel Recherche (idx=3) */
       .gl-showcase-phones[data-visual-idx="3"],
       .gl-showcase-visual[data-visual-idx="3"] {
-        top: 30px !important;
-        bottom: 160px !important;
+        top: 20px !important;
+        bottom: 0 !important;
       }
 
       /* ── Bloc 4 : Génération de modèles ── */
@@ -1389,7 +1398,7 @@
     }
     /* ── Showcase visual : slide-in depuis la droite (DS & MacBook) ── */
     .gl-showcase-visual:not(.gl-showcase-phones) {
-      transform: translateX(28px);
+      transform: translateX(52px) !important;
       transition: opacity 0.45s cubic-bezier(0.25,0.46,0.45,0.94),
                   transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94) !important;
     }
