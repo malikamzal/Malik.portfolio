@@ -948,11 +948,10 @@
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255,255,255,.12);
       color: var(--text);
-      font-size: 1rem; font-family: var(--font-display); font-weight: 600;
-      padding: 8px 18px; border-radius: 100px;
+      font-size: 1.3rem; font-family: var(--font-display); font-weight: 400;
+      width: 40px; height: 40px; padding: 0; border-radius: 50%;
       cursor: none;
-      display: flex; align-items: center; gap: 8px;
-      transition: border-color .2s, background .2s;
+      display: flex; align-items: center; justify-content: center;
       opacity: 0;
       transition: opacity .4s .3s, border-color .2s, background .2s;
     }
@@ -1037,6 +1036,7 @@
       letter-spacing: 0.02em;
       margin: 4px 0 40px;
     }
+    .gl-visuals-caption .gl-vc-label { color: var(--text); }
 
     /* ── Carousel section ── */
     /* ── Showcase interactive ── */
@@ -1213,6 +1213,9 @@
     .gl-sc-dots { display: none; }
 
     @media (max-width: 768px) {
+
+      /* En-tête : meta en grille 2 colonnes (Rôle & Périmètre alignés) */
+      .gl-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
 
       /* ── Blocs 1 & 3 : grille 2 cols → colonne unique ── */
       .gl-visuals-grid {
@@ -2450,7 +2453,7 @@
 
   <!-- Galeries Lafayette Project Page -->
   <div id="glPage">
-    <button class="gl-close" id="glClose">← Retour</button>
+    <button class="gl-close" id="glClose">×</button>
 
     <div class="gl-content">
       <div class="gl-label">Projet 01 — Galeries Lafayette</div>
@@ -2514,7 +2517,7 @@
       </div>
 
       <!-- Légende -->
-      <p class="gl-visuals-caption">Refonte App &amp; Web • Création d'un écosystème cohérent via le Design System mis en place.</p>
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Refonte App &amp; Web</span> • Création d'un écosystème cohérent via le Design System mis en place.</p>
 
       <!-- Carrousel Apple TV style -->
       <div class="gl-showcase" id="glShowcase">
@@ -2636,7 +2639,7 @@
         </div>
       </div>
 
-      <p class="gl-visuals-caption">Champs d'action • Les 4 piliers du rôle de Product Designer au sein des Galeries Lafayette.</p>
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Champs d'action</span> • Les 4 piliers du rôle de Product Designer au sein des Galeries Lafayette.</p>
 
       <!-- Bloc visuel 2e rangée -->
       <div class="gl-visuals-grid" style="grid-auto-rows: 655px;">
@@ -2662,7 +2665,7 @@
         </div>
       </div>
 
-      <p class="gl-visuals-caption">Génération de looks • Exploration autour de la recommandation de tenues pour divers évènements via Midjourney.</p>
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Génération de looks</span> • Exploration autour de la recommandation de tenues pour divers évènements via Midjourney.</p>
 
       <!-- Bloc visuel full width -->
       <div class="gl-visual-block gl-visual-full">
@@ -2686,7 +2689,7 @@
         </div>
       </div>
 
-      <p class="gl-visuals-caption">Génération de modèles • Création d'un panel de mannequins et de poses via Weavy afin de réaliser des portées de vêtements.</p>
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Génération de modèles</span> • Création d'un panel de mannequins et de poses via Weavy afin de réaliser des portées de vêtements.</p>
 
       <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
         <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
