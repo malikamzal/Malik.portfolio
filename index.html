@@ -2028,7 +2028,9 @@
     }
 
     /* ── Mauboussin Avant/Après ── */
-    .mau-compare-block { margin-top: 8px; }
+    .mau-compare-block { margin-top: 8px; margin-bottom: 20px; }
+    /* Réduit padding-top pour que la hauteur = celle du MacBook 2fr dans la grille (60.8% × 2/3) */
+    .mau-compare-block .gl-macbook-wrap { padding-top: 40.5%; }
     .mau-compare-screen {
       overflow: hidden !important;
       cursor: col-resize;
