@@ -3876,9 +3876,11 @@
       dots.forEach((d, i) => d.classList.toggle('active', i === idx));
       const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
       if (!visual) return;
-      // Force le navigateur à enregistrer l'état initial (translateX) avant d'animer
-      void visual.offsetWidth;
-      requestAnimationFrame(() => visual.classList.add('active'));
+      // Double rAF + getBoundingClientRect = déclenchement fiable sur iOS Safari
+      visual.getBoundingClientRect();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => visual.classList.add('active'));
+      });
     }
 
     btns.forEach(btn => {
@@ -3892,6 +3894,19 @@
     dots.forEach(dot => {
       dot.addEventListener('click', () => openIdx(parseInt(dot.dataset.idx)));
     });
+
+    /* Swipe tactile sur le showcase (mobile) */
+    let _swipeX = null;
+    showcase.addEventListener('touchstart', e => { _swipeX = e.touches[0].clientX; }, { passive: true });
+    showcase.addEventListener('touchend', e => {
+      if (_swipeX === null) return;
+      const dx = e.changedTouches[0].clientX - _swipeX;
+      _swipeX = null;
+      if (Math.abs(dx) < 40) return; // trop court → pas un swipe
+      const cur = [...btns].findIndex(b => b.classList.contains('open'));
+      if (dx < 0) openIdx((cur + 1) % btns.length);       // swipe gauche → suivant
+      else        openIdx((cur - 1 + btns.length) % btns.length); // swipe droit → précédent
+    }, { passive: true });
 
     /* Flèches mobile (conservées pour accessibilité) */
     const prevBtn = document.getElementById('glScPrev');
