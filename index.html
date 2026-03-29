@@ -2090,13 +2090,12 @@
     /* ── Mauboussin Bento ── */
     .mau-bento {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      height: 420px;
       margin-bottom: 20px;
     }
     .mau-bento-cell {
+      aspect-ratio: 1;
       background: #E8E2D8;
       border-radius: 12px;
       overflow: hidden;
