@@ -2101,20 +2101,11 @@
       border-radius: 12px;
       overflow: hidden;
     }
-    .mau-bento-cell img {
+    .mau-bento-cell img,
+    .mau-bento-cell video {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
     }
-    /* A : grande cellule gauche, 2 lignes */
-    .mau-bento-a { grid-column: 1; grid-row: 1 / 3; }
-    /* B : haut droite */
-    .mau-bento-b { grid-column: 2; grid-row: 1; }
-    /* C : bas centre */
-    .mau-bento-c { grid-column: 2; grid-row: 2; }
-    /* D : haut extrême droite */
-    .mau-bento-d { grid-column: 3; grid-row: 1; }
-    /* E : bas extrême droite */
-    .mau-bento-e { grid-column: 3; grid-row: 2; }
   </style>
 </head>
 <body>
@@ -2910,11 +2901,12 @@
 
       <!-- Bloc 3 : Bento -->
       <div class="mau-bento">
-        <div class="mau-bento-cell mau-bento-a"></div>
-        <div class="mau-bento-cell mau-bento-b"></div>
-        <div class="mau-bento-cell mau-bento-c"></div>
-        <div class="mau-bento-cell mau-bento-d"></div>
-        <div class="mau-bento-cell mau-bento-e"></div>
+        <div class="mau-bento-cell"><img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_BAGUE1.png" alt=""></div>
+        <div class="mau-bento-cell"><video autoplay muted loop playsinline><source src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_BAGUE2.mp4" type="video/mp4"></video></div>
+        <div class="mau-bento-cell"><img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_BAGUE3.png" alt=""></div>
+        <div class="mau-bento-cell"><img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_BAGUE4.png" alt=""></div>
+        <div class="mau-bento-cell"><img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_BAGUE5.png" alt=""></div>
+        <div class="mau-bento-cell"><img src="01_SOURCES/PROJET_MAUBOUSSIN/MAUBOUSSIN_BAGUE6.png" alt=""></div>
       </div>
 
       <!-- Légende bloc 3 -->
