@@ -2123,6 +2123,26 @@
     .mau-compare-label-before { left: 10px; }
     .mau-compare-label-after  { right: 10px; }
 
+    /* ── GTF Logo scroll horizontal ── */
+    @keyframes gtfLogoScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .gtf-logo-track {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      animation: gtfLogoScroll 18s linear infinite;
+      will-change: transform;
+    }
+    .gtf-logo-track img {
+      height: 70%;
+      max-height: 340px;
+      width: auto;
+      flex-shrink: 0;
+      display: block;
+    }
+
     /* ── Mauboussin Bento ── */
     .mau-bento {
       display: grid;
@@ -3092,8 +3112,12 @@
             </div>
           </div>
         </div>
-        <div class="gl-showcase-visual" data-visual-idx="1" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);">
-          <div style="width:100%;height:100%;background:#E0DAD0;border-radius:12px;"></div>
+        <!-- Pill 1 : Identité graphique — scroll horizontal GTF_LOGO1 -->
+        <div class="gl-showcase-visual" data-visual-idx="1" style="position:absolute;left:22%;right:0;top:0;bottom:0;overflow:hidden;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);display:flex;align-items:center;">
+          <div class="gtf-logo-track">
+            <img src="01_SOURCES/PROJET_GTF/GTF_LOGO1.png" alt="Identité graphique">
+            <img src="01_SOURCES/PROJET_GTF/GTF_LOGO1.png" alt="" aria-hidden="true">
+          </div>
         </div>
         <div class="gl-showcase-visual" data-visual-idx="2" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);">
           <div style="width:100%;height:100%;background:#D8D2C8;border-radius:12px;"></div>
