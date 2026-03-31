@@ -2120,19 +2120,6 @@
     .mau-compare-label-before { left: 10px; }
     .mau-compare-label-after  { right: 10px; }
 
-    /* ── GTF Naming pill : iPhone centré + image entière derrière à droite ── */
-    .gtf-naming-bg {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 90%;
-      width: auto;
-      object-fit: contain;
-      border-radius: 16px;
-      z-index: 0;
-    }
-
     /* ── Mauboussin Bento ── */
     .mau-bento {
       display: grid;
@@ -3080,10 +3067,10 @@
             <button class="gl-sc-dot" data-idx="2"></button>
           </div>
         </div>
-        <!-- Pill 0 : Naming — iPhone gauche + image fond droite -->
-        <div class="gl-showcase-phones gl-showcase-visual active gtf-naming-phones" data-visual-idx="0">
-          <!-- iPhone gauche : GTF_NAMING1→5 (en premier dans le DOM = nth-child(1)) -->
-          <div class="gl-showcase-phone-wrap" style="position:relative;z-index:1;">
+        <!-- Pill 0 : Naming — 2 iPhones décalés -->
+        <div class="gl-showcase-phones gl-showcase-visual active" data-visual-idx="0">
+          <!-- iPhone gauche : GTF_NAMING1→5 -->
+          <div class="gl-showcase-phone-wrap">
             <div class="gl-showcase-phone-inner">
               <div class="gl-showcase-phone-screen">
                 <div class="gl-phone-slides">
@@ -3097,8 +3084,17 @@
               <img class="gl-showcase-phone-frame" src="01_SOURCES/iphone-frame.png" alt="">
             </div>
           </div>
-          <!-- Image fond droite — après le phone (nth-child(2), pas de règle display:none desktop) -->
-          <img class="gtf-naming-bg" src="01_SOURCES/PROJET_GTF/GTF_NAMING6.png" alt="">
+          <!-- iPhone droite : GTF_NAMING6 -->
+          <div class="gl-showcase-phone-wrap">
+            <div class="gl-showcase-phone-inner">
+              <div class="gl-showcase-phone-screen">
+                <div class="gl-phone-slides gl-phone-slides-right">
+                  <img class="gl-phone-slide active" src="01_SOURCES/PROJET_GTF/GTF_NAMING6.png" alt="">
+                </div>
+              </div>
+              <img class="gl-showcase-phone-frame" src="01_SOURCES/iphone-frame.png" alt="">
+            </div>
+          </div>
         </div>
         <div class="gl-showcase-visual" data-visual-idx="1" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);">
           <div style="width:100%;height:100%;background:#E0DAD0;border-radius:12px;"></div>
