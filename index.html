@@ -2120,19 +2120,15 @@
     .mau-compare-label-before { left: 10px; }
     .mau-compare-label-after  { right: 10px; }
 
-    /* ── GTF Naming pill : iPhone gauche + image fond droite ── */
-    .gtf-naming-phones {
-      justify-content: flex-start !important;
-      padding-left: 60px;
-    }
+    /* ── GTF Naming pill : iPhone centré + image entière derrière à droite ── */
     .gtf-naming-bg {
       position: absolute;
-      right: 24px;
+      right: 0;
       top: 50%;
       transform: translateY(-50%);
-      width: 38%;
-      height: 85%;
-      object-fit: cover;
+      height: 90%;
+      width: auto;
+      object-fit: contain;
       border-radius: 16px;
       z-index: 0;
     }
