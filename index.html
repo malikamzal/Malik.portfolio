@@ -2994,8 +2994,8 @@
         Mon rôle a été de transformer un processus complexe en une expérience claire et guidée, pour aider les utilisateurs à aller à l'essentiel, sans stress inutile.
       </p>
 
-      <!-- Bloc 1 : iPhone carousel -->
-      <div class="gl-visuals-grid">
+      <!-- Bloc 1 : deux iPhone carousels côte à côte -->
+      <div class="gl-visuals-grid" style="grid-template-columns: 1fr 1fr;">
         <div class="gl-visual-block">
           <div class="gl-phone-unit">
             <div class="gl-phone-wrap">
@@ -3007,6 +3007,19 @@
               <img class="gl-phone-frame" src="01_SOURCES/iphone-frame.png" alt="iPhone frame">
             </div>
             <div class="gl-carousel-dots" id="gtfCarouselDots"></div>
+          </div>
+        </div>
+        <div class="gl-visual-block">
+          <div class="gl-phone-unit">
+            <div class="gl-phone-wrap">
+              <div class="gl-phone-screen">
+                <div class="gl-carousel-track" id="gtfCarouselTrack2">
+                  <!-- Images à ajouter -->
+                </div>
+              </div>
+              <img class="gl-phone-frame" src="01_SOURCES/iphone-frame.png" alt="iPhone frame">
+            </div>
+            <div class="gl-carousel-dots" id="gtfCarouselDots2"></div>
           </div>
         </div>
       </div>
@@ -4202,6 +4215,7 @@
     initCarousel('glCarouselTrack', 'glCarouselDots', 0);
     initCarousel('mauCarouselTrack', 'mauCarouselDots', 0);
     initCarousel('gtfCarouselTrack', 'gtfCarouselDots', 0);
+    initCarousel('gtfCarouselTrack2', 'gtfCarouselDots2', 0);
 
     // GL Model switcher
     const lookVideo = document.getElementById('glLookVideo');
