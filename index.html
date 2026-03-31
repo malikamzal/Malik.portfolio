@@ -4450,6 +4450,18 @@
       const cur = [...btns].findIndex(b => b.classList.contains('open'));
       openIdx((cur + 1) % btns.length);
     });
+
+    /* ── Slideshow auto 4s sur chaque iPhone ── */
+    showcase.querySelectorAll('.gl-phone-slides').forEach(container => {
+      const sl = container.querySelectorAll('.gl-phone-slide');
+      if (sl.length < 2) return;
+      let idx = 0;
+      setInterval(() => {
+        sl[idx].classList.remove('active');
+        idx = (idx + 1) % sl.length;
+        sl[idx].classList.add('active');
+      }, 4000);
+    });
   })();
 
   // ── Mauboussin Avant/Après ──
