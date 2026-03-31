@@ -1254,6 +1254,9 @@
       .gl-showcase-overlay { display: none; }
       /* Flèches cachées sur mobile */
       .gl-sc-arrow { display: none !important; }
+      /* GTF pill Naming : image cachée, iPhones visibles sur mobile */
+      .gtf-naming-desktop { display: none !important; }
+      .gtf-naming-mobile { display: flex !important; }
 
       /* Nav : colonne pill → dots */
       .gl-showcase-nav {
@@ -3067,9 +3070,27 @@
             <button class="gl-sc-dot" data-idx="2"></button>
           </div>
         </div>
-        <!-- Pill 0 : Naming — NAMING6 centré -->
+        <!-- Pill 0 : Naming — NAMING6 centré (desktop) / iPhones (mobile) -->
         <div class="gl-showcase-visual active" data-visual-idx="0" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);padding:24px;">
-          <img src="01_SOURCES/PROJET_GTF/GTF_NAMING6.png" alt="Naming" style="max-width:82%;max-height:82%;object-fit:contain;border-radius:12px;">
+          <!-- Desktop : image centrée -->
+          <img class="gtf-naming-desktop" src="01_SOURCES/PROJET_GTF/GTF_NAMING6.png" alt="Naming" style="max-width:82%;max-height:82%;object-fit:contain;border-radius:12px;">
+          <!-- Mobile : 2 iPhones avec défilement -->
+          <div class="gl-showcase-phones gtf-naming-mobile" style="position:absolute;left:0;right:0;top:20px;bottom:0;display:none;align-items:flex-start;justify-content:center;gap:18px;">
+            <div class="gl-showcase-phone-wrap">
+              <div class="gl-showcase-phone-inner">
+                <div class="gl-showcase-phone-screen">
+                  <div class="gl-phone-slides">
+                    <img class="gl-phone-slide active" src="01_SOURCES/PROJET_GTF/GTF_NAMING1.png" alt="">
+                    <img class="gl-phone-slide" src="01_SOURCES/PROJET_GTF/GTF_NAMING2.png" alt="">
+                    <img class="gl-phone-slide" src="01_SOURCES/PROJET_GTF/GTF_NAMING3.png" alt="">
+                    <img class="gl-phone-slide" src="01_SOURCES/PROJET_GTF/GTF_NAMING4.png" alt="">
+                    <img class="gl-phone-slide" src="01_SOURCES/PROJET_GTF/GTF_NAMING5.png" alt="">
+                  </div>
+                </div>
+                <img class="gl-showcase-phone-frame" src="01_SOURCES/iphone-frame.png" alt="">
+              </div>
+            </div>
+          </div>
         </div>
         <div class="gl-showcase-visual" data-visual-idx="1" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);">
           <div style="width:100%;height:100%;background:#E0DAD0;border-radius:12px;"></div>
@@ -4426,7 +4447,7 @@
       openIdx((cur + 1) % btns.length);
     });
 
-    /* ── Slideshow auto 4s sur chaque iPhone ── */
+    /* ── Slideshow auto 4s sur chaque iPhone (incl. mobile naming) ── */
     showcase.querySelectorAll('.gl-phone-slides').forEach(container => {
       const sl = container.querySelectorAll('.gl-phone-slide');
       if (sl.length < 2) return;
