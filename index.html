@@ -1257,9 +1257,9 @@
       /* GTF pill Naming : image cachée, iPhones visibles sur mobile */
       .gtf-naming-desktop { display: none !important; }
       .gtf-naming-mobile { display: flex !important; }
-      /* GTF Logo scroll : centrage vertical + taille réduite sur mobile */
-      .gtf-logo-track { align-self: center; }
-      .gtf-logo-track img { height: 240px; }
+      /* GTF Logo scroll : centrage vertical + taille sur mobile */
+      .gtf-logo-track { align-self: center; gap: 12px; }
+      .gtf-logo-track img { height: 340px; }
 
       /* Nav : colonne pill → dots */
       .gl-showcase-nav {
@@ -2134,7 +2134,7 @@
     .gtf-logo-track {
       display: flex;
       align-items: center;
-      gap: 60px;
+      gap: 32px;
       animation: gtfLogoScroll 18s linear infinite;
       will-change: transform;
     }
