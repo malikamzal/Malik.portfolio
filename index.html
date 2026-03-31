@@ -1745,27 +1745,36 @@
 
     /* anim stagger sur le contenu */
     #glPage .gl-content > *,
-    #mauPage .gl-content > * {
+    #mauPage .gl-content > *,
+    #gtfPage .gl-content > * {
       opacity: 0;
       transform: translateY(24px);
       transition: opacity .5s ease, transform .5s ease;
     }
     #glPage.open .gl-content > *,
-    #mauPage.open .gl-content > * { opacity: 1; transform: translateY(0); }
+    #mauPage.open .gl-content > *,
+    #gtfPage.open .gl-content > * { opacity: 1; transform: translateY(0); }
     #glPage.open .gl-content > *:nth-child(1),
-    #mauPage.open .gl-content > *:nth-child(1) { transition-delay: .25s; }
+    #mauPage.open .gl-content > *:nth-child(1),
+    #gtfPage.open .gl-content > *:nth-child(1) { transition-delay: .25s; }
     #glPage.open .gl-content > *:nth-child(2),
-    #mauPage.open .gl-content > *:nth-child(2) { transition-delay: .32s; }
+    #mauPage.open .gl-content > *:nth-child(2),
+    #gtfPage.open .gl-content > *:nth-child(2) { transition-delay: .32s; }
     #glPage.open .gl-content > *:nth-child(3),
-    #mauPage.open .gl-content > *:nth-child(3) { transition-delay: .38s; }
+    #mauPage.open .gl-content > *:nth-child(3),
+    #gtfPage.open .gl-content > *:nth-child(3) { transition-delay: .38s; }
     #glPage.open .gl-content > *:nth-child(4),
-    #mauPage.open .gl-content > *:nth-child(4) { transition-delay: .44s; }
+    #mauPage.open .gl-content > *:nth-child(4),
+    #gtfPage.open .gl-content > *:nth-child(4) { transition-delay: .44s; }
     #glPage.open .gl-content > *:nth-child(5),
-    #mauPage.open .gl-content > *:nth-child(5) { transition-delay: .50s; }
+    #mauPage.open .gl-content > *:nth-child(5),
+    #gtfPage.open .gl-content > *:nth-child(5) { transition-delay: .50s; }
     #glPage.open .gl-content > *:nth-child(6),
-    #mauPage.open .gl-content > *:nth-child(6) { transition-delay: .55s; }
+    #mauPage.open .gl-content > *:nth-child(6),
+    #gtfPage.open .gl-content > *:nth-child(6) { transition-delay: .55s; }
     #glPage.open .gl-content > *:nth-child(n+7),
-    #mauPage.open .gl-content > *:nth-child(n+7) { transition-delay: .6s; }
+    #mauPage.open .gl-content > *:nth-child(n+7),
+    #gtfPage.open .gl-content > *:nth-child(n+7) { transition-delay: .6s; }
 
     /* ── MAU PROJECT PAGE ── */
     #mauPage {
@@ -1778,6 +1787,21 @@
       pointer-events: none;
     }
     #mauPage.open {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ── GTF PROJECT PAGE ── */
+    #gtfPage {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--bg);
+      overflow-y: auto;
+      overflow-x: hidden;
+      transform: translateY(100%);
+      transition: transform .6s cubic-bezier(.16,1,.3,1);
+      pointer-events: none;
+    }
+    #gtfPage.open {
       transform: translateY(0);
       pointer-events: auto;
     }
@@ -2940,6 +2964,62 @@
     </div>
   </div>
 
+  <!-- GoTaxFree Project Page -->
+  <div id="gtfPage">
+    <div class="gl-content">
+      <div class="gl-label">Projet 03 — GoTaxFree</div>
+      <h1 class="gl-h1">Application<br>Android &amp; iOS</h1>
+
+      <div class="gl-meta">
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Année</span>
+          <span class="gl-meta-val">—</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Rôle</span>
+          <span class="gl-meta-val">—</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Client</span>
+          <span class="gl-meta-val">GoTaxFree</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Périmètre</span>
+          <span class="gl-meta-val">—</span>
+        </div>
+      </div>
+
+      <p class="gl-desc">
+        À compléter.
+      </p>
+
+      <!-- Bloc 1 : iPhone carousel -->
+      <div class="gl-visuals-grid">
+        <div class="gl-visual-block">
+          <div class="gl-phone-unit">
+            <div class="gl-phone-wrap">
+              <div class="gl-phone-screen">
+                <div class="gl-carousel-track" id="gtfCarouselTrack">
+                  <!-- Images à ajouter -->
+                </div>
+              </div>
+              <img class="gl-phone-frame" src="01_SOURCES/iphone-frame.png" alt="iPhone frame">
+            </div>
+            <div class="gl-carousel-dots" id="gtfCarouselDots"></div>
+          </div>
+        </div>
+      </div>
+      <p class="gl-visuals-caption"><span class="gl-vc-label">À compléter</span> • Légende à renseigner.</p>
+
+      <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+        <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
+        <p style="font-size: 28px; font-weight:800; font-style:italic; letter-spacing:-0.03em; color:#CCFF00; margin:0; line-height:1;">Merci pour la lecture&nbsp;:)</p>
+        <span style="font-size:13px; color:rgba(255,255,255,0.3); font-style:italic;">— Malik</span>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Skin Scanner Modal -->
   <div id="skinModal">
     <button class="skin-close" id="skinClose">✕</button>
@@ -3969,6 +4049,7 @@
     (function() {
       const page = document.getElementById('glPage');
       const mauPage = document.getElementById('mauPage');
+      const gtfPage = document.getElementById('gtfPage');
       const closeBtn = document.getElementById('glClose');
 
       function initMosaicScroll() {
@@ -4029,8 +4110,19 @@
         closeBtn.classList.remove('visible');
         document.body.style.overflow = '';
       }
+      function openGtfPage() {
+        gtfPage.classList.add('open');
+        closeBtn.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+        gtfPage.scrollTop = 0;
+      }
+      function closeGtfPage() {
+        gtfPage.classList.remove('open');
+        closeBtn.classList.remove('visible');
+        document.body.style.overflow = '';
+      }
 
-      // Clic sur les cartes GL (desktop + mobile)
+      // Clic sur les cartes (desktop + mobile)
       document.querySelectorAll('.project-card, .wallet-card').forEach(card => {
         if (card.querySelector('img[src*="GALERIES_LAFAYETTE_PROJECT"]')) {
           card.addEventListener('click', openGLPage);
@@ -4040,16 +4132,22 @@
           card.addEventListener('click', openMauPage);
           card.style.cursor = 'none';
         }
+        if (card.querySelector('img[src*="GOTAXFREE_PROJECT"]')) {
+          card.addEventListener('click', openGtfPage);
+          card.style.cursor = 'none';
+        }
       });
 
       closeBtn.addEventListener('click', () => {
         if (page.classList.contains('open')) closeGLPage();
         if (mauPage.classList.contains('open')) closeMauPage();
+        if (gtfPage.classList.contains('open')) closeGtfPage();
       });
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
           if (page.classList.contains('open')) closeGLPage();
           if (mauPage.classList.contains('open')) closeMauPage();
+          if (gtfPage.classList.contains('open')) closeGtfPage();
         }
       });
     })();
@@ -4102,6 +4200,7 @@
 
     initCarousel('glCarouselTrack', 'glCarouselDots', 0);
     initCarousel('mauCarouselTrack', 'mauCarouselDots', 0);
+    initCarousel('gtfCarouselTrack', 'gtfCarouselDots', 0);
 
     // GL Model switcher
     const lookVideo = document.getElementById('glLookVideo');
