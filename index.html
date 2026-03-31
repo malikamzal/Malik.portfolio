@@ -3034,6 +3034,51 @@
       </div>
       <p class="gl-visuals-caption"><span class="gl-vc-label">Objectif de l'app</span> • Réduire les frictions et faciliter la demande de détaxe en un minimum d'étapes.</p>
 
+      <!-- Bloc Apple — Showcase GTF -->
+      <div class="gl-showcase" id="gtfShowcase">
+        <div class="gl-showcase-overlay"></div>
+        <div class="gl-showcase-nav" id="gtfShowcaseNav">
+          <button class="gl-sc-arrow" id="gtfScPrev" aria-label="Précédent">&#8249;</button>
+          <button class="gl-showcase-btn open" data-idx="0">
+            <span class="gl-showcase-btn-dot"></span>
+            <span class="gl-showcase-btn-texts">
+              <span class="gl-showcase-btn-label">Pill 1</span>
+              <span class="gl-showcase-btn-open"><strong>Pill 1</strong><span class="gl-sc-sep">•</span>Description à compléter.</span>
+            </span>
+          </button>
+          <button class="gl-showcase-btn" data-idx="1">
+            <span class="gl-showcase-btn-dot"></span>
+            <span class="gl-showcase-btn-texts">
+              <span class="gl-showcase-btn-label">Pill 2</span>
+              <span class="gl-showcase-btn-open"><strong>Pill 2</strong><span class="gl-sc-sep">•</span>Description à compléter.</span>
+            </span>
+          </button>
+          <button class="gl-showcase-btn" data-idx="2">
+            <span class="gl-showcase-btn-dot"></span>
+            <span class="gl-showcase-btn-texts">
+              <span class="gl-showcase-btn-label">Pill 3</span>
+              <span class="gl-showcase-btn-open"><strong>Pill 3</strong><span class="gl-sc-sep">•</span>Description à compléter.</span>
+            </span>
+          </button>
+          <button class="gl-sc-arrow" id="gtfScNext" aria-label="Suivant">&#8250;</button>
+          <div class="gl-sc-dots" id="gtfScDots">
+            <button class="gl-sc-dot active" data-idx="0"></button>
+            <button class="gl-sc-dot" data-idx="1"></button>
+            <button class="gl-sc-dot" data-idx="2"></button>
+          </div>
+        </div>
+        <!-- Visuels placeholders -->
+        <div class="gl-showcase-visual active" data-visual-idx="0" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);">
+          <div style="width:100%;height:100%;background:#E8E2D8;border-radius:12px;"></div>
+        </div>
+        <div class="gl-showcase-visual" data-visual-idx="1" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);">
+          <div style="width:100%;height:100%;background:#E0DAD0;border-radius:12px;"></div>
+        </div>
+        <div class="gl-showcase-visual" data-visual-idx="2" style="position:absolute;left:22%;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);">
+          <div style="width:100%;height:100%;background:#D8D2C8;border-radius:12px;"></div>
+        </div>
+      </div>
+
       <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
         <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
         <p style="font-size: 28px; font-weight:800; font-style:italic; letter-spacing:-0.03em; color:#CCFF00; margin:0; line-height:1;">Merci pour la lecture&nbsp;:)</p>
@@ -4332,6 +4377,54 @@
         macSlides[mIdx].classList.add('active');
       }, 5000);
     }
+  })();
+
+  // ── GTF Showcase ──
+  (function() {
+    const showcase = document.getElementById('gtfShowcase');
+    if (!showcase) return;
+    const btns   = showcase.querySelectorAll('.gl-showcase-btn');
+    const visuals = showcase.querySelectorAll('.gl-showcase-visual');
+    const dots   = showcase.querySelectorAll('.gl-sc-dot');
+
+    function openIdx(idx) {
+      btns.forEach(b => b.classList.remove('open'));
+      visuals.forEach(v => v.classList.remove('active'));
+      btns[idx].classList.add('open');
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      const visual = showcase.querySelector(`.gl-showcase-visual[data-visual-idx="${idx}"]`);
+      if (!visual) return;
+      visual.getBoundingClientRect();
+      requestAnimationFrame(() => requestAnimationFrame(() => visual.classList.add('active')));
+    }
+
+    btns.forEach(btn => btn.addEventListener('click', () => {
+      if (!btn.classList.contains('open')) openIdx(parseInt(btn.dataset.idx));
+    }));
+    dots.forEach(dot => dot.addEventListener('click', () => openIdx(parseInt(dot.dataset.idx))));
+
+    let _swipeX = null;
+    showcase.addEventListener('touchstart', e => { _swipeX = e.touches[0].clientX; }, { passive: true });
+    showcase.addEventListener('touchend', e => {
+      if (_swipeX === null) return;
+      const dx = e.changedTouches[0].clientX - _swipeX;
+      _swipeX = null;
+      if (Math.abs(dx) < 40) return;
+      const cur = [...btns].findIndex(b => b.classList.contains('open'));
+      if (dx < 0) openIdx((cur + 1) % btns.length);
+      else        openIdx((cur - 1 + btns.length) % btns.length);
+    }, { passive: true });
+
+    const prevBtn = document.getElementById('gtfScPrev');
+    const nextBtn = document.getElementById('gtfScNext');
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      const cur = [...btns].findIndex(b => b.classList.contains('open'));
+      openIdx((cur - 1 + btns.length) % btns.length);
+    });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+      const cur = [...btns].findIndex(b => b.classList.contains('open'));
+      openIdx((cur + 1) % btns.length);
+    });
   })();
 
   // ── Mauboussin Avant/Après ──
