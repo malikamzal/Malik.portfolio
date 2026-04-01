@@ -1266,14 +1266,15 @@
         top: 0 !important; bottom: 0 !important;
       }
 
-      /* GTF Logo scroll : centrage vertical + taille sur mobile */
-      .gtf-logo-track { align-self: center; gap: 8px; }
-      .gtf-logo-track img { height: 78vw !important; }
+      /* GTF Logo scroll : taille sur mobile */
+      .gtf-logo-track { height: 280px !important; gap: 16px; }
+      .gtf-logo-track img { height: 100% !important; }
 
-      /* GTF Logo final : centrer l'iPhone unique */
+      /* GTF Logo final : iPhone même position que pill 1 */
       #gtfShowcase .gl-showcase-phones[data-visual-idx="2"] {
         justify-content: center !important;
-        align-items: center !important;
+        align-items: flex-start !important;
+        top: 20px !important;
       }
 
       /* GTF Communication : MacBook centré et agrandi */
@@ -2162,9 +2163,11 @@
       gap: 32px;
       animation: gtfLogoScroll 18s linear infinite;
       will-change: transform;
+      height: 420px;
+      flex-shrink: 0;
     }
     .gtf-logo-track img {
-      height: 420px;
+      height: 100%;
       width: auto;
       flex-shrink: 0;
       display: block;
