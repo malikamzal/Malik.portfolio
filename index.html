@@ -1256,10 +1256,35 @@
       .gl-sc-arrow { display: none !important; }
       /* GTF pill Naming : image cachée, iPhones visibles sur mobile */
       .gtf-naming-desktop { display: none !important; }
-      .gtf-naming-mobile { display: flex !important; }
+      .gtf-naming-mobile { display: flex !important; opacity: 1 !important; pointer-events: auto !important; }
+
+      /* GTF showcase : override left:22% inline → full width sur mobile */
+      #gtfShowcase .gl-showcase-visual[data-visual-idx="0"],
+      #gtfShowcase .gl-showcase-visual[data-visual-idx="1"],
+      #gtfShowcase .gl-showcase-visual[data-visual-idx="3"] {
+        left: 0 !important; right: 0 !important;
+        top: 0 !important; bottom: 0 !important;
+      }
+
       /* GTF Logo scroll : centrage vertical + taille sur mobile */
-      .gtf-logo-track { align-self: center; gap: 12px; }
-      .gtf-logo-track img { height: 340px; }
+      .gtf-logo-track { align-self: center; gap: 8px; }
+      .gtf-logo-track img { height: 78vw !important; }
+
+      /* GTF Logo final : centrer l'iPhone unique */
+      #gtfShowcase .gl-showcase-phones[data-visual-idx="2"] {
+        justify-content: center !important;
+        align-items: center !important;
+      }
+
+      /* GTF Communication : MacBook centré et agrandi */
+      #gtfShowcase .gl-showcase-visual[data-visual-idx="3"] {
+        padding: 20px 16px !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      #gtfShowcase .gl-showcase-visual[data-visual-idx="3"] .gl-macbook-wrap {
+        width: 100% !important; max-width: 100% !important;
+      }
 
       /* Nav : colonne pill → dots */
       .gl-showcase-nav {
