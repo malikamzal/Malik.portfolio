@@ -1266,9 +1266,9 @@
         top: 0 !important; bottom: 0 !important;
       }
 
-      /* GTF Logo scroll : taille sur mobile — clip pour n'afficher que la 1ère rangée */
-      .gtf-logo-track { height: 280px !important; gap: 16px; overflow: hidden !important; align-items: flex-start !important; }
-      .gtf-logo-track img { height: 1120px !important; width: auto !important; }
+      /* GTF Logo scroll : taille sur mobile */
+      .gtf-logo-track { height: 200px !important; gap: 16px; overflow: hidden !important; align-items: flex-start !important; }
+      .gtf-logo-track img { height: 100% !important; }
 
       /* GTF Logo final : iPhone même position que pill 1 */
       #gtfShowcase .gl-showcase-phones[data-visual-idx="2"] {
@@ -1417,9 +1417,8 @@
       }
 
       /* GTF Logo scroll — override GL's img height:100% rule (cascade order fix) */
-      /* Image de 1646px haute avec ~4 rangées → on affiche 280px depuis le centre (rangées 2-3) */
-      #gtfShowcase .gtf-logo-track { overflow: hidden !important; align-items: center !important; }
-      #gtfShowcase .gtf-logo-track img { height: 1120px !important; width: auto !important; object-fit: unset !important; }
+      #gtfShowcase .gtf-logo-track { overflow: hidden !important; align-items: flex-start !important; }
+      #gtfShowcase .gtf-logo-track img { height: 800px !important; width: auto !important; object-fit: unset !important; }
     }
     /* ── Showcase macbook slides (Innovation) ── */
     .gl-sc-mac-slide {
