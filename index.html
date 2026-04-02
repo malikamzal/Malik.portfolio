@@ -1797,35 +1797,44 @@
     /* anim stagger sur le contenu */
     #glPage .gl-content > *,
     #mauPage .gl-content > *,
-    #gtfPage .gl-content > * {
+    #gtfPage .gl-content > *,
+    #pgPage .gl-content > * {
       opacity: 0;
       transform: translateY(24px);
       transition: opacity .5s ease, transform .5s ease;
     }
     #glPage.open .gl-content > *,
     #mauPage.open .gl-content > *,
-    #gtfPage.open .gl-content > * { opacity: 1; transform: translateY(0); }
+    #gtfPage.open .gl-content > *,
+    #pgPage.open .gl-content > * { opacity: 1; transform: translateY(0); }
     #glPage.open .gl-content > *:nth-child(1),
     #mauPage.open .gl-content > *:nth-child(1),
-    #gtfPage.open .gl-content > *:nth-child(1) { transition-delay: .25s; }
+    #gtfPage.open .gl-content > *:nth-child(1),
+    #pgPage.open .gl-content > *:nth-child(1) { transition-delay: .25s; }
     #glPage.open .gl-content > *:nth-child(2),
     #mauPage.open .gl-content > *:nth-child(2),
-    #gtfPage.open .gl-content > *:nth-child(2) { transition-delay: .32s; }
+    #gtfPage.open .gl-content > *:nth-child(2),
+    #pgPage.open .gl-content > *:nth-child(2) { transition-delay: .32s; }
     #glPage.open .gl-content > *:nth-child(3),
     #mauPage.open .gl-content > *:nth-child(3),
-    #gtfPage.open .gl-content > *:nth-child(3) { transition-delay: .38s; }
+    #gtfPage.open .gl-content > *:nth-child(3),
+    #pgPage.open .gl-content > *:nth-child(3) { transition-delay: .38s; }
     #glPage.open .gl-content > *:nth-child(4),
     #mauPage.open .gl-content > *:nth-child(4),
-    #gtfPage.open .gl-content > *:nth-child(4) { transition-delay: .44s; }
+    #gtfPage.open .gl-content > *:nth-child(4),
+    #pgPage.open .gl-content > *:nth-child(4) { transition-delay: .44s; }
     #glPage.open .gl-content > *:nth-child(5),
     #mauPage.open .gl-content > *:nth-child(5),
-    #gtfPage.open .gl-content > *:nth-child(5) { transition-delay: .50s; }
+    #gtfPage.open .gl-content > *:nth-child(5),
+    #pgPage.open .gl-content > *:nth-child(5) { transition-delay: .50s; }
     #glPage.open .gl-content > *:nth-child(6),
     #mauPage.open .gl-content > *:nth-child(6),
-    #gtfPage.open .gl-content > *:nth-child(6) { transition-delay: .55s; }
+    #gtfPage.open .gl-content > *:nth-child(6),
+    #pgPage.open .gl-content > *:nth-child(6) { transition-delay: .55s; }
     #glPage.open .gl-content > *:nth-child(n+7),
     #mauPage.open .gl-content > *:nth-child(n+7),
-    #gtfPage.open .gl-content > *:nth-child(n+7) { transition-delay: .6s; }
+    #gtfPage.open .gl-content > *:nth-child(n+7),
+    #pgPage.open .gl-content > *:nth-child(n+7) { transition-delay: .6s; }
 
     /* ── MAU PROJECT PAGE ── */
     #mauPage {
@@ -1853,6 +1862,21 @@
       pointer-events: none;
     }
     #gtfPage.open {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ── PG PROJECT PAGE ── */
+    #pgPage {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--bg);
+      overflow-y: auto;
+      overflow-x: hidden;
+      transform: translateY(100%);
+      transition: transform .6s cubic-bezier(.16,1,.3,1);
+      pointer-events: none;
+    }
+    #pgPage.open {
       transform: translateY(0);
       pointer-events: auto;
     }
@@ -3221,6 +3245,38 @@
     </div>
   </div>
 
+  <!-- Procter & Gamble Project Page -->
+  <div id="pgPage">
+    <div class="gl-content">
+      <div class="gl-label">Projet 04 — Procter &amp; Gamble</div>
+      <h1 class="gl-h1">Refonte<br>UX/UI</h1>
+
+      <div class="gl-meta">
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Année</span>
+          <span class="gl-meta-val">2018 — 2023</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Rôle</span>
+          <span class="gl-meta-val">Product Designer</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Client</span>
+          <span class="gl-meta-val">Pampers — Charlie Banana</span>
+        </div>
+        <div class="gl-meta-item">
+          <span class="gl-meta-key">Périmètre</span>
+          <span class="gl-meta-val">iOS · Web</span>
+        </div>
+      </div>
+
+      <p class="gl-desc">
+        Chez TBWA\Paris, j'ai travaillé sur la refonte des sites Pampers et Charlie Banana pour Procter &amp; Gamble.<br>
+        Un terrain un peu différent : ici, pas de luxe, mais des utilisateurs très exigeants ; des parents en quête de repères. L'enjeu : proposer des parcours clairs, rassurants et utiles, dans des moments du quotidien où chaque détail compte.
+      </p>
+    </div>
+  </div>
+
   <!-- Skin Scanner Modal -->
   <div id="skinModal">
     <button class="skin-close" id="skinClose">✕</button>
@@ -4322,6 +4378,18 @@
         closeBtn.classList.remove('visible');
         document.body.style.overflow = '';
       }
+      const pgPage = document.getElementById('pgPage');
+      function openPgPage() {
+        pgPage.classList.add('open');
+        closeBtn.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+        pgPage.scrollTop = 0;
+      }
+      function closePgPage() {
+        pgPage.classList.remove('open');
+        closeBtn.classList.remove('visible');
+        document.body.style.overflow = '';
+      }
 
       // Clic sur les cartes (desktop + mobile)
       document.querySelectorAll('.project-card, .wallet-card').forEach(card => {
@@ -4337,18 +4405,24 @@
           card.addEventListener('click', openGtfPage);
           card.style.cursor = 'none';
         }
+        if (card.querySelector('img[src*="PAMPERS_PROJECT"]')) {
+          card.addEventListener('click', openPgPage);
+          card.style.cursor = 'none';
+        }
       });
 
       closeBtn.addEventListener('click', () => {
         if (page.classList.contains('open')) closeGLPage();
         if (mauPage.classList.contains('open')) closeMauPage();
         if (gtfPage.classList.contains('open')) closeGtfPage();
+        if (pgPage.classList.contains('open')) closePgPage();
       });
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
           if (page.classList.contains('open')) closeGLPage();
           if (mauPage.classList.contains('open')) closeMauPage();
           if (gtfPage.classList.contains('open')) closeGtfPage();
+          if (pgPage.classList.contains('open')) closePgPage();
         }
       });
     })();
