@@ -1867,7 +1867,39 @@
     }
 
     /* ── PG PROJECT PAGE ── */
-    #pgPage {
+    /* Positionnement écran pour iphone-old-frame (top 12.3%, left 7.1%, w 85.7%, h 75.1%) */
+    #pgPage .gl-phone-screen {
+      top: 12.3% !important;
+      left: 7.1% !important;
+      width: 85.7% !important;
+      height: 75.1% !important;
+      border-radius: 4px !important;
+    }
+    /* Bloc droit DECLI : pleine hauteur du bloc */
+    #pgPage .gl-visual-macbook-block {
+      padding: 0 !important;
+      align-items: stretch !important;
+    }
+    #pgPage .pg-screens-wrap {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+    #pgPage .pg-screens-track {
+      display: flex;
+      height: 100%;
+      transition: transform .5s cubic-bezier(.77,0,.18,1);
+    }
+    #pgPage .pg-screens-track img {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #pgPage
       position: fixed; inset: 0; z-index: 9000;
       background: var(--bg);
       overflow-y: auto;
