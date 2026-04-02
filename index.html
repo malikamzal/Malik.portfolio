@@ -1289,14 +1289,17 @@
         top: 20px !important;
       }
 
-      /* GTF Communication : MacBook centré et agrandi */
+      /* GTF Communication : MacBook agrandi ancré en haut-gauche, tronqué à droite */
       #gtfShowcase .gl-showcase-visual[data-visual-idx="3"] {
-        padding: 20px 16px !important;
-        align-items: center !important;
-        justify-content: center !important;
+        padding: 48px 0 0 12px !important;
+        overflow: hidden !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
       }
       #gtfShowcase .gl-showcase-visual[data-visual-idx="3"] .gl-macbook-wrap {
-        width: 100% !important; max-width: 100% !important;
+        width: 155% !important;
+        max-width: 155% !important;
+        flex-shrink: 0;
       }
 
       /* Nav : colonne pill → dots */
