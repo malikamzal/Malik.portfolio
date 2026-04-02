@@ -1880,6 +1880,25 @@
       transform: translateY(0);
       pointer-events: auto;
     }
+    .pg-decli-wrap {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #111;
+      aspect-ratio: 4/3;
+    }
+    .pg-decli-track {
+      display: flex;
+      width: 100%;
+      transition: transform .5s cubic-bezier(.77,0,.18,1);
+    }
+    .pg-decli-track img {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
     /* ── SKIN MODAL ── */
     #skinModal {
@@ -3274,6 +3293,44 @@
         Chez TBWA\Paris, j'ai travaillé sur la refonte des sites internationaux Pampers et Charlie Banana pour Procter &amp; Gamble.<br>
         Un terrain un peu différent : ici, pas de luxe, mais des utilisateurs très exigeants ; des parents en quête de repères. L'enjeu : proposer des parcours clairs, rassurants et utiles, dans des moments du quotidien où chaque détail compte.
       </p>
+
+      <div class="gl-visuals-grid">
+        <!-- Bloc 1 : iPhone carousel Pampers screens -->
+        <div class="gl-visual-block">
+          <div class="gl-phone-unit">
+            <div class="gl-phone-wrap">
+              <div class="gl-phone-screen">
+                <div class="gl-carousel-track" id="pgCarouselTrack">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN1.png" alt="Pampers Screen 1">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN2.png" alt="Pampers Screen 2">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN3.png" alt="Pampers Screen 3">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN4.png" alt="Pampers Screen 4">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN5.png" alt="Pampers Screen 5">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN6.png" alt="Pampers Screen 6">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN7.png" alt="Pampers Screen 7">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN8.png" alt="Pampers Screen 8">
+                </div>
+              </div>
+              <img class="gl-phone-frame" src="01_SOURCES/iphone-old-frame.png" alt="iPhone frame">
+            </div>
+            <div class="gl-carousel-dots" id="pgCarouselDots"></div>
+          </div>
+        </div>
+        <!-- Bloc 2 : Carrousel déclinations Pampers -->
+        <div class="gl-visual-block gl-visual-macbook-block">
+          <div class="pg-decli-wrap">
+            <div class="pg-decli-track" id="pgDecliTrack">
+              <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI1.png" alt="Pampers Décli 1">
+              <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI2.png" alt="Pampers Décli 2">
+              <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI3.png" alt="Pampers Décli 3">
+            </div>
+          </div>
+          <div class="gl-carousel-dots" id="pgDecliDots"></div>
+        </div>
+      </div>
+
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Refonte Web</span> • Parcours Pampers — écrans mobiles et déclinaisons visuelles.</p>
+
     </div>
   </div>
 
@@ -4477,6 +4534,8 @@
     initCarousel('mauCarouselTrack', 'mauCarouselDots', 0);
     initCarousel('gtfCarouselTrack', 'gtfCarouselDots', 0);
     initCarousel('gtfCarouselTrack2', 'gtfCarouselDots2', 0);
+    initCarousel('pgCarouselTrack', 'pgCarouselDots', 0);
+    initCarousel('pgDecliTrack', 'pgDecliDots', 0);
 
     // GL Model switcher
     const lookVideo = document.getElementById('glLookVideo');
