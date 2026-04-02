@@ -3292,29 +3292,37 @@
       </p>
 
       <div class="gl-visuals-grid">
-        <!-- Bloc 1 : iPhone décoratif -->
+        <!-- Bloc 1 : iPhone carousel PAMPERS_SCREEN1-8 -->
         <div class="gl-visual-block">
           <div class="gl-phone-unit">
             <div class="gl-phone-wrap">
+              <div class="gl-phone-screen">
+                <div class="gl-carousel-track" id="pgCarouselTrack">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN1.png" alt="Pampers Screen 1">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN2.png" alt="Pampers Screen 2">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN3.png" alt="Pampers Screen 3">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN4.png" alt="Pampers Screen 4">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN5.png" alt="Pampers Screen 5">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN6.png" alt="Pampers Screen 6">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN7.png" alt="Pampers Screen 7">
+                  <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN8.png" alt="Pampers Screen 8">
+                </div>
+              </div>
               <img class="gl-phone-frame" src="01_SOURCES/iphone-old-frame.png" alt="iPhone frame">
             </div>
+            <div class="gl-carousel-dots" id="pgCarouselDots"></div>
           </div>
         </div>
-        <!-- Bloc 2 : Carrousel screens Pampers en entier, clic pour changer -->
+        <!-- Bloc 2 : Carrousel PAMPERS_DECLI1-3 -->
         <div class="gl-visual-block gl-visual-macbook-block">
           <div class="pg-screens-wrap">
-            <div class="pg-screens-track" id="pgScreensTrack">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN1.png" alt="Pampers Screen 1">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN2.png" alt="Pampers Screen 2">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN3.png" alt="Pampers Screen 3">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN4.png" alt="Pampers Screen 4">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN5.png" alt="Pampers Screen 5">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN6.png" alt="Pampers Screen 6">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN7.png" alt="Pampers Screen 7">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_SCREEN8.png" alt="Pampers Screen 8">
+            <div class="pg-screens-track" id="pgDecliTrack">
+              <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI1.png" alt="Pampers Décli 1">
+              <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI2.png" alt="Pampers Décli 2">
+              <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI3.png" alt="Pampers Décli 3">
             </div>
           </div>
-          <div class="gl-carousel-dots" id="pgScreensDots"></div>
+          <div class="gl-carousel-dots" id="pgDecliDots"></div>
         </div>
       </div>
 
@@ -4528,7 +4536,8 @@
     initCarousel('mauCarouselTrack', 'mauCarouselDots', 0);
     initCarousel('gtfCarouselTrack', 'gtfCarouselDots', 0);
     initCarousel('gtfCarouselTrack2', 'gtfCarouselDots2', 0);
-    initCarousel('pgScreensTrack', 'pgScreensDots', 0);
+    initCarousel('pgCarouselTrack', 'pgCarouselDots', 0);
+    initCarousel('pgDecliTrack', 'pgDecliDots', 0);
 
     // GL Model switcher
     const lookVideo = document.getElementById('glLookVideo');
