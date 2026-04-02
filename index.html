@@ -1258,17 +1258,29 @@
       .gtf-naming-desktop { display: none !important; }
       .gtf-naming-mobile { display: flex !important; opacity: 1 !important; pointer-events: auto !important; }
 
-      /* GTF showcase : override left:22% inline → full width sur mobile */
+      /* GTF showcase : override inset:0 0 0 22% inline → full width sur mobile */
       #gtfShowcase .gl-showcase-visual[data-visual-idx="0"],
       #gtfShowcase .gl-showcase-visual[data-visual-idx="1"],
       #gtfShowcase .gl-showcase-visual[data-visual-idx="3"] {
-        left: 0 !important; right: 0 !important;
-        top: 0 !important; bottom: 0 !important;
+        inset: 0 !important;
       }
 
-      /* GTF Logo scroll : taille sur mobile */
-      .gtf-logo-track { height: 200px !important; gap: 16px; overflow: hidden !important; align-items: flex-start !important; }
-      .gtf-logo-track img { height: 100% !important; }
+      /* GTF Logo scroll mobile : divs background-image, crop vertical sans GPU layer */
+      /* background-size auto 1040px → scale=0.632, chaque rangée = 130px */
+      /* background-position 0 -520px → rangée 4 (0-indexed) = logos GoTaxFree */
+      #gtfShowcase .gl-showcase-visual[data-visual-idx="1"] { align-items: center !important; z-index: 2; }
+      .gtf-logo-track { height: 130px !important; gap: 16px; align-items: center !important; }
+      .gtf-logo-img { display: none !important; }
+      .gtf-logo-bg {
+        display: block !important;
+        width: 4827px;
+        height: 130px;
+        flex-shrink: 0;
+        background-image: url(01_SOURCES/PROJET_GTF/GTF_LOGO1.png);
+        background-size: auto 1040px;
+        background-position: 0 -520px;
+        background-repeat: no-repeat;
+      }
 
       /* GTF Logo final : iPhone même position que pill 1 */
       #gtfShowcase .gl-showcase-phones[data-visual-idx="2"] {
@@ -1416,9 +1428,8 @@
         border-radius: 12px !important;
       }
 
-      /* GTF Logo scroll — override GL's img height:100% rule (cascade order fix) */
-      #gtfShowcase .gtf-logo-track { overflow: hidden !important; align-items: flex-start !important; }
-      #gtfShowcase .gtf-logo-track img { height: 800px !important; width: auto !important; object-fit: unset !important; }
+      /* GTF Logo scroll — override GL cascade sur les imgs (désactivées sur mobile) */
+      #gtfShowcase .gtf-logo-track img { display: none !important; }
     }
     /* ── Showcase macbook slides (Innovation) ── */
     .gl-sc-mac-slide {
@@ -2170,6 +2181,9 @@
       height: 420px;
       flex-shrink: 0;
     }
+    /* Desktop : imgs visibles, divs cachés */
+    .gtf-logo-img { height: 100%; width: auto; flex-shrink: 0; display: block; }
+    .gtf-logo-bg { display: none; }
     .gtf-logo-track img {
       height: 100%;
       width: auto;
@@ -3157,8 +3171,12 @@
         <!-- Pill 1 : Identité graphique — scroll horizontal GTF_LOGO1 -->
         <div class="gl-showcase-visual" data-visual-idx="1" style="position:absolute;left:22%;right:0;top:0;bottom:0;overflow:hidden;opacity:0;pointer-events:none;transition:opacity 0.55s cubic-bezier(0.25,0.46,0.45,0.94);display:flex;align-items:center;">
           <div class="gtf-logo-track">
-            <img src="01_SOURCES/PROJET_GTF/GTF_LOGO1.png" alt="Identité graphique">
-            <img src="01_SOURCES/PROJET_GTF/GTF_LOGO1.png" alt="" aria-hidden="true">
+            <!-- Desktop : img pleine hauteur -->
+            <img class="gtf-logo-img" src="01_SOURCES/PROJET_GTF/GTF_LOGO1.png" alt="Identité graphique">
+            <img class="gtf-logo-img" src="01_SOURCES/PROJET_GTF/GTF_LOGO1.png" alt="" aria-hidden="true">
+            <!-- Mobile : div background pour crop vertical sans GPU layer -->
+            <div class="gtf-logo-bg" aria-label="Identité graphique"></div>
+            <div class="gtf-logo-bg" aria-hidden="true"></div>
           </div>
         </div>
         <!-- Pill 2 : Logo final — 2 iPhones décalés -->
