@@ -1871,12 +1871,24 @@
     #pgPage .gl-phone-screen {
       top: 12.3% !important;
       left: 7.1% !important;
-      width: 85.7% !important;
+      width: 87.8% !important;
       height: 75.1% !important;
-      border-radius: 4px !important;
+      border-radius: 0 !important;
     }
-    /* Bloc droit DECLI : pleine hauteur du bloc */
-    #pgPage .gl-visual-macbook-block {
+    /* Bloc 4 macbook : hauteur fixe 640px avec espace autour */
+    #pgPage .pg-macbook-block {
+      height: 640px !important;
+      padding: 32px !important;
+      overflow: hidden;
+    }
+    #pgPage .pg-macbook-block .gl-macbook-wrap {
+      padding-top: 42.5% !important;
+      width: 70% !important;
+      height: auto !important;
+      margin: 0 auto;
+    }
+    /* Bloc droit DECLI3 : pleine hauteur sans padding */
+    #pgPage .pg-decli3-block {
       padding: 0 !important;
       align-items: stretch !important;
     }
@@ -1911,6 +1923,34 @@
     #pgPage.open {
       transform: translateY(0);
       pointer-events: auto;
+    }
+    /* Blocs pleine largeur PG : hauteur fixe 640px */
+    #pgPage .pg-full-block {
+      height: 640px !important;
+      padding: 0 !important;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+    #pgPage .pg-full-block .pg-screens-wrap {
+      flex: none !important;
+      position: relative;
+      padding-top: 0 !important;
+      width: 100%;
+      height: 100% !important;
+      border-radius: 0;
+    }
+    #pgPage .pg-full-block .pg-screens-wrap > img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      margin: 0;
+    }
+    #pgPage .pg-full-block .pg-screens-track {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
     }
     .pg-screens-wrap {
       width: 100%;
@@ -2172,6 +2212,9 @@
       /* GL visuals mobile */
       .gl-content { padding: 48px 24px 80px; }
       .gl-phone-wrap { width: 200px; height: 410px; }
+
+      /* PG full-width blocs mobile */
+      #pgPage .pg-full-block { height: 340px !important; }
 
       /* Mauboussin mobile : avant/après et bento pleine largeur */
       .mau-compare-block {
@@ -3345,20 +3388,61 @@
             <div class="gl-carousel-dots" id="pgCarouselDots"></div>
           </div>
         </div>
-        <!-- Bloc 2 : Carrousel PAMPERS_DECLI1-3 -->
-        <div class="gl-visual-block gl-visual-macbook-block">
+        <!-- Bloc 2 : PAMPERS_DECLI3 statique -->
+        <div class="gl-visual-block gl-visual-macbook-block pg-decli3-block">
+          <div class="pg-screens-wrap" style="position:relative;">
+            <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI3.png" alt="Pampers Décli 3" style="width:106%;height:106%;object-fit:cover;display:block;margin:-3%;border-radius:0;">
+          </div>
+        </div>
+      </div>
+
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Un jeu d'enfant</span> • Refonte de l'app en mettant l'accent sur une identité compréhensible aisément à l'international.</p>
+
+      <!-- Bloc 3 : Carrousel PAMPERS_DECLI1-2 -->
+      <div class="gl-visuals-grid">
+        <div class="gl-visual-block gl-visual-macbook-block pg-full-block" style="grid-column: 1 / -1;">
           <div class="pg-screens-wrap" style="position:relative;">
             <div class="pg-screens-track" id="pgDecliTrack">
               <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI1.png" alt="Pampers Décli 1">
               <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI2.png" alt="Pampers Décli 2">
-              <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI3.png" alt="Pampers Décli 3">
             </div>
             <div class="gl-carousel-dots" id="pgDecliDots" style="position:absolute;bottom:14px;left:0;right:0;justify-content:center;z-index:3;"></div>
           </div>
         </div>
       </div>
 
-      <p class="gl-visuals-caption"><span class="gl-vc-label">Refonte Web</span> • Parcours Pampers — écrans mobiles et déclinaisons visuelles.</p>
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Refonte web</span> • Replateforming du site US et déclinaisons pour les autres marchés.</p>
+
+      <!-- Bloc 4 : MacBook CB_SCREEN2 scroll -->
+      <div class="gl-visuals-grid">
+        <div class="gl-visual-block gl-visual-macbook-block pg-macbook-block" style="grid-column: 1 / -1;">
+          <div class="gl-macbook-wrap">
+            <div class="gl-macbook-screen">
+              <img class="gl-desktop-scroll" src="01_SOURCES/PROJET_PG/CB_SCREEN2.png" alt="Charlie Banana Screen 2">
+            </div>
+            <img class="gl-macbook-frame" src="01_SOURCES/macbook-frame.png" alt="MacBook frame">
+          </div>
+        </div>
+      </div>
+
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Une couche supplémentaire</span> • Proposition de refonte du site Charlie Banana basé sur la nouvelle identité graphique de la marque.</p>
+
+      <!-- Bloc 5 : CB_SCREEN3 statique -->
+      <div class="gl-visuals-grid">
+        <div class="gl-visual-block gl-visual-macbook-block pg-full-block" style="grid-column: 1 / -1;">
+          <div class="pg-screens-wrap" style="position:relative;">
+            <img src="01_SOURCES/PROJET_PG/CB_SCREEN3.png" alt="Charlie Banana Screen 3">
+          </div>
+        </div>
+      </div>
+
+      <p class="gl-visuals-caption"><span class="gl-vc-label">Un système intuitif</span> • Déclinaison desktop pensée pour valoriser les bénéfices des couches lavables et réutilisables.</p>
+
+      <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+        <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
+        <p style="font-size: 28px; font-weight:800; font-style:italic; letter-spacing:-0.03em; color:#CCFF00; margin:0; line-height:1;">Merci pour la lecture&nbsp;:)</p>
+        <span style="font-size:13px; color:rgba(255,255,255,0.3); font-style:italic;">— Malik</span>
+      </div>
 
     </div>
   </div>
