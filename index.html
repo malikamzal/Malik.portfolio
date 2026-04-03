@@ -1970,120 +1970,220 @@
     }
 
     /* ── SKIN MODAL ── */
-    #skinModal {
-      display: none;
-      position: fixed; inset: 0; z-index: 9999;
-      background: #000;
-      flex-direction: column;
+    /* ── Quiz : Littérature gratinée ── */
+    #quizModal {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: #080808;
+      overflow: hidden;
+    }
+    #quizModal.open { display: block; }
+
+    /* ── Quiz background ── */
+    .quiz-bg-wrap {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; background: #07070a;
+    }
+    .quiz-bg-img {
+      height: 110%; width: auto;
+      object-fit: contain;
+      filter: blur(22px) brightness(0.22) saturate(0.45);
+      animation: quizFloat 8s ease-in-out infinite;
+      transition: filter 1.6s cubic-bezier(.4,0,.2,1);
+      user-select: none; pointer-events: none; display: block;
+    }
+    .quiz-bg-img.revealed {
+      filter: blur(0px) brightness(0.65) saturate(1.05);
+      animation: quizReveal 8s ease-in-out infinite;
+    }
+    @keyframes quizFloat {
+      0%,100% { transform: translateY(0px)   rotate(-2.5deg) scale(1.05); }
+      50%      { transform: translateY(-22px) rotate(-2.5deg) scale(1.05); }
+    }
+    @keyframes quizReveal {
+      0%,100% { transform: translateY(0px)   rotate(-1deg) scale(1); }
+      50%      { transform: translateY(-12px) rotate(-1deg) scale(1); }
+    }
+    /* Vignette radiale pour la profondeur */
+    .quiz-dark-overlay {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 80% 70% at 50% 50%,
+        rgba(0,0,0,.25) 0%, rgba(0,0,0,.80) 100%);
+      transition: opacity 1.4s;
+    }
+    .quiz-dark-overlay.revealed { opacity: .45; }
+
+    /* ── Chrome ── */
+    .quiz-close {
+      position: absolute; top: 28px; right: 32px; z-index: 20;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.6); font-size: .9rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, color .2s;
+    }
+    .quiz-close:hover { background: rgba(255,255,255,.14); color: #fff; }
+
+    /* Counter top-center */
+    .quiz-counter {
+      position: absolute; top: 34px; left: 50%; transform: translateX(-50%);
+      font-family: var(--font-display); font-size: .62rem;
+      letter-spacing: .28em; text-transform: uppercase;
+      color: rgba(255,255,255,.28); z-index: 10;
+      white-space: nowrap;
+    }
+
+    /* ── Corps central ── */
+    .quiz-inner {
+      position: absolute; inset: 0; z-index: 5;
+      display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-    }
-    #skinModal.open { display: flex; }
-
-    .skin-close {
-      position: absolute; top: 20px; right: 24px;
-      background: none; border: 1px solid var(--border);
-      color: var(--text); font-size: 1.2rem;
-      width: 40px; height: 40px; border-radius: 50%;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      z-index: 1;
-      transition: border-color .2s;
-    }
-    .skin-close:hover { border-color: var(--accent); }
-
-    #skinModal .skin-inner {
-      width: 100%; max-width: 480px;
-      padding: 24px;
-      display: flex; flex-direction: column; align-items: center; gap: 20px;
+      padding: 0 80px; pointer-events: none;
       text-align: center;
     }
-    .skin-title {
-      font-family: var(--font-display); font-weight: 800;
-      font-size: 1.5rem; color: var(--text);
-    }
-    .skin-sub { font-size: .85rem; color: var(--muted); }
+    .quiz-inner > * { pointer-events: auto; }
 
-    #skinVideo {
-      width: 100%; border-radius: 16px;
-      aspect-ratio: 4/3; object-fit: cover;
-      background: var(--surface);
-      display: block;
+    /* Trait décoratif */
+    .quiz-divider {
+      width: 36px; height: 1px;
+      background: rgba(255,255,255,.2);
+      margin-bottom: 36px;
     }
-    #skinCanvas { display: none; }
 
-    .skin-guide-ring {
-      position: absolute;
-      width: 120px; height: 120px;
-      border: 2px dashed rgba(201,240,61,.6);
-      border-radius: 50%;
+    /* Énigme : grand, serif, élégant */
+    .quiz-riddle {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+      font-weight: 400; font-style: italic;
+      color: rgba(255,255,255,.93);
+      line-height: 1.7; max-width: 620px;
+      margin-bottom: 56px; white-space: pre-line;
+    }
+
+    /* Champ réponse */
+    .quiz-field-wrap {
+      display: flex; align-items: baseline; gap: 10px;
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.4vw, 1.45rem);
+      font-weight: 700; letter-spacing: .1em;
+      color: rgba(255,255,255,.65); text-transform: uppercase;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .quiz-input {
+      background: transparent; border: none;
+      border-bottom: 1.5px solid rgba(255,255,255,.38);
+      color: #fff; font-family: var(--font-display);
+      font-size: inherit; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      text-align: center; outline: none;
+      padding: 2px 6px 10px; min-width: 6ch;
+      transition: border-color .3s;
+    }
+    .quiz-input::placeholder { color: rgba(255,255,255,.15); }
+    .quiz-input:focus { border-color: rgba(255,255,255,.75); }
+    .quiz-input.error   { border-color: #ff5050; }
+    .quiz-input.success { border-color: var(--accent); }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      18% { transform: translateX(-10px); }
+      38% { transform: translateX(10px); }
+      58% { transform: translateX(-7px); }
+      78% { transform: translateX(7px); }
+    }
+    .quiz-input.shake { animation: shake .44s ease; }
+
+    /* Indice */
+    .quiz-hint {
+      margin-top: 22px; font-size: .78rem;
+      font-style: italic;
+      color: rgba(255,255,255,.38);
+      transition: opacity .4s; opacity: 0;
+      height: 16px;
+    }
+    .quiz-hint.visible { opacity: 1; }
+
+    /* Valider — discret, textuel */
+    .quiz-submit {
+      margin-top: 40px;
+      background: none; border: none; border-bottom: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.32); padding: 0 2px 3px;
+      font-family: var(--font-display); font-size: .68rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      cursor: pointer; border-radius: 0;
+      transition: color .2s, border-color .2s;
+    }
+    .quiz-submit:hover { color: rgba(255,255,255,.7); border-color: rgba(255,255,255,.5); }
+
+    /* ── Navigation côtés ── */
+    .quiz-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      left: 0; right: 0; width: 100%;
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 0 20px; z-index: 10;
       pointer-events: none;
-      transform: translate(-50%, -50%);
-      left: 50%; top: 50%;
     }
-    .skin-video-wrap {
-      position: relative; width: 100%;
+    .quiz-nav-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.4); font-size: .9rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: auto;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .quiz-nav-btn:hover {
+      background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.3);
+      color: #fff;
     }
 
-    #skinScanBtn {
-      padding: 14px 32px;
-      background: var(--accent); color: #000;
+    /* ── BRAVO ── */
+    .quiz-bravo {
+      position: absolute; inset: 0; z-index: 30;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0;
+      transition: opacity .55s;
+    }
+    .quiz-bravo.show { opacity: 1; pointer-events: auto; }
+
+    @keyframes bravoIn {
+      0%   { transform: scale(.2) rotate(-6deg); opacity: 0; }
+      65%  { transform: scale(1.08) rotate(1.5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .quiz-bravo-text {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(5rem, 14vw, 11rem);
+      color: #fff; letter-spacing: .03em; line-height: 1;
+      animation: bravoIn .7s cubic-bezier(.18,.89,.32,1.27) both;
+    }
+    .quiz-bravo-title {
+      margin-top: 16px;
+      font-family: Georgia, serif; font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: rgba(255,255,255,.55); font-weight: 400;
+      letter-spacing: .04em;
+    }
+    .quiz-bravo-next {
+      margin-top: 40px; padding: 14px 40px;
+      background: #fff; color: #000;
       border: none; border-radius: 100px;
       font-family: var(--font-display); font-weight: 700;
-      font-size: .9rem; cursor: pointer;
-      transition: opacity .2s;
+      font-size: .82rem; cursor: pointer; letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: opacity .2s, transform .2s;
     }
-    #skinScanBtn:hover { opacity: .85; }
-    #skinScanBtn:disabled { opacity: .4; cursor: default; }
+    .quiz-bravo-next:hover { opacity: .88; transform: scale(1.02); }
 
-    /* Résultat */
-    #skinResult { display: none; width: 100%; }
-    .skin-tone-row {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 16px;
+    /* Confettis */
+    #quizConfetti { position: absolute; inset: 0; pointer-events: none; z-index: 29; }
+
+    @media (max-width: 768px) {
+      .quiz-inner { padding: 0 32px; }
+      .quiz-riddle { font-size: 1.3rem; margin-bottom: 44px; }
+      .quiz-field-wrap { font-size: .95rem; }
+      .quiz-nav-btn { width: 36px; height: 36px; }
     }
-    .skin-swatch {
-      width: 40px; height: 40px; border-radius: 50%;
-      flex-shrink: 0;
-      border: 2px solid rgba(255,255,255,.15);
-    }
-    .skin-tone-label {
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 1rem; color: var(--text);
-    }
-    .skin-routine-title {
-      font-size: .7rem; font-family: var(--font-display);
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 12px;
-    }
-    .skin-products {
-      display: flex; flex-direction: column; gap: 10px;
-      width: 100%;
-    }
-    .skin-product {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 16px;
-      text-align: left;
-      display: flex; align-items: flex-start; gap: 12px;
-    }
-    .skin-product-step {
-      font-size: .65rem; font-family: var(--font-display);
-      font-weight: 700; letter-spacing: .08em;
-      color: var(--accent); flex-shrink: 0; padding-top: 2px;
-    }
-    .skin-product-name {
-      font-size: .85rem; font-weight: 500; color: var(--text);
-    }
-    .skin-product-brand {
-      font-size: .75rem; color: var(--muted);
-    }
-    .skin-retry {
-      background: none; border: 1px solid var(--border);
-      color: var(--muted); padding: 10px 24px;
-      border-radius: 100px; cursor: pointer;
-      font-size: .8rem; transition: border-color .2s, color .2s;
-    }
-    .skin-retry:hover { border-color: var(--text); color: var(--text); }
 
     @media (max-width: 768px) {
       #labo { padding: 80px 24px; }
@@ -2722,14 +2822,14 @@
 
     <div class="labo-track reveal">
 
-      <!-- Card 1 : Skin Scanner -->
+      <!-- Card 1 : Littérature gratinée -->
       <div class="labo-card" id="skinCard">
         <div class="labo-card-bg skin"></div>
         <div class="labo-tag">Beta</div>
         <div class="labo-card-content">
-          <div class="labo-card-icon">🫧</div>
-          <div class="labo-card-name">Skin Scanner</div>
-          <div class="labo-card-desc">Scanne ta peau · Routine K-beauty sur mesure</div>
+          <div class="labo-card-icon">🧀</div>
+          <div class="labo-card-name">Littérature gratinée</div>
+          <div class="labo-card-desc">Répondez au quiz mêlant littérature et connaissance fromagère</div>
         </div>
       </div>
 
@@ -3449,37 +3549,40 @@
   </div>
 
   <!-- Skin Scanner Modal -->
-  <div id="skinModal">
-    <button class="skin-close" id="skinClose">✕</button>
-    <div class="skin-inner">
-      <div>
-        <div class="skin-title">Skin Scanner</div>
-        <div class="skin-sub">Place ton visage dans le cercle et appuie sur Scanner</div>
-      </div>
+  <!-- Quiz : Littérature gratinée -->
+  <div id="quizModal">
+    <div class="quiz-bg-wrap">
+      <img class="quiz-bg-img" id="quizBgImg" src="" alt="">
+    </div>
+    <div class="quiz-dark-overlay" id="quizOverlay"></div>
+    <canvas id="quizConfetti"></canvas>
+    <button class="quiz-close" id="quizClose">✕</button>
 
-      <!-- Caméra -->
-      <div id="skinCamWrap">
-        <div class="skin-video-wrap">
-          <video id="skinVideo" autoplay playsinline muted></video>
-          <div class="skin-guide-ring"></div>
-        </div>
-        <canvas id="skinCanvas"></canvas>
-        <button id="skinScanBtn">Scanner ma peau</button>
-      </div>
+    <div class="quiz-counter" id="quizCounter">01 / 07</div>
 
-      <!-- Résultat -->
-      <div id="skinResult">
-        <div class="skin-tone-row">
-          <div class="skin-swatch" id="skinSwatch"></div>
-          <div>
-            <div class="skin-tone-label" id="skinToneLabel">—</div>
-            <div class="skin-sub" id="skinToneDesc">—</div>
-          </div>
-        </div>
-        <div class="skin-routine-title">Ta routine K-Beauty</div>
-        <div class="skin-products" id="skinProducts"></div>
-        <button class="skin-retry" id="skinRetry">↺ Rescanner</button>
+    <div class="quiz-inner">
+      <div class="quiz-divider"></div>
+      <div class="quiz-riddle" id="quizRiddle"></div>
+      <div class="quiz-field-wrap">
+        <span id="quizPrefix"></span>
+        <input id="quizInput" class="quiz-input" type="text" autocomplete="off" spellcheck="false" placeholder="· · · ·">
+        <span id="quizSuffix"></span>
       </div>
+      <div class="quiz-hint" id="quizHint"></div>
+      <button class="quiz-submit" id="quizSubmit">Valider — Entrée</button>
+    </div>
+
+    <!-- Bravo -->
+    <div class="quiz-bravo" id="quizBravo">
+      <div class="quiz-bravo-text">BRAVO</div>
+      <div class="quiz-bravo-title" id="quizBravoTitle"></div>
+      <button class="quiz-bravo-next" id="quizBravoNext">Énigme suivante →</button>
+    </div>
+
+    <!-- Navigation côtés -->
+    <div class="quiz-nav">
+      <button class="quiz-nav-btn" id="quizPrev">←</button>
+      <button class="quiz-nav-btn" id="quizNext">→</button>
     </div>
   </div>
 
@@ -4299,175 +4402,167 @@
       });
     })();
 
-    // ── Lab'o : Skin Scanner ──
+    // ── Lab'o : Littérature gratinée ──
     (function() {
-      const modal    = document.getElementById('skinModal');
-      const skinCard = document.getElementById('skinCard');
-      const closeBtn = document.getElementById('skinClose');
-      const video    = document.getElementById('skinVideo');
-      const canvas   = document.getElementById('skinCanvas');
-      const scanBtn  = document.getElementById('skinScanBtn');
-      const camWrap  = document.getElementById('skinCamWrap');
-      const result   = document.getElementById('skinResult');
-      const swatch   = document.getElementById('skinSwatch');
-      const toneLabel= document.getElementById('skinToneLabel');
-      const toneDesc = document.getElementById('skinToneDesc');
-      const products = document.getElementById('skinProducts');
-      const retryBtn = document.getElementById('skinRetry');
+      const riddles = [
+        { img:'01_SOURCES/LAB_FROMAGE/LIVRE_MELVILLE.png',
+          clue:'Raie sombre au centre,\nobsession au large…\nQui suis-je ?',
+          prefix:'', suffix:' DICK', answer:'MORBIER',
+          hint:'Herman Melville', title:'Morbier Dick' },
+        { img:'01_SOURCES/LAB_FROMAGE/LIVRE_DEFOE.png',
+          clue:'Façonné à l\'écart du monde,\ndans les alpages perdus…\nQui suis-je ?',
+          prefix:'', suffix:' CRUSOÉ', answer:'REBLOCHON',
+          hint:'Daniel Defoe', title:'Reblochon Crusoé' },
+        { img:'01_SOURCES/LAB_FROMAGE/LIVRE_FLAUBERT.png',
+          clue:'Truffé de vides,\nune jeunesse qui se cherche et se perd…\nQui suis-je ?',
+          prefix:"L'ÉDUCATION SANS ", suffix:'', answer:'EMMENTAL',
+          hint:'Gustave Flaubert', title:"L'Éducation sans emmental" },
+        { img:'01_SOURCES/LAB_FROMAGE/LIVRE_PROUST.png',
+          clue:'Vieilli en cave,\nil retrouve le goût des choses perdues…\nQui suis-je ?',
+          prefix:'DU ', suffix:' DE CHEZ SWANN', answer:'COMTÉ',
+          hint:'Marcel Proust', title:'Du Comté de chez Swann' },
+        { img:'01_SOURCES/LAB_FROMAGE/LIVRE_SEGUR.png',
+          clue:'Percé de trous\ncomme ses aventures malheureuses…\nQui suis-je ?',
+          prefix:'', suffix:' DE SOPHIE', answer:'LEERDAMMER',
+          hint:'Comtesse de Ségur', title:'Leerdammer de Sophie' },
+        { img:'01_SOURCES/LAB_FROMAGE/LIVRE_STEVENSON.png',
+          clue:'Doux sous la croûte,\nredoutable dans les caves d\'Alsace…\nQui suis-je ?',
+          prefix:'JEKYLL ET ', suffix:' HYDE', answer:'MUNSTER',
+          hint:'R.L. Stevenson', title:"L'Étrange cas du Dr. Jekyll et Munster Hyde" },
+        { img:'01_SOURCES/LAB_FROMAGE/LIVRE_ZOLA.png',
+          clue:'Écarlate en surface,\nil trône dans les rayons du grand magasin…\nQui suis-je ?',
+          prefix:"AU BONHEUR D'", suffix:'', answer:'EDAM',
+          hint:'Émile Zola', title:"Au bonheur d'Edam" },
+      ];
 
-      let stream = null;
+      const modal      = document.getElementById('quizModal');
+      const bgImg      = document.getElementById('quizBgImg');
+      const overlay    = document.getElementById('quizOverlay');
+      const closeBtn   = document.getElementById('quizClose');
+      const counter    = document.getElementById('quizCounter');
+      const riddleEl   = document.getElementById('quizRiddle');
+      const prefixEl   = document.getElementById('quizPrefix');
+      const inputEl    = document.getElementById('quizInput');
+      const suffixEl   = document.getElementById('quizSuffix');
+      const hintEl     = document.getElementById('quizHint');
+      const submitBtn  = document.getElementById('quizSubmit');
+      const bravoEl    = document.getElementById('quizBravo');
+      const bravoTitle = document.getElementById('quizBravoTitle');
+      const bravoNext  = document.getElementById('quizBravoNext');
+      const prevBtn    = document.getElementById('quizPrev');
+      const nextBtn    = document.getElementById('quizNext');
 
-      // Routines K-beauty par type de peau (luminosité)
-      const routines = {
-        fair: {
-          label: 'Peau claire / Fair',
-          desc: 'Teint lumineux, tendance à la sensibilité',
-          color: '#f5d5b8',
-          products: [
-            { step: '01 · Nettoyant', name: 'Low pH Good Morning Gel Cleanser', brand: 'COSRX' },
-            { step: '02 · Essence', name: 'Snail Mucin 96% Power Repairing Essence', brand: 'COSRX' },
-            { step: '03 · Sérum', name: 'Vitamin C 21.5% Advanced Serum', brand: 'Klairs' },
-            { step: '04 · Hydratant', name: 'Water Bomb Jelly Moisturizer', brand: 'Belif' },
-          ]
-        },
-        medium: {
-          label: 'Peau medium / Beige',
-          desc: 'Teint naturel, bonne tolérance',
-          color: '#c8956c',
-          products: [
-            { step: '01 · Double Nettoyage', name: 'Gentle Black Sugar Facial Polish', brand: 'Skinfood' },
-            { step: '02 · Toner', name: 'Supple Preparation Facial Toner', brand: 'Klairs' },
-            { step: '03 · Sérum', name: 'B5 Moisture Barrier Serum', brand: 'Dr.Jart+' },
-            { step: '04 · Crème', name: 'Ceramidin Cream', brand: 'Dr.Jart+' },
-          ]
-        },
-        tan: {
-          label: 'Peau dorée / Tan',
-          desc: 'Teint chaud, éclat naturel',
-          color: '#a0714f',
-          products: [
-            { step: '01 · Nettoyant', name: 'Foam It Up Micellar Cleanser', brand: 'Innisfree' },
-            { step: '02 · Exfoliant', name: 'AHA BHA Vitamin C Daily Glow Toner', brand: 'Some By Mi' },
-            { step: '03 · Ampoule', name: 'Propolis Energy Ampule', brand: 'COSRX' },
-            { step: '04 · SPF', name: 'Airy Sun Stick SPF50+', brand: 'Missha' },
-          ]
-        },
-        deep: {
-          label: 'Peau foncée / Deep',
-          desc: 'Teint riche, focus éclat & uniformité',
-          color: '#6b4226',
-          products: [
-            { step: '01 · Huile nettoyante', name: 'Rice Water Bright Oil Cleanser', brand: 'The Face Shop' },
-            { step: '02 · Exfoliant', name: 'Good Genes Lactic Acid Treatment', brand: 'Sunday Riley' },
-            { step: '03 · Sérum éclat', name: 'Niacinamide 10% + Zinc 1%', brand: 'INKEY List' },
-            { step: '04 · Masque', name: 'Black Sugar Mask Wash Off', brand: 'Skinfood' },
-          ]
+      const confCanvas = document.getElementById('quizConfetti');
+      const skinCard   = document.getElementById('skinCard');
+
+      let current = 0, attempts = 0, confRaf = null;
+
+
+
+      function strip(s) {
+        return s.trim().toUpperCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
+
+      function load(idx) {
+        const r = riddles[idx];
+        current = idx; attempts = 0;
+        bgImg.src = r.img;
+        bgImg.classList.remove('revealed');
+        overlay.classList.remove('revealed');
+        counter.textContent = String(idx + 1).padStart(2,'0') + ' / 07';
+        riddleEl.textContent = r.clue;
+        prefixEl.textContent = r.prefix;
+        suffixEl.textContent = r.suffix;
+        inputEl.value = '';
+        inputEl.className = 'quiz-input';
+        inputEl.style.width = Math.max(r.answer.length + 1, 6) + 'ch';
+        hintEl.textContent = '';
+        hintEl.classList.remove('visible');
+        bravoEl.classList.remove('show');
+        stopConfetti();
+        setTimeout(() => inputEl.focus(), 120);
+      }
+
+      function goTo(idx) {
+        load(((idx % riddles.length) + riddles.length) % riddles.length);
+      }
+
+      function check() {
+        const r = riddles[current];
+        if (strip(inputEl.value) === strip(r.answer)) {
+          inputEl.className = 'quiz-input success';
+          bgImg.classList.add('revealed');
+          overlay.classList.add('revealed');
+          bravoTitle.textContent = r.title;
+          setTimeout(() => { bravoEl.classList.add('show'); launchConfetti(); }, 700);
+        } else {
+          attempts++;
+          inputEl.className = 'quiz-input error shake';
+          inputEl.addEventListener('animationend', () => {
+            inputEl.classList.remove('shake');
+            inputEl.classList.add('error');
+          }, { once: true });
+          if (attempts >= 1) {
+            hintEl.textContent = '💡 ' + r.hint;
+            hintEl.classList.add('visible');
+          }
+          inputEl.select();
         }
-      };
-
-      function getSkinType(r, g, b) {
-        // Luminance perçue
-        const lum = 0.299 * r + 0.587 * g + 0.114 * b;
-        if (lum > 190) return 'fair';
-        if (lum > 140) return 'medium';
-        if (lum > 100) return 'tan';
-        return 'deep';
       }
 
-      function openModal() {
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        startCamera();
-        result.style.display = 'none';
-        camWrap.style.display = 'flex';
-        camWrap.style.flexDirection = 'column';
-        camWrap.style.gap = '16px';
-        camWrap.style.width = '100%';
-        scanBtn.disabled = false;
-        scanBtn.textContent = 'Scanner ma peau';
-      }
-
-      function closeModal() {
-        modal.classList.remove('open');
-        document.body.style.overflow = '';
-        if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-      }
-
-      async function startCamera() {
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-          video.srcObject = stream;
-        } catch(e) {
-          scanBtn.textContent = '⚠ Caméra non disponible';
-          scanBtn.disabled = true;
+      // ── Confettis ──
+      function launchConfetti() {
+        const W = confCanvas.width  = window.innerWidth;
+        const H = confCanvas.height = window.innerHeight;
+        const ctx = confCanvas.getContext('2d');
+        const cols = ['#C9F03D','#fff','#ffd700','#ff6b6b','#74d7ff','#b97fff'];
+        const pieces = Array.from({length: 110}, () => ({
+          x: Math.random() * W, y: -20 - Math.random() * 80,
+          r: 4 + Math.random() * 6,
+          vx: (Math.random() - .5) * 3, vy: 2 + Math.random() * 4,
+          col: cols[Math.floor(Math.random() * cols.length)],
+          rot: Math.random() * Math.PI * 2,
+          rv: (Math.random() - .5) * .15,
+          shape: Math.random() > .5 ? 'rect' : 'circle'
+        }));
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          let alive = false;
+          pieces.forEach(p => {
+            p.x += p.vx; p.y += p.vy; p.rot += p.rv; p.vy += .06;
+            if (p.y < H + 20) alive = true;
+            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+            ctx.fillStyle = p.col;
+            if (p.shape === 'rect') ctx.fillRect(-p.r, -p.r/2, p.r*2, p.r);
+            else { ctx.beginPath(); ctx.arc(0,0,p.r,0,Math.PI*2); ctx.fill(); }
+            ctx.restore();
+          });
+          if (alive) confRaf = requestAnimationFrame(draw);
+          else stopConfetti();
         }
+        stopConfetti();
+        confRaf = requestAnimationFrame(draw);
+      }
+      function stopConfetti() {
+        if (confRaf) { cancelAnimationFrame(confRaf); confRaf = null; }
+        const ctx = confCanvas.getContext('2d');
+        ctx.clearRect(0, 0, confCanvas.width, confCanvas.height);
       }
 
-      function doScan() {
-        scanBtn.disabled = true;
-        scanBtn.textContent = 'Analyse…';
-
-        // Capture la frame
-        canvas.width  = video.videoWidth  || 320;
-        canvas.height = video.videoHeight || 240;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Sample le centre (zone du visage)
-        const cx = Math.floor(canvas.width  / 2);
-        const cy = Math.floor(canvas.height / 2);
-        const size = 40;
-        const data = ctx.getImageData(cx - size/2, cy - size/2, size, size).data;
-
-        let r = 0, g = 0, b = 0, count = 0;
-        for (let i = 0; i < data.length; i += 4) {
-          r += data[i]; g += data[i+1]; b += data[i+2]; count++;
-        }
-        r = Math.round(r / count);
-        g = Math.round(g / count);
-        b = Math.round(b / count);
-
-        const type = getSkinType(r, g, b);
-        showResult(type, r, g, b);
-      }
-
-      function showResult(type, r, g, b) {
-        const routine = routines[type];
-        swatch.style.background = `rgb(${r},${g},${b})`;
-        toneLabel.textContent = routine.label;
-        toneDesc.textContent  = routine.desc;
-
-        products.innerHTML = routine.products.map(p => `
-          <div class="skin-product">
-            <div class="skin-product-step">${p.step}</div>
-            <div>
-              <div class="skin-product-name">${p.name}</div>
-              <div class="skin-product-brand">${p.brand}</div>
-            </div>
-          </div>
-        `).join('');
-
-        camWrap.style.display = 'none';
-        result.style.display  = 'block';
-
-        // Stop caméra
-        if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-      }
-
-      skinCard.addEventListener('click', openModal);
-      closeBtn.addEventListener('click', closeModal);
-      scanBtn.addEventListener('click', doScan);
-      retryBtn.addEventListener('click', () => {
-        result.style.display = 'none';
-        camWrap.style.display = 'flex';
-        scanBtn.disabled = false;
-        scanBtn.textContent = 'Scanner ma peau';
-        startCamera();
-      });
-
-      // Fermer avec Escape
+      // ── Événements ──
+      skinCard.addEventListener('click', () => { load(0); modal.classList.add('open'); document.body.style.overflow = 'hidden'; });
+      closeBtn.addEventListener('click', () => { modal.classList.remove('open'); document.body.style.overflow = ''; stopConfetti(); });
+      submitBtn.addEventListener('click', check);
+      inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+      bravoNext.addEventListener('click', () => goTo(current + 1));
       document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+        if (!modal.classList.contains('open')) return;
+        if (e.key === 'Escape') { modal.classList.remove('open'); document.body.style.overflow = ''; stopConfetti(); }
+        if (e.key === 'ArrowRight') goTo(current + 1);
+        if (e.key === 'ArrowLeft')  goTo(current - 1);
       });
     })();
 
