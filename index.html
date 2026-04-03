@@ -1941,9 +1941,9 @@
     }
     #pgPage .pg-full-block .pg-screens-wrap > img {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      inset: -5%;
+      width: 110%;
+      height: 110%;
       object-fit: cover;
       margin: 0;
     }
@@ -2214,7 +2214,9 @@
       .gl-phone-wrap { width: 200px; height: 410px; }
 
       /* PG full-width blocs mobile */
-      #pgPage .pg-full-block { height: 340px !important; }
+      #pgPage .pg-full-block { height: 340px !important; overflow: hidden !important; }
+      /* Bloc 2 DECLI3 : taille augmentée */
+      #pgPage .pg-decli3-block { min-height: 380px !important; overflow: hidden !important; }
       /* Bloc 4 macbook : même comportement que les autres macbook-block sur mobile */
       #pgPage .pg-macbook-block {
         height: 280px !important;
@@ -3410,7 +3412,7 @@
         <!-- Bloc 2 : PAMPERS_DECLI3 statique -->
         <div class="gl-visual-block gl-visual-macbook-block pg-decli3-block">
           <div class="pg-screens-wrap" style="position:relative;">
-            <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI3.png" alt="Pampers Décli 3" style="width:106%;height:106%;object-fit:cover;display:block;margin:-3%;border-radius:0;">
+            <img src="01_SOURCES/PROJET_PG/PAMPERS_DECLI3.png" alt="Pampers Décli 3" style="width:110%;height:110%;object-fit:cover;display:block;margin:-5%;border-radius:0;">
           </div>
         </div>
       </div>
