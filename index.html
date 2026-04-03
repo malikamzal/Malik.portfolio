@@ -2221,16 +2221,18 @@
       #pgPage .pg-macbook-block {
         height: 280px !important;
         padding: 0 !important;
+        overflow: hidden !important;
       }
       #pgPage .pg-macbook-block .gl-macbook-wrap {
         width: 100% !important;
         margin: 0 !important;
-        padding-top: 80% !important;
-        height: auto !important;
+        padding-top: 0 !important;
+        height: 100% !important;
       }
       #pgPage .pg-macbook-block .gl-macbook-frame { display: none !important; }
       #pgPage .pg-macbook-block .gl-macbook-screen {
-        top: 0 !important; left: 0 !important;
+        position: relative !important;
+        top: auto !important; left: auto !important;
         width: 100% !important; height: 100% !important;
         border-radius: 12px !important;
         overflow-x: hidden !important;
@@ -3448,11 +3450,15 @@
 
       <p class="gl-visuals-caption"><span class="gl-vc-label">Une couche supplémentaire</span> • Proposition de refonte du site Charlie Banana basé sur la nouvelle identité graphique de la marque.</p>
 
-      <!-- Bloc 5 : CB_SCREEN3 statique -->
+      <!-- Bloc 5 : Carrousel CB_SCREEN4 + CB_SCREEN3 -->
       <div class="gl-visuals-grid">
         <div class="gl-visual-block gl-visual-macbook-block pg-full-block" style="grid-column: 1 / -1;">
           <div class="pg-screens-wrap" style="position:relative;">
-            <img src="01_SOURCES/PROJET_PG/CB_SCREEN3.png" alt="Charlie Banana Screen 3">
+            <div class="pg-screens-track" id="pgCbTrack">
+              <img src="01_SOURCES/PROJET_PG/CB_SCREEN4.png" alt="Charlie Banana Screen 4">
+              <img src="01_SOURCES/PROJET_PG/CB_SCREEN3.png" alt="Charlie Banana Screen 3">
+            </div>
+            <div class="gl-carousel-dots" id="pgCbDots" style="position:absolute;bottom:14px;left:0;right:0;justify-content:center;z-index:3;"></div>
           </div>
         </div>
       </div>
@@ -4675,6 +4681,7 @@
     initCarousel('gtfCarouselTrack2', 'gtfCarouselDots2', 0);
     initCarousel('pgCarouselTrack', 'pgCarouselDots', 0);
     initCarousel('pgDecliTrack', 'pgDecliDots', 0);
+    initCarousel('pgCbTrack', 'pgCbDots', 0);
 
     // GL Model switcher
     const lookVideo = document.getElementById('glLookVideo');
