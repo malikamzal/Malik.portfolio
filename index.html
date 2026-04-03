@@ -40,7 +40,7 @@
       background: var(--accent);
       border-radius: 50%;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 99999;
       transform: translate(-50%, -50%);
       transition: width .2s, height .2s, background .2s;
       mix-blend-mode: difference;
@@ -51,7 +51,7 @@
       border: 1px solid rgba(201,240,61,0.4);
       border-radius: 50%;
       pointer-events: none;
-      z-index: 9998;
+      z-index: 99998;
       transform: translate(-50%, -50%);
       transition: transform .12s ease-out, width .2s, height .2s;
     }
@@ -1978,111 +1978,106 @@
     }
     #quizModal.open { display: block; }
 
-    /* ── Quiz background ── */
-    .quiz-bg-wrap {
-      position: absolute; inset: 0;
+    /* ── Quiz : Littérature gratinée ── */
+    #quizModal { cursor: none; }
+
+    /* Layout split gauche / droite */
+    .quiz-layout {
+      position: absolute; inset: 0; display: flex;
+      background: #09090c;
+    }
+
+    /* Colonne gauche — livre */
+    .quiz-col-left {
+      flex: 0 0 48%; position: relative;
+      overflow: hidden;
+      background: #07070a;
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden; background: #07070a;
     }
-    .quiz-bg-img {
-      height: 110%; width: auto;
-      object-fit: contain;
-      filter: blur(22px) brightness(0.22) saturate(0.45);
+    .quiz-book-img {
+      height: 78%; max-height: 580px; width: auto;
+      object-fit: contain; display: block;
+      filter: blur(18px) brightness(0.22) saturate(0.4);
       animation: quizFloat 8s ease-in-out infinite;
-      transition: filter 1.6s cubic-bezier(.4,0,.2,1);
-      user-select: none; pointer-events: none; display: block;
+      transition: filter 1.8s cubic-bezier(.4,0,.2,1),
+                  transform 1.8s cubic-bezier(.4,0,.2,1);
+      user-select: none; pointer-events: none;
     }
-    .quiz-bg-img.revealed {
-      filter: blur(0px) brightness(0.65) saturate(1.05);
+    .quiz-book-img.revealed {
+      filter: blur(0px) brightness(1) saturate(1);
       animation: quizReveal 8s ease-in-out infinite;
     }
-    @keyframes quizFloat {
-      0%,100% { transform: translateY(0px)   rotate(-2.5deg) scale(1.05); }
-      50%      { transform: translateY(-22px) rotate(-2.5deg) scale(1.05); }
+    /* Dégradé droit pour fondre avec la colonne droite */
+    .quiz-col-left::after {
+      content: '';
+      position: absolute; top: 0; right: 0; bottom: 0; width: 120px;
+      background: linear-gradient(to right, transparent, #09090c);
+      pointer-events: none;
+    }
+
+    @keyframes quizFloat  {
+      0%,100% { transform: translateY(0)   rotate(-2deg) scale(1.04); }
+      50%      { transform: translateY(-18px) rotate(-2deg) scale(1.04); }
     }
     @keyframes quizReveal {
-      0%,100% { transform: translateY(0px)   rotate(-1deg) scale(1); }
-      50%      { transform: translateY(-12px) rotate(-1deg) scale(1); }
+      0%,100% { transform: translateY(0)   rotate(-1.5deg) scale(1); }
+      50%      { transform: translateY(-10px) rotate(-1.5deg) scale(1); }
     }
-    /* Vignette radiale pour la profondeur */
-    .quiz-dark-overlay {
-      position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 80% 70% at 50% 50%,
-        rgba(0,0,0,.25) 0%, rgba(0,0,0,.80) 100%);
-      transition: opacity 1.4s;
-    }
-    .quiz-dark-overlay.revealed { opacity: .45; }
 
-    /* ── Chrome ── */
-    .quiz-close {
-      position: absolute; top: 28px; right: 32px; z-index: 20;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
-      color: rgba(255,255,255,.6); font-size: .9rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s, color .2s;
+    /* Colonne droite — énigme */
+    .quiz-col-right {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; padding: 80px 64px 80px 48px;
+      position: relative;
     }
-    .quiz-close:hover { background: rgba(255,255,255,.14); color: #fff; }
 
-    /* Counter top-center */
+    /* Counter */
     .quiz-counter {
-      position: absolute; top: 34px; left: 50%; transform: translateX(-50%);
-      font-family: var(--font-display); font-size: .62rem;
-      letter-spacing: .28em; text-transform: uppercase;
-      color: rgba(255,255,255,.28); z-index: 10;
-      white-space: nowrap;
+      font-family: var(--font-display); font-size: .6rem;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: rgba(255,255,255,.25);
+      margin-bottom: 40px;
     }
 
-    /* ── Corps central ── */
-    .quiz-inner {
-      position: absolute; inset: 0; z-index: 5;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 0 80px; pointer-events: none;
-      text-align: center;
-    }
-    .quiz-inner > * { pointer-events: auto; }
-
-    /* Trait décoratif */
+    /* Trait */
     .quiz-divider {
-      width: 36px; height: 1px;
-      background: rgba(255,255,255,.2);
+      width: 32px; height: 1px;
+      background: rgba(255,255,255,.18);
       margin-bottom: 36px;
     }
 
-    /* Énigme : grand, serif, élégant */
+    /* Énigme */
     .quiz-riddle {
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+      font-size: clamp(1.4rem, 2.4vw, 2.1rem);
       font-weight: 400; font-style: italic;
-      color: rgba(255,255,255,.93);
-      line-height: 1.7; max-width: 620px;
-      margin-bottom: 56px; white-space: pre-line;
+      color: rgba(255,255,255,.9);
+      line-height: 1.75; white-space: pre-line;
+      margin-bottom: 52px;
     }
 
     /* Champ réponse */
     .quiz-field-wrap {
       display: flex; align-items: baseline; gap: 10px;
       font-family: var(--font-display);
-      font-size: clamp(1rem, 2.4vw, 1.45rem);
+      font-size: clamp(.95rem, 1.8vw, 1.25rem);
       font-weight: 700; letter-spacing: .1em;
-      color: rgba(255,255,255,.65); text-transform: uppercase;
-      flex-wrap: wrap; justify-content: center;
+      color: rgba(255,255,255,.5); text-transform: uppercase;
+      flex-wrap: wrap;
     }
     .quiz-input {
       background: transparent; border: none;
-      border-bottom: 1.5px solid rgba(255,255,255,.38);
+      border-bottom: 1.5px solid rgba(255,255,255,.3);
       color: #fff; font-family: var(--font-display);
       font-size: inherit; font-weight: 700;
       letter-spacing: .1em; text-transform: uppercase;
-      text-align: center; outline: none;
-      padding: 2px 6px 10px; min-width: 6ch;
-      transition: border-color .3s;
+      outline: none; padding: 2px 4px 10px;
+      width: 12ch; min-width: 8ch;
+      transition: border-color .3s; cursor: none;
     }
-    .quiz-input::placeholder { color: rgba(255,255,255,.15); }
-    .quiz-input:focus { border-color: rgba(255,255,255,.75); }
-    .quiz-input.error   { border-color: #ff5050; }
-    .quiz-input.success { border-color: var(--accent); }
+    .quiz-input:focus { border-color: rgba(255,255,255,.7); }
+    .quiz-input.error   { border-color: #ff4f4f; }
+    .quiz-input.success { border-color: var(--accent); color: var(--accent); }
 
     @keyframes shake {
       0%,100% { transform: translateX(0); }
@@ -2095,94 +2090,97 @@
 
     /* Indice */
     .quiz-hint {
-      margin-top: 22px; font-size: .78rem;
-      font-style: italic;
-      color: rgba(255,255,255,.38);
-      transition: opacity .4s; opacity: 0;
-      height: 16px;
+      margin-top: 20px; font-size: .76rem; font-style: italic;
+      color: rgba(255,255,255,.35);
+      transition: opacity .4s; opacity: 0; height: 16px;
     }
     .quiz-hint.visible { opacity: 1; }
 
-    /* Valider — discret, textuel */
+    /* Valider */
     .quiz-submit {
-      margin-top: 40px;
-      background: none; border: none; border-bottom: 1px solid rgba(255,255,255,.18);
-      color: rgba(255,255,255,.32); padding: 0 2px 3px;
-      font-family: var(--font-display); font-size: .68rem;
-      letter-spacing: .2em; text-transform: uppercase;
-      cursor: pointer; border-radius: 0;
-      transition: color .2s, border-color .2s;
+      margin-top: 44px; align-self: flex-start;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.5);
+      padding: 12px 28px; border-radius: 100px;
+      font-family: var(--font-display); font-size: .72rem;
+      letter-spacing: .18em; text-transform: uppercase;
+      cursor: none; transition: background .2s, color .2s, border-color .2s;
     }
-    .quiz-submit:hover { color: rgba(255,255,255,.7); border-color: rgba(255,255,255,.5); }
-
-    /* ── Navigation côtés ── */
-    .quiz-nav {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      left: 0; right: 0; width: 100%;
-      display: flex; justify-content: space-between;
-      align-items: center; padding: 0 20px; z-index: 10;
-      pointer-events: none;
-    }
-    .quiz-nav-btn {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
-      color: rgba(255,255,255,.4); font-size: .9rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      pointer-events: auto;
-      transition: background .2s, color .2s, border-color .2s;
-    }
-    .quiz-nav-btn:hover {
-      background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.3);
-      color: #fff;
+    .quiz-submit:hover {
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.4); color: #fff;
     }
 
-    /* ── BRAVO ── */
-    .quiz-bravo {
-      position: absolute; inset: 0; z-index: 30;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      pointer-events: none; opacity: 0;
-      transition: opacity .55s;
+    /* État succès côté droit */
+    .quiz-success-state {
+      display: none; flex-direction: column; gap: 8px;
+      margin-top: 44px;
     }
-    .quiz-bravo.show { opacity: 1; pointer-events: auto; }
-
-    @keyframes bravoIn {
-      0%   { transform: scale(.2) rotate(-6deg); opacity: 0; }
-      65%  { transform: scale(1.08) rotate(1.5deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); }
+    .quiz-success-state.show { display: flex; }
+    @keyframes successFadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .quiz-bravo-text {
-      font-family: var(--font-display); font-weight: 900;
-      font-size: clamp(5rem, 14vw, 11rem);
-      color: #fff; letter-spacing: .03em; line-height: 1;
-      animation: bravoIn .7s cubic-bezier(.18,.89,.32,1.27) both;
+    .quiz-success-label {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      color: #fff; letter-spacing: .02em;
+      animation: successFadeUp .5s .1s both;
     }
-    .quiz-bravo-title {
-      margin-top: 16px;
+    .quiz-success-title {
       font-family: Georgia, serif; font-style: italic;
-      font-size: clamp(1rem, 2vw, 1.4rem);
-      color: rgba(255,255,255,.55); font-weight: 400;
-      letter-spacing: .04em;
+      font-size: clamp(.85rem, 1.4vw, 1.05rem);
+      color: rgba(255,255,255,.45);
+      animation: successFadeUp .5s .25s both;
     }
     .quiz-bravo-next {
-      margin-top: 40px; padding: 14px 40px;
-      background: #fff; color: #000;
+      margin-top: 28px; align-self: flex-start;
+      padding: 14px 32px; background: #fff; color: #000;
       border: none; border-radius: 100px;
       font-family: var(--font-display); font-weight: 700;
-      font-size: .82rem; cursor: pointer; letter-spacing: .08em;
+      font-size: .8rem; cursor: none; letter-spacing: .08em;
       text-transform: uppercase;
       transition: opacity .2s, transform .2s;
+      animation: successFadeUp .5s .4s both;
     }
     .quiz-bravo-next:hover { opacity: .88; transform: scale(1.02); }
 
+    /* Flèches navigation — ferrées aux bords */
+    .quiz-nav-btn {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.45); font-size: .9rem; cursor: none;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 25; transition: background .2s, color .2s, border-color .2s;
+    }
+    .quiz-nav-btn:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.35); color: #fff; }
+    #quizPrev { left: 16px; }
+    #quizNext { right: 16px; }
+
+    /* Fermer */
+    .quiz-close {
+      position: fixed; top: 28px; right: 28px; z-index: 25;
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.55); font-size: .85rem; cursor: none;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, color .2s;
+    }
+    .quiz-close:hover { background: rgba(255,255,255,.18); color: #fff; }
+
     /* Confettis */
-    #quizConfetti { position: absolute; inset: 0; pointer-events: none; z-index: 29; }
+    #quizConfetti { position: fixed; inset: 0; pointer-events: none; z-index: 29; }
 
     @media (max-width: 768px) {
-      .quiz-inner { padding: 0 32px; }
-      .quiz-riddle { font-size: 1.3rem; margin-bottom: 44px; }
-      .quiz-field-wrap { font-size: .95rem; }
-      .quiz-nav-btn { width: 36px; height: 36px; }
+      .quiz-layout { flex-direction: column; }
+      .quiz-col-left { flex: 0 0 38%; }
+      .quiz-col-left::after { top: auto; right: 0; bottom: 0; left: 0; width: auto; height: 80px;
+        background: linear-gradient(to bottom, transparent, #09090c); }
+      .quiz-col-right { padding: 32px 28px 100px; }
+      .quiz-submit { align-self: stretch; text-align: center; }
+      .quiz-bravo-next { align-self: stretch; text-align: center; }
+      #quizPrev { left: 8px; } #quizNext { right: 8px; }
     }
 
     @media (max-width: 768px) {
@@ -3548,41 +3546,43 @@
     </div>
   </div>
 
-  <!-- Skin Scanner Modal -->
   <!-- Quiz : Littérature gratinée -->
   <div id="quizModal">
-    <div class="quiz-bg-wrap">
-      <img class="quiz-bg-img" id="quizBgImg" src="" alt="">
-    </div>
-    <div class="quiz-dark-overlay" id="quizOverlay"></div>
     <canvas id="quizConfetti"></canvas>
     <button class="quiz-close" id="quizClose">✕</button>
+    <button class="quiz-nav-btn" id="quizPrev">←</button>
+    <button class="quiz-nav-btn" id="quizNext">→</button>
 
-    <div class="quiz-counter" id="quizCounter">01 / 07</div>
-
-    <div class="quiz-inner">
-      <div class="quiz-divider"></div>
-      <div class="quiz-riddle" id="quizRiddle"></div>
-      <div class="quiz-field-wrap">
-        <span id="quizPrefix"></span>
-        <input id="quizInput" class="quiz-input" type="text" autocomplete="off" spellcheck="false" placeholder="· · · ·">
-        <span id="quizSuffix"></span>
+    <div class="quiz-layout">
+      <!-- Gauche : couverture du livre -->
+      <div class="quiz-col-left">
+        <img class="quiz-book-img" id="quizBgImg" src="" alt="">
       </div>
-      <div class="quiz-hint" id="quizHint"></div>
-      <button class="quiz-submit" id="quizSubmit">Valider — Entrée</button>
-    </div>
 
-    <!-- Bravo -->
-    <div class="quiz-bravo" id="quizBravo">
-      <div class="quiz-bravo-text">BRAVO</div>
-      <div class="quiz-bravo-title" id="quizBravoTitle"></div>
-      <button class="quiz-bravo-next" id="quizBravoNext">Énigme suivante →</button>
-    </div>
+      <!-- Droite : énigme + réponse -->
+      <div class="quiz-col-right">
+        <div class="quiz-counter" id="quizCounter">01 / 07</div>
+        <div class="quiz-divider"></div>
+        <div class="quiz-riddle" id="quizRiddle"></div>
 
-    <!-- Navigation côtés -->
-    <div class="quiz-nav">
-      <button class="quiz-nav-btn" id="quizPrev">←</button>
-      <button class="quiz-nav-btn" id="quizNext">→</button>
+        <!-- Zone de réponse -->
+        <div id="quizAnswerZone">
+          <div class="quiz-field-wrap">
+            <span id="quizPrefix"></span>
+            <input id="quizInput" class="quiz-input" type="text" autocomplete="off" spellcheck="false">
+            <span id="quizSuffix"></span>
+          </div>
+          <div class="quiz-hint" id="quizHint"></div>
+          <button class="quiz-submit" id="quizSubmit">Valider</button>
+        </div>
+
+        <!-- État succès (remplace la zone de réponse) -->
+        <div class="quiz-success-state" id="quizSuccessState">
+          <div class="quiz-success-label">Bravo, c'est la bonne réponse !</div>
+          <div class="quiz-success-title" id="quizBravoTitle"></div>
+          <button class="quiz-bravo-next" id="quizBravoNext">Suivant →</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -4435,28 +4435,26 @@
           hint:'Émile Zola', title:"Au bonheur d'Edam" },
       ];
 
-      const modal      = document.getElementById('quizModal');
-      const bgImg      = document.getElementById('quizBgImg');
-      const overlay    = document.getElementById('quizOverlay');
-      const closeBtn   = document.getElementById('quizClose');
-      const counter    = document.getElementById('quizCounter');
-      const riddleEl   = document.getElementById('quizRiddle');
-      const prefixEl   = document.getElementById('quizPrefix');
-      const inputEl    = document.getElementById('quizInput');
-      const suffixEl   = document.getElementById('quizSuffix');
-      const hintEl     = document.getElementById('quizHint');
-      const submitBtn  = document.getElementById('quizSubmit');
-      const bravoEl    = document.getElementById('quizBravo');
-      const bravoTitle = document.getElementById('quizBravoTitle');
-      const bravoNext  = document.getElementById('quizBravoNext');
-      const prevBtn    = document.getElementById('quizPrev');
-      const nextBtn    = document.getElementById('quizNext');
-
-      const confCanvas = document.getElementById('quizConfetti');
-      const skinCard   = document.getElementById('skinCard');
+      const modal       = document.getElementById('quizModal');
+      const bgImg       = document.getElementById('quizBgImg');
+      const closeBtn    = document.getElementById('quizClose');
+      const counter     = document.getElementById('quizCounter');
+      const riddleEl    = document.getElementById('quizRiddle');
+      const prefixEl    = document.getElementById('quizPrefix');
+      const inputEl     = document.getElementById('quizInput');
+      const suffixEl    = document.getElementById('quizSuffix');
+      const hintEl      = document.getElementById('quizHint');
+      const submitBtn   = document.getElementById('quizSubmit');
+      const answerZone  = document.getElementById('quizAnswerZone');
+      const successZone = document.getElementById('quizSuccessState');
+      const bravoTitle  = document.getElementById('quizBravoTitle');
+      const bravoNext   = document.getElementById('quizBravoNext');
+      const prevBtn     = document.getElementById('quizPrev');
+      const nextBtn     = document.getElementById('quizNext');
+      const confCanvas  = document.getElementById('quizConfetti');
+      const skinCard    = document.getElementById('skinCard');
 
       let current = 0, attempts = 0, confRaf = null;
-
 
 
       function strip(s) {
@@ -4469,17 +4467,17 @@
         current = idx; attempts = 0;
         bgImg.src = r.img;
         bgImg.classList.remove('revealed');
-        overlay.classList.remove('revealed');
         counter.textContent = String(idx + 1).padStart(2,'0') + ' / 07';
         riddleEl.textContent = r.clue;
         prefixEl.textContent = r.prefix;
         suffixEl.textContent = r.suffix;
         inputEl.value = '';
         inputEl.className = 'quiz-input';
-        inputEl.style.width = Math.max(r.answer.length + 1, 6) + 'ch';
+        inputEl.style.width = Math.max(r.answer.length + 2, 8) + 'ch';
         hintEl.textContent = '';
         hintEl.classList.remove('visible');
-        bravoEl.classList.remove('show');
+        answerZone.style.display  = 'block';
+        successZone.classList.remove('show');
         stopConfetti();
         setTimeout(() => inputEl.focus(), 120);
       }
@@ -4493,9 +4491,12 @@
         if (strip(inputEl.value) === strip(r.answer)) {
           inputEl.className = 'quiz-input success';
           bgImg.classList.add('revealed');
-          overlay.classList.add('revealed');
           bravoTitle.textContent = r.title;
-          setTimeout(() => { bravoEl.classList.add('show'); launchConfetti(); }, 700);
+          setTimeout(() => {
+            answerZone.style.display = 'none';
+            successZone.classList.add('show');
+            launchConfetti();
+          }, 600);
         } else {
           attempts++;
           inputEl.className = 'quiz-input error shake';
@@ -4517,18 +4518,16 @@
         const H = confCanvas.height = window.innerHeight;
         const ctx = confCanvas.getContext('2d');
         const cols = ['#C9F03D','#fff','#ffd700','#ff6b6b','#74d7ff','#b97fff'];
-        const pieces = Array.from({length: 110}, () => ({
+        const pieces = Array.from({length: 120}, () => ({
           x: Math.random() * W, y: -20 - Math.random() * 80,
           r: 4 + Math.random() * 6,
-          vx: (Math.random() - .5) * 3, vy: 2 + Math.random() * 4,
+          vx: (Math.random() - .5) * 3.5, vy: 1.5 + Math.random() * 4,
           col: cols[Math.floor(Math.random() * cols.length)],
-          rot: Math.random() * Math.PI * 2,
-          rv: (Math.random() - .5) * .15,
+          rot: Math.random() * Math.PI * 2, rv: (Math.random() - .5) * .15,
           shape: Math.random() > .5 ? 'rect' : 'circle'
         }));
         function draw() {
-          ctx.clearRect(0, 0, W, H);
-          let alive = false;
+          ctx.clearRect(0, 0, W, H); let alive = false;
           pieces.forEach(p => {
             p.x += p.vx; p.y += p.vy; p.rot += p.rv; p.vy += .06;
             if (p.y < H + 20) alive = true;
@@ -4538,31 +4537,28 @@
             else { ctx.beginPath(); ctx.arc(0,0,p.r,0,Math.PI*2); ctx.fill(); }
             ctx.restore();
           });
-          if (alive) confRaf = requestAnimationFrame(draw);
-          else stopConfetti();
+          if (alive) confRaf = requestAnimationFrame(draw); else stopConfetti();
         }
-        stopConfetti();
-        confRaf = requestAnimationFrame(draw);
+        stopConfetti(); confRaf = requestAnimationFrame(draw);
       }
       function stopConfetti() {
         if (confRaf) { cancelAnimationFrame(confRaf); confRaf = null; }
-        const ctx = confCanvas.getContext('2d');
-        ctx.clearRect(0, 0, confCanvas.width, confCanvas.height);
+        confCanvas.getContext('2d').clearRect(0, 0, confCanvas.width, confCanvas.height);
       }
 
       // ── Événements ──
       skinCard.addEventListener('click', () => { load(0); modal.classList.add('open'); document.body.style.overflow = 'hidden'; });
-      closeBtn.addEventListener('click', () => { modal.classList.remove('open'); document.body.style.overflow = ''; stopConfetti(); });
+      closeBtn.addEventListener('click',  () => { modal.classList.remove('open'); document.body.style.overflow = ''; stopConfetti(); });
       submitBtn.addEventListener('click', check);
       inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
-      prevBtn.addEventListener('click', () => goTo(current - 1));
-      nextBtn.addEventListener('click', () => goTo(current + 1));
+      prevBtn.addEventListener('click',   () => goTo(current - 1));
+      nextBtn.addEventListener('click',   () => goTo(current + 1));
       bravoNext.addEventListener('click', () => goTo(current + 1));
       document.addEventListener('keydown', e => {
         if (!modal.classList.contains('open')) return;
-        if (e.key === 'Escape') { modal.classList.remove('open'); document.body.style.overflow = ''; stopConfetti(); }
-        if (e.key === 'ArrowRight') goTo(current + 1);
-        if (e.key === 'ArrowLeft')  goTo(current - 1);
+        if (e.key === 'Escape')      { modal.classList.remove('open'); document.body.style.overflow = ''; stopConfetti(); }
+        if (e.key === 'ArrowRight')  goTo(current + 1);
+        if (e.key === 'ArrowLeft')   goTo(current - 1);
       });
     })();
 
