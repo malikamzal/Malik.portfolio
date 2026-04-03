@@ -2215,6 +2215,25 @@
 
       /* PG full-width blocs mobile */
       #pgPage .pg-full-block { height: 340px !important; }
+      /* Bloc 4 macbook : même comportement que les autres macbook-block sur mobile */
+      #pgPage .pg-macbook-block {
+        height: 280px !important;
+        padding: 0 !important;
+      }
+      #pgPage .pg-macbook-block .gl-macbook-wrap {
+        width: 100% !important;
+        margin: 0 !important;
+        padding-top: 80% !important;
+        height: auto !important;
+      }
+      #pgPage .pg-macbook-block .gl-macbook-frame { display: none !important; }
+      #pgPage .pg-macbook-block .gl-macbook-screen {
+        top: 0 !important; left: 0 !important;
+        width: 100% !important; height: 100% !important;
+        border-radius: 12px !important;
+        overflow-x: hidden !important;
+        overflow-y: scroll !important;
+      }
 
       /* Mauboussin mobile : avant/après et bento pleine largeur */
       .mau-compare-block {
