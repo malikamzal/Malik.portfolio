@@ -3764,12 +3764,13 @@
       }
 
       // ── État du moteur ──
-      let pos     = 0;   // scrollLeft courant (virtuel)
-      let vel     = 0;   // vitesse en px/frame
-      let target  = 0;   // position cible pour le snap
-      let current = 0;   // index réel (0..N-1)
-      let phase   = 'idle'; // 'drag' | 'inertia' | 'snap' | 'idle'
-      let rafId   = null;
+      let pos          = 0;      // scrollLeft courant (virtuel)
+      let vel          = 0;      // vitesse en px/frame
+      let target       = 0;      // position cible pour le snap
+      let current      = 0;      // index réel (0..N-1)
+      let snapTargetRi = 0;      // ri de la carte cible du snap en cours
+      let phase        = 'idle'; // 'drag' | 'inertia' | 'snap' | 'idle'
+      let rafId        = null;
 
       // Constantes physiques
       const FRICTION   = 0.92;   // décélération inertie (plus bas = freine vite)
@@ -3788,7 +3789,8 @@
         current = ri;
         dots.forEach((d, i) => d.classList.toggle('active', i === ri));
         slideLabel.textContent = String(ri + 1).padStart(2,'0');
-        allCards.forEach((c, i) => c.classList.toggle('active-card', i === OFFSET + ri));
+        // Active-card sur TOUTES les instances de ri (original + clones) — le clone animé s'illumine aussi
+        allCards.forEach((c, i) => c.classList.toggle('active-card', ((i % N) + N) % N === ri));
       }
 
       function tick() {
@@ -3820,17 +3822,23 @@
         if (phase === 'snap') {
           const diff = target - pos;
           if (Math.abs(diff) < SNAP_DONE) {
-            // Snap terminé
-            pos = target;
+            // Snap terminé — téléporte à la position EXACTE de la carte originale
+            // (décalage de n×stride×N, visuellement imperceptible)
+            const cardPos = scrollForIdx(OFFSET + snapTargetRi);
+            pos = cardPos;
             outer.scrollLeft = pos;
+            // Force la réapplication de active-card sur le bon nœud DOM (pas un clone)
+            current = -1;
             updateUI(nearestReal(pos));
             phase = 'idle';
+            wheelLocked = false;
             rafId = null;
             return;
           }
           pos += diff * SNAP_EASE;
           outer.scrollLeft = pos;
-          updateUI(nearestReal(pos));
+          // Pendant le snap, forcer l'active-card sur la cible dès le départ (pas de nearestReal qui fluctue)
+          updateUI(OFFSET + snapTargetRi);
           rafId = requestAnimationFrame(tick);
         }
       }
@@ -3842,6 +3850,7 @@
 
       function goTo(ri, animate) {
         const realRi = ((ri % N) + N) % N;
+        snapTargetRi = realRi;
         if (!animate) {
           target = scrollForIdx(OFFSET + realRi);
           pos = target;
@@ -3896,44 +3905,33 @@
           phase = 'snap'; target = scrollForIdx(nearestReal(pos)); startEngine();
           return;
         }
-        // Calcule vélocité moyenne sur les derniers samples
-        const avgVel = dragVelSamples.reduce((a, b) => a + b, 0) / (dragVelSamples.length || 1);
-        vel = avgVel * 1.2;
-        phase = 'inertia';
-        startEngine();
+        // Déplacement 1 card dans la direction du drag
+        const totalDelta = dragStartX - e.clientX;
+        vel = 0;
+        if (Math.abs(totalDelta) > 30) {
+          goTo(current + (totalDelta > 0 ? 1 : -1), true);
+        } else {
+          phase = 'snap'; target = scrollForIdx(nearestReal(pos)); startEngine();
+        }
       });
 
-      // ── Wheel (trackpad) — horizontal only on desktop, vertical scrolls the page ──
-      let wheelTimer = null;
+      // ── Wheel (trackpad) — strictement 1 card par impulsion ──
+      // Le verrou est relâché uniquement quand le snap est terminé (dans tick)
+      let wheelLocked = false;
       outer.addEventListener('wheel', e => {
         const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-        if (!isHorizontal) return; // let vertical scroll pass through to the page
+        if (!isHorizontal) return;
         e.preventDefault();
-        const delta = e.deltaX;
-        vel += delta * 0.3;
-        vel = Math.max(-80, Math.min(80, vel)); // cap
-        if (phase !== 'drag') phase = 'inertia';
-        startEngine();
-        clearTimeout(wheelTimer);
-        wheelTimer = setTimeout(() => {
-          if (phase === 'inertia') {
-            const s = stride() * N;
-            const mid = scrollForIdx(OFFSET + Math.floor(N / 2));
-            while (pos < mid - s * 0.5) pos += s;
-            while (pos > mid + s * 0.5) pos -= s;
-            outer.scrollLeft = pos;
-            target = scrollForIdx(nearestReal(pos));
-            phase = 'snap';
-          }
-        }, 120);
+        if (wheelLocked) return;
+        wheelLocked = true;
+        goTo(current + (e.deltaX > 0 ? 1 : -1), true);
       }, { passive: false });
 
       // ── Touch ──
-      let tStartX = 0, tLastX = 0, tPosStart = 0, tMoved = false;
-      let tVelSamples = [];
+      let tStartX = 0, tPosStart = 0, tMoved = false;
       outer.addEventListener('touchstart', e => {
-        tStartX = tLastX = e.touches[0].clientX;
-        tPosStart = pos; tMoved = false; tVelSamples = [];
+        tStartX = e.touches[0].clientX;
+        tPosStart = pos; tMoved = false;
         phase = 'drag';
         if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
       }, { passive: true });
@@ -3942,9 +3940,6 @@
         if (Math.abs(dx) > 4) tMoved = true;
         pos = wrap(tPosStart - dx);
         outer.scrollLeft = pos;
-        tVelSamples.push(tLastX - e.touches[0].clientX);
-        if (tVelSamples.length > 6) tVelSamples.shift();
-        tLastX = e.touches[0].clientX;
         updateUI(nearestReal(pos));
         e.preventDefault();
       }, { passive: false });
@@ -3953,10 +3948,13 @@
           const t = e.target.closest('.project-card');
           if (t) { const i = allCards.indexOf(t); if (i !== -1) { goTo(((i%N)+N)%N, true); return; } }
         }
-        const avgVel = tVelSamples.reduce((a,b)=>a+b,0) / (tVelSamples.length||1);
-        vel = avgVel * 1.2;
-        phase = 'inertia';
-        startEngine();
+        const totalDelta = tStartX - e.changedTouches[0].clientX;
+        vel = 0;
+        if (Math.abs(totalDelta) > 30) {
+          goTo(current + (totalDelta > 0 ? 1 : -1), true);
+        } else {
+          phase = 'snap'; target = scrollForIdx(nearestReal(pos)); startEngine();
+        }
       });
 
       // ── Boutons + dots ──
