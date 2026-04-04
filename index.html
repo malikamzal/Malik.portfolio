@@ -2609,14 +2609,12 @@
       font-family: var(--font-display); font-weight: 700;
       font-size: 1.4rem; color: var(--text); margin: 0;
     }
-    .px-stats { display: flex; align-items: center; gap: 36px; }
-    .px-stat { text-align: right; }
     .px-stat-num {
       font-family: var(--font-display); font-weight: 700;
-      font-size: 1.5rem; color: var(--text); line-height: 1;
+      font-size: 1.3rem; color: var(--text); line-height: 1;
     }
-    .px-stat-num sup { font-size: .7rem; opacity: .35; font-weight: 400; }
-    .px-stat-label { font-family: var(--font-body); font-size: .72rem; color: var(--muted); margin-top: 2px; }
+    .px-stat-num sup { font-size: .65rem; opacity: .35; font-weight: 400; }
+    .px-stat-label { font-family: var(--font-body); font-size: .68rem; color: var(--muted); margin-top: 2px; }
     .px-workspace {
       flex: 1; overflow: hidden; min-height: 0;
       display: block; padding: 0;
@@ -2638,12 +2636,15 @@
     .px-swatch:hover { transform: scale(1.18); }
     .px-swatch.active { border-color: var(--accent); transform: scale(1.22); }
     .px-swatch.white-swatch { border-color: rgba(255,255,255,.2); }
-    .px-quota {
-      font-family: var(--font-display); font-size: .62rem;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--muted); white-space: nowrap; flex-shrink: 0;
+    .px-reset {
+      font-family: var(--font-display); font-size: .6rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); background: transparent;
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 6px 14px; cursor: pointer; flex-shrink: 0;
+      transition: color .15s, border-color .15s;
     }
-    .px-quota.done { color: var(--accent); }
+    .px-reset:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
     .px-offline {
       font-family: var(--font-body); font-size: .72rem;
       color: var(--muted); text-align: center;
@@ -2653,8 +2654,7 @@
     @media (max-width: 768px) {
       .px-header { padding: 16px 20px 14px; }
       .px-title { font-size: 1.1rem; }
-      .px-stat-num { font-size: 1.1rem; }
-      .px-stats { gap: 20px; }
+      .px-stat-num { font-size: 1rem; }
       .px-workspace { padding: 0; }
       .px-controls { padding: 10px 20px 14px; gap: 12px; }
       .px-swatch { width: 22px; height: 22px; }
@@ -3748,16 +3748,6 @@
         <div class="px-label">Labo · Expérimentation</div>
         <h1 class="px-title">Pixel Canvas</h1>
       </div>
-      <div class="px-stats">
-        <div class="px-stat">
-          <div class="px-stat-num"><span id="pxUsed">0</span><sup> /50</sup></div>
-          <div class="px-stat-label">vos pixels</div>
-        </div>
-        <div class="px-stat">
-          <div class="px-stat-num" id="pxTotal">0</div>
-          <div class="px-stat-label">pixels posés au total</div>
-        </div>
-      </div>
     </div>
     <div class="px-offline" id="pxOffline">⚠ Mode local — configurez Firebase pour activer la collaboration temps réel</div>
     <div class="px-workspace" id="pxWorkspace">
@@ -3765,7 +3755,11 @@
     </div>
     <div class="px-controls">
       <div class="px-palette" id="pxPalette"></div>
-      <div class="px-quota" id="pxQuota">50 pixels restants</div>
+      <div class="px-stat">
+        <div class="px-stat-num"><span id="pxUsed">0</span><sup> /50</sup></div>
+        <div class="px-stat-label">vos pixels</div>
+      </div>
+      <button class="px-reset" id="pxReset">Recommencer</button>
     </div>
   </div>
 
@@ -5005,8 +4999,6 @@
       const canvas     = document.getElementById('pixelCanvas');
       const ctx        = canvas.getContext('2d');
       const elUsed     = document.getElementById('pxUsed');
-      const elTotal    = document.getElementById('pxTotal');
-      const elQuota    = document.getElementById('pxQuota');
       const elOffline  = document.getElementById('pxOffline');
       const glClose    = document.getElementById('glClose');
 
@@ -5046,12 +5038,17 @@
       }
 
       function updateUI() {
-        const rem = Math.max(0, MAX_PX - userCount);
-        elUsed.textContent  = userCount;
-        elTotal.textContent = Object.keys(pixelData).length;
-        elQuota.textContent = rem > 0 ? `${rem} pixel${rem>1?'s':''} restant${rem>1?'s':''}` : 'Quota atteint — merci !';
-        elQuota.classList.toggle('done', rem === 0);
+        elUsed.textContent = userCount;
       }
+
+      // Recommencer : remet le canvas à zéro
+      document.getElementById('pxReset').addEventListener('click', () => {
+        pixelData = {};
+        userCount = 0;
+        localStorage.setItem('px_count', '0');
+        render();
+        updateUI();
+      });
 
       // Poser un pixel
       function placePixel(x, y) {
