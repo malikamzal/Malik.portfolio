@@ -2102,6 +2102,11 @@
     }
     .quiz-hint.visible { opacity: 1; }
 
+    /* Label réponse */
+    .quiz-answer-label {
+      display: none; /* visible uniquement mobile */
+    }
+
     /* Valider */
     .quiz-submit {
       margin-top: 44px; align-self: flex-start;
@@ -2278,11 +2283,34 @@
         flex: 1; display: flex; flex-direction: column; justify-content: center;
         padding: 80px 28px 120px;
       }
+      /* Énigme plus grande */
+      .quiz-riddle { font-size: clamp(1.6rem, 5.5vw, 2rem); margin-bottom: 32px; }
+
+      /* Label réponse */
+      .quiz-answer-label {
+        display: block;
+        font-family: var(--font-display); font-size: .55rem;
+        letter-spacing: .25em; text-transform: uppercase;
+        color: rgba(255,255,255,.3);
+        margin-bottom: 12px;
+      }
+
+      /* Réponse plus compacte, input pleine largeur */
+      .quiz-field-wrap { font-size: .85rem; flex-wrap: nowrap; }
+      .quiz-input { font-size: 16px; width: 100%; min-width: 0; flex: 1; }
+
       /* Flèches en bas */
       .quiz-nav-btn { top: auto; bottom: 28px; transform: none; }
       #quizPrev { left: 24px; }
       #quizNext { right: 24px; }
-      .quiz-submit { align-self: stretch; text-align: center; }
+
+      /* Valider centré entre les flèches */
+      .quiz-submit {
+        position: fixed; bottom: 20px;
+        left: 50%; transform: translateX(-50%);
+        margin-top: 0; align-self: auto;
+        white-space: nowrap;
+      }
       .quiz-bravo-next { align-self: stretch; text-align: center; }
 
       /* Succès : affiche l'image, cache le texte de l'énigme */
@@ -3706,6 +3734,7 @@
 
         <!-- Zone de réponse -->
         <div id="quizAnswerZone">
+          <div class="quiz-answer-label">Votre réponse :</div>
           <div class="quiz-field-wrap">
             <span id="quizPrefix"></span>
             <input id="quizInput" class="quiz-input" type="text" autocomplete="off" spellcheck="false">
@@ -4734,6 +4763,10 @@
       });
       submitBtn.addEventListener('click', check);
       inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+      inputEl.addEventListener('blur', () => {
+        // Revenir au zoom 100% après fermeture du clavier iOS
+        setTimeout(() => { window.scrollTo(0, 0); }, 100);
+      });
       prevBtn.addEventListener('click',   () => goTo(current - 1));
       nextBtn.addEventListener('click',   () => goTo(current + 1));
       bravoNext.addEventListener('click', () => goTo(current + 1));
