@@ -2180,7 +2180,8 @@
 
     /* Intro screen */
     #quizIntro {
-      position: absolute; inset: 0; z-index: 30;
+      position: fixed; inset: 0; z-index: 30;
+      min-height: 100dvh;
       background: #09090c;
       display: flex; align-items: center; justify-content: center;
       padding: 48px;
@@ -2235,6 +2236,8 @@
       line-height: 1.85;
       margin: 0 0 36px;
     }
+    .quiz-intro-body p { margin: 0 0 .9em; }
+    .quiz-intro-body p:last-child { margin-bottom: 0; }
     .quiz-intro-cta {
       align-self: flex-start;
       background: rgba(255,255,255,.07);
@@ -2249,7 +2252,15 @@
       border-color: rgba(255,255,255,.4); color: #fff;
     }
     @media (max-width: 768px) {
-      #quizIntro { padding: 40px 28px; align-items: flex-start; padding-top: 80px; }
+      #quizIntro { padding: 28px 28px; align-items: center; justify-content: center; }
+      .quiz-intro-inner { gap: 0; }
+      .quiz-intro-label { margin-bottom: 16px; }
+      .quiz-intro-header { margin-bottom: 12px; }
+      .quiz-intro-emoji { font-size: 1.2rem; }
+      .quiz-intro-title { font-size: 1.2rem; }
+      .quiz-intro-divider { margin-bottom: 18px; }
+      .quiz-intro-body { font-size: .82rem; line-height: 1.65; margin-bottom: 24px; }
+      .quiz-intro-body p { margin-bottom: .65em; }
       .quiz-intro-cta { align-self: stretch; text-align: center; }
     }
 
@@ -3663,7 +3674,11 @@
           <h2 class="quiz-intro-title">Littérature gratinée</h2>
         </div>
         <div class="quiz-intro-divider"></div>
-        <p class="quiz-intro-body">Bienvenue dans un prototype jamais validé en review.<br><br>Suite à un A/B test douteux,<br>une feature remplace certains mots par… des fromages.<br>Personne ne sait pourquoi. Personne ne sait comment.<br>Mais c'est en prod.<br><br>Votre mission : retrouver les bons duos œuvre littéraire + fromage… et tenter de sauver la prod.</p>
+        <div class="quiz-intro-body">
+          <p>Bienvenue dans un prototype jamais validé en review.</p>
+          <p>Suite à un A/B test douteux, une feature remplace certains mots par… des fromages. Personne ne sait pourquoi. Personne ne sait comment. Mais c'est en prod.</p>
+          <p>Votre mission : retrouver les bons duos œuvre littéraire + fromage… et tenter de sauver la prod.</p>
+        </div>
         <button class="quiz-intro-cta" id="quizIntroStart">À vos fromages !</button>
       </div>
     </div>
