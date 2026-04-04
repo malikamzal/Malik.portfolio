@@ -2179,14 +2179,35 @@
     #quizConfetti { position: fixed; inset: 0; pointer-events: none; z-index: 29; }
 
     @media (max-width: 768px) {
+      /* Layout en colonne, image cachée en mode énigme */
       .quiz-layout { flex-direction: column; }
-      .quiz-col-left { flex: 0 0 38%; }
-      .quiz-col-left::after { top: auto; right: 0; bottom: 0; left: 0; width: auto; height: 80px;
-        background: linear-gradient(to bottom, transparent, #09090c); }
-      .quiz-col-right { padding: 32px 28px 100px; }
+      .quiz-col-left { display: none; }
+      .quiz-col-right {
+        flex: 1; display: flex; flex-direction: column; justify-content: center;
+        padding: 80px 28px 120px;
+      }
+      /* Flèches en bas */
+      .quiz-nav-btn { top: auto; bottom: 28px; transform: none; }
+      #quizPrev { left: 24px; }
+      #quizNext { right: 24px; }
       .quiz-submit { align-self: stretch; text-align: center; }
       .quiz-bravo-next { align-self: stretch; text-align: center; }
-      #quizPrev { left: 8px; } #quizNext { right: 8px; }
+
+      /* Succès : affiche l'image, cache le texte de l'énigme */
+      #quizModal.success-active .quiz-layout {
+        justify-content: center;
+      }
+      #quizModal.success-active .quiz-col-left {
+        display: flex; flex: 0 0 auto; padding: 0 28px; justify-content: center;
+      }
+      #quizModal.success-active .quiz-book-img { height: auto; max-height: 34vh; width: auto; }
+      #quizModal.success-active .quiz-counter,
+      #quizModal.success-active .quiz-subtitle,
+      #quizModal.success-active .quiz-divider,
+      #quizModal.success-active .quiz-riddle { display: none; }
+      #quizModal.success-active .quiz-col-right {
+        flex: 0 0 auto; justify-content: flex-start; padding: 16px 28px 0;
+      }
     }
 
     @media (max-width: 768px) {
@@ -4496,6 +4517,7 @@
       function load(idx) {
         const r = riddles[idx];
         current = idx; attempts = 0;
+        modal.classList.remove('success-active');
         bgImg.style.transition = 'none';
         bgImg.classList.remove('revealed');
         bgImg.src = r.img;
@@ -4528,6 +4550,7 @@
           setTimeout(() => {
             answerZone.style.display = 'none';
             successZone.classList.add('show');
+            modal.classList.add('success-active');
             launchConfetti();
           }, 600);
         } else {
