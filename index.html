@@ -2039,7 +2039,7 @@
       margin-bottom: 8px;
     }
     .quiz-subtitle {
-      font-family: var(--font-display); font-size: .55rem;
+      font-family: var(--font-display); font-size: .7rem;
       letter-spacing: .15em; text-transform: none;
       color: rgba(255,255,255,.4);
       margin-bottom: 32px;
@@ -2166,7 +2166,7 @@
 
     /* Fermer */
     .quiz-close {
-      position: fixed; top: 28px; right: 28px; z-index: 25;
+      position: fixed; top: 28px; right: 28px; z-index: 35;
       width: 38px; height: 38px; border-radius: 50%;
       background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
       color: rgba(255,255,255,.55); font-size: .85rem; cursor: none;
@@ -2177,6 +2177,81 @@
 
     /* Confettis */
     #quizConfetti { position: fixed; inset: 0; pointer-events: none; z-index: 29; }
+
+    /* Intro screen */
+    #quizIntro {
+      position: absolute; inset: 0; z-index: 30;
+      background: #09090c;
+      display: flex; align-items: center; justify-content: center;
+      padding: 48px;
+      overflow: hidden;
+    }
+    #quizIntro::before {
+      content: '';
+      position: absolute; inset: -20%; pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 40% at 10% 80%, rgba(220,180,60,.09) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 50% at 85% 15%, rgba(160,140,255,.07) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 35% at 55% 90%, rgba(80,190,160,.05) 0%, transparent 65%);
+      animation: introGlow 16s ease-in-out infinite alternate;
+    }
+    @keyframes introGlow {
+      0%   { transform: scale(1)    translate(0, 0);      opacity: .6; }
+      50%  { transform: scale(1.06) translate(3%, -3%);   opacity: 1;  }
+      100% { transform: scale(.97)  translate(-2%, 2%);   opacity: .75; }
+    }
+    #quizIntro.hidden { display: none; }
+    .quiz-intro-inner {
+      position: relative; z-index: 1;
+      max-width: 520px; width: 100%;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .quiz-intro-label {
+      font-family: var(--font-display); font-size: .55rem;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: rgba(255,255,255,.25);
+      margin-bottom: 24px;
+    }
+    .quiz-intro-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .quiz-intro-emoji { font-size: 1.6rem; line-height: 1; }
+    .quiz-intro-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+      color: var(--text); margin: 0;
+    }
+    .quiz-intro-divider {
+      width: 36px; height: 1px;
+      background: rgba(255,255,255,.15);
+      margin-bottom: 28px;
+    }
+    .quiz-intro-body {
+      font-family: var(--font-body);
+      font-size: clamp(.88rem, 1.2vw, 1rem);
+      font-weight: 400;
+      color: rgba(255,255,255,.55);
+      line-height: 1.85;
+      margin: 0 0 36px;
+    }
+    .quiz-intro-cta {
+      align-self: flex-start;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.5);
+      border-radius: 100px; padding: 12px 28px;
+      font-family: var(--font-display); font-size: .72rem;
+      letter-spacing: .18em; text-transform: uppercase;
+      cursor: none; transition: background .2s, color .2s, border-color .2s;
+    }
+    .quiz-intro-cta:hover {
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.4); color: #fff;
+    }
+    @media (max-width: 768px) {
+      #quizIntro { padding: 40px 28px; align-items: flex-start; padding-top: 80px; }
+      .quiz-intro-cta { align-self: stretch; text-align: center; }
+    }
 
     @media (max-width: 768px) {
       /* Layout en colonne, image cachée en mode énigme */
@@ -3578,6 +3653,20 @@
   <div id="quizModal">
     <canvas id="quizConfetti"></canvas>
     <button class="quiz-close" id="quizClose">✕</button>
+
+    <!-- Écran d'intro -->
+    <div id="quizIntro">
+      <div class="quiz-intro-inner">
+        <div class="quiz-intro-label">Lab'o · Expérimentation</div>
+        <div class="quiz-intro-header">
+          <span class="quiz-intro-emoji">🧀</span>
+          <h2 class="quiz-intro-title">Littérature gratinée</h2>
+        </div>
+        <div class="quiz-intro-divider"></div>
+        <p class="quiz-intro-body">Bienvenue dans un prototype jamais validé en review.<br><br>Suite à un A/B test douteux,<br>une feature remplace certains mots par… des fromages.<br>Personne ne sait pourquoi. Personne ne sait comment.<br>Mais c'est en prod.<br><br>Votre mission : retrouver les bons duos œuvre littéraire + fromage… et tenter de sauver la prod.</p>
+        <button class="quiz-intro-cta" id="quizIntroStart">À vos fromages !</button>
+      </div>
+    </div>
     <button class="quiz-nav-btn" id="quizPrev">←</button>
     <button class="quiz-nav-btn" id="quizNext">→</button>
 
@@ -3590,7 +3679,7 @@
       <!-- Droite : énigme + réponse -->
       <div class="quiz-col-right">
         <div class="quiz-counter" id="quizCounter">01 / 13</div>
-        <div class="quiz-subtitle">Répondez au quiz mêlant littérature et connaissance fromagère</div>
+        <div class="quiz-subtitle">Quel fromage manque à ce classique littéraire ?</div>
         <div class="quiz-divider"></div>
         <div class="quiz-riddle" id="quizRiddle"></div>
 
@@ -4604,8 +4693,24 @@
       }
 
       // ── Événements ──
-      skinCard.addEventListener('click', () => { load(0); modal.classList.add('open'); document.body.style.overflow = 'hidden'; });
-      closeBtn.addEventListener('click',  () => { modal.classList.remove('open'); document.body.style.overflow = ''; stopConfetti(); });
+      const introEl    = document.getElementById('quizIntro');
+      const introStart = document.getElementById('quizIntroStart');
+
+      skinCard.addEventListener('click', () => {
+        introEl.classList.remove('hidden');
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+      introStart.addEventListener('click', () => {
+        introEl.classList.add('hidden');
+        load(0);
+      });
+      closeBtn.addEventListener('click',  () => {
+        modal.classList.remove('open');
+        introEl.classList.remove('hidden'); // reset intro pour la prochaine ouverture
+        document.body.style.overflow = '';
+        stopConfetti();
+      });
       submitBtn.addEventListener('click', check);
       inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
       prevBtn.addEventListener('click',   () => goTo(current - 1));
