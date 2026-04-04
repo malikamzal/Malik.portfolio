@@ -2187,20 +2187,19 @@
       padding: 48px;
     }
     #quizIntro.hidden { display: none; }
+    @keyframes introFadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .quiz-intro-inner {
       position: relative; z-index: 1;
       max-width: 520px; width: 100%;
       display: flex; flex-direction: column; gap: 0;
     }
-    .quiz-intro-label {
-      font-family: var(--font-display); font-size: .55rem;
-      letter-spacing: .3em; text-transform: uppercase;
-      color: rgba(255,255,255,.25);
-      margin-bottom: 24px;
-    }
     .quiz-intro-header {
       display: flex; align-items: center; gap: 12px;
       margin-bottom: 20px;
+      animation: introFadeUp .5s ease both;
     }
     .quiz-intro-emoji { font-size: 1.6rem; line-height: 1; }
     .quiz-intro-title {
@@ -2212,6 +2211,7 @@
       width: 36px; height: 1px;
       background: rgba(255,255,255,.15);
       margin-bottom: 28px;
+      animation: introFadeUp .5s .1s ease both;
     }
     .quiz-intro-body {
       font-family: var(--font-body);
@@ -2220,11 +2220,13 @@
       color: rgba(255,255,255,.55);
       line-height: 1.85;
       margin: 0 0 36px;
+      animation: introFadeUp .5s .2s ease both;
     }
     .quiz-intro-body p { margin: 0 0 .9em; }
     .quiz-intro-body p:last-child { margin-bottom: 0; }
     .quiz-intro-cta {
       align-self: flex-start;
+      animation: introFadeUp .5s .32s ease both;
       background: rgba(255,255,255,.07);
       border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.5);
       border-radius: 100px; padding: 12px 28px;
@@ -2245,7 +2247,6 @@
         padding-top: max(48px, calc(env(safe-area-inset-top) + 48px));
       }
       .quiz-intro-inner { gap: 0; }
-      .quiz-intro-label { margin-bottom: 18px; }
       .quiz-intro-header { margin-bottom: 16px; }
       .quiz-intro-emoji { font-size: 1.2rem; }
       .quiz-intro-title { font-size: 1.2rem; }
@@ -3673,7 +3674,6 @@
     <!-- Écran d'intro -->
     <div id="quizIntro">
       <div class="quiz-intro-inner">
-        <div class="quiz-intro-label">Lab'o · Expérimentation</div>
         <div class="quiz-intro-header">
           <span class="quiz-intro-emoji">🧀</span>
           <h2 class="quiz-intro-title">Littérature gratinée</h2>
@@ -4716,10 +4716,15 @@
       const introEl    = document.getElementById('quizIntro');
       const introStart = document.getElementById('quizIntroStart');
 
+      function resetIntroAnim() {
+        const els = introEl.querySelectorAll('.quiz-intro-header, .quiz-intro-divider, .quiz-intro-body, .quiz-intro-cta');
+        els.forEach(el => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; });
+      }
       skinCard.addEventListener('click', () => {
         introEl.classList.remove('hidden');
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
+        resetIntroAnim();
       });
       introStart.addEventListener('click', () => {
         introEl.classList.add('hidden');
