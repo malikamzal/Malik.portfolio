@@ -4792,87 +4792,61 @@
         track.style.animation = `mosaicScrollPx ${speed}s linear infinite`;
       }
 
-      function openGLPage() {
-        page.classList.add('open');
-        closeBtn.classList.add('visible');
-        document.body.style.overflow = 'hidden';
-        page.scrollTop = 0;
-        requestAnimationFrame(() => requestAnimationFrame(initMosaicScroll));
-      }
-      function closeGLPage() {
-        page.classList.remove('open');
-        closeBtn.classList.remove('visible');
-        document.body.style.overflow = '';
-      }
-      function openMauPage() {
-        mauPage.classList.add('open');
-        closeBtn.classList.add('visible');
-        document.body.style.overflow = 'hidden';
-        mauPage.scrollTop = 0;
-      }
-      function closeMauPage() {
-        mauPage.classList.remove('open');
-        closeBtn.classList.remove('visible');
-        document.body.style.overflow = '';
-      }
-      function openGtfPage() {
-        gtfPage.classList.add('open');
-        closeBtn.classList.add('visible');
-        document.body.style.overflow = 'hidden';
-        gtfPage.scrollTop = 0;
-      }
-      function closeGtfPage() {
-        gtfPage.classList.remove('open');
-        closeBtn.classList.remove('visible');
-        document.body.style.overflow = '';
-      }
       const pgPage = document.getElementById('pgPage');
-      function openPgPage() {
-        pgPage.classList.add('open');
-        closeBtn.classList.add('visible');
-        document.body.style.overflow = 'hidden';
-        pgPage.scrollTop = 0;
+
+      // ── Routing par hash ──
+      const routes = {
+        'galeries-lafayette': {
+          el: page,
+          _open()  { page.classList.add('open'); closeBtn.classList.add('visible'); document.body.style.overflow = 'hidden'; page.scrollTop = 0; requestAnimationFrame(() => requestAnimationFrame(initMosaicScroll)); },
+          _close() { page.classList.remove('open'); closeBtn.classList.remove('visible'); document.body.style.overflow = ''; }
+        },
+        'mauboussin': {
+          el: mauPage,
+          _open()  { mauPage.classList.add('open'); closeBtn.classList.add('visible'); document.body.style.overflow = 'hidden'; mauPage.scrollTop = 0; },
+          _close() { mauPage.classList.remove('open'); closeBtn.classList.remove('visible'); document.body.style.overflow = ''; }
+        },
+        'gotaxfree': {
+          el: gtfPage,
+          _open()  { gtfPage.classList.add('open'); closeBtn.classList.add('visible'); document.body.style.overflow = 'hidden'; gtfPage.scrollTop = 0; },
+          _close() { gtfPage.classList.remove('open'); closeBtn.classList.remove('visible'); document.body.style.overflow = ''; }
+        },
+        'pampers': {
+          el: pgPage,
+          _open()  { pgPage.classList.add('open'); closeBtn.classList.add('visible'); document.body.style.overflow = 'hidden'; pgPage.scrollTop = 0; },
+          _close() { pgPage.classList.remove('open'); closeBtn.classList.remove('visible'); document.body.style.overflow = ''; }
+        }
+      };
+
+      function openRoute(slug) {
+        history.pushState({ slug }, '', '#' + slug);
+        routes[slug]._open();
       }
-      function closePgPage() {
-        pgPage.classList.remove('open');
-        closeBtn.classList.remove('visible');
-        document.body.style.overflow = '';
+      function closeAll() {
+        history.pushState({ slug: '' }, '', location.pathname + location.search);
+        Object.values(routes).forEach(r => { if (r.el.classList.contains('open')) r._close(); });
       }
+      function applyHash() {
+        const slug = location.hash.slice(1);
+        Object.values(routes).forEach(r => { if (r.el.classList.contains('open')) r._close(); });
+        if (slug && routes[slug]) routes[slug]._open();
+      }
+
+      window.addEventListener('popstate', applyHash);
 
       // Clic sur les cartes (desktop + mobile)
       document.querySelectorAll('.project-card, .wallet-card').forEach(card => {
-        if (card.querySelector('img[src*="GALERIES_LAFAYETTE_PROJECT"]')) {
-          card.addEventListener('click', openGLPage);
-          card.style.cursor = 'none';
-        }
-        if (card.querySelector('img[src*="MAUBOUSSIN_PROJECT"]')) {
-          card.addEventListener('click', openMauPage);
-          card.style.cursor = 'none';
-        }
-        if (card.querySelector('img[src*="GOTAXFREE_PROJECT"]')) {
-          card.addEventListener('click', openGtfPage);
-          card.style.cursor = 'none';
-        }
-        if (card.querySelector('img[src*="PAMPERS_PROJECT"]')) {
-          card.addEventListener('click', openPgPage);
-          card.style.cursor = 'none';
-        }
+        if (card.querySelector('img[src*="GALERIES_LAFAYETTE_PROJECT"]')) { card.addEventListener('click', () => openRoute('galeries-lafayette')); card.style.cursor = 'none'; }
+        if (card.querySelector('img[src*="MAUBOUSSIN_PROJECT"]'))          { card.addEventListener('click', () => openRoute('mauboussin'));          card.style.cursor = 'none'; }
+        if (card.querySelector('img[src*="GOTAXFREE_PROJECT"]'))           { card.addEventListener('click', () => openRoute('gotaxfree'));           card.style.cursor = 'none'; }
+        if (card.querySelector('img[src*="PAMPERS_PROJECT"]'))             { card.addEventListener('click', () => openRoute('pampers'));             card.style.cursor = 'none'; }
       });
 
-      closeBtn.addEventListener('click', () => {
-        if (page.classList.contains('open')) closeGLPage();
-        if (mauPage.classList.contains('open')) closeMauPage();
-        if (gtfPage.classList.contains('open')) closeGtfPage();
-        if (pgPage.classList.contains('open')) closePgPage();
-      });
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
-          if (page.classList.contains('open')) closeGLPage();
-          if (mauPage.classList.contains('open')) closeMauPage();
-          if (gtfPage.classList.contains('open')) closeGtfPage();
-          if (pgPage.classList.contains('open')) closePgPage();
-        }
-      });
+      closeBtn.addEventListener('click', closeAll);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+
+      // Ouverture directe si URL contient déjà un hash (partage / rechargement)
+      if (location.hash && routes[location.hash.slice(1)]) applyHash();
     })();
 
     // ── GL CAROUSEL ──
