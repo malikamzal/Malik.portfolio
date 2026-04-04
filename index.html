@@ -4717,22 +4717,34 @@
         const els = introEl.querySelectorAll('.quiz-intro-header, .quiz-intro-divider, .quiz-intro-body, .quiz-intro-cta');
         els.forEach(el => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; });
       }
-      skinCard.addEventListener('click', () => {
+      function openQuiz() {
+        history.pushState({ slug: 'labo/litterature-gratinee' }, '', '#labo/litterature-gratinee');
         introEl.classList.remove('hidden');
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
         resetIntroAnim();
-      });
+      }
+      function closeQuiz() {
+        history.pushState({ slug: '' }, '', location.pathname + location.search);
+        modal.classList.remove('open');
+        introEl.classList.remove('hidden');
+        document.body.style.overflow = '';
+        stopConfetti();
+      }
+
+      skinCard.addEventListener('click', openQuiz);
       introStart.addEventListener('click', () => {
         introEl.classList.add('hidden');
         load(0);
       });
-      closeBtn.addEventListener('click',  () => {
-        modal.classList.remove('open');
-        introEl.classList.remove('hidden'); // reset intro pour la prochaine ouverture
-        document.body.style.overflow = '';
-        stopConfetti();
+      closeBtn.addEventListener('click', closeQuiz);
+
+      // Restauration au rechargement / partage
+      window.addEventListener('popstate', e => {
+        if (e.state?.slug === 'labo/litterature-gratinee') openQuiz();
+        else if (modal.classList.contains('open')) closeQuiz();
       });
+      if (location.hash === '#labo/litterature-gratinee') openQuiz();
       submitBtn.addEventListener('click', check);
       inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
       inputEl.addEventListener('blur', () => {
