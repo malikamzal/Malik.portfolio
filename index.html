@@ -2588,7 +2588,7 @@
     /* ── PIXEL CANVAS PAGE ── */
     #pixelPage {
       position: fixed; inset: 0; z-index: 9000;
-      background: #f5f4f0;
+      background: var(--bg);
       display: flex; flex-direction: column;
       transform: translateY(100%);
       transition: transform .6s cubic-bezier(.16,1,.3,1);
@@ -2597,26 +2597,26 @@
     #pixelPage.open { transform: translateY(0); pointer-events: auto; }
     .px-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 28px 48px 20px; border-bottom: 1px solid rgba(0,0,0,.08);
+      padding: 28px 48px 20px; border-bottom: 1px solid var(--border);
       flex-shrink: 0;
     }
     .px-label {
       font-family: var(--font-display); font-size: .6rem;
       letter-spacing: .25em; text-transform: uppercase;
-      color: rgba(0,0,0,.3); margin-bottom: 4px;
+      color: var(--accent); margin-bottom: 4px;
     }
     .px-title {
       font-family: var(--font-display); font-weight: 700;
-      font-size: 1.4rem; color: #111; margin: 0;
+      font-size: 1.4rem; color: var(--text); margin: 0;
     }
     .px-stats { display: flex; align-items: center; gap: 36px; }
     .px-stat { text-align: right; }
     .px-stat-num {
       font-family: var(--font-display); font-weight: 700;
-      font-size: 1.5rem; color: #111; line-height: 1;
+      font-size: 1.5rem; color: var(--text); line-height: 1;
     }
-    .px-stat-num sup { font-size: .7rem; opacity: .4; font-weight: 400; }
-    .px-stat-label { font-family: var(--font-body); font-size: .72rem; color: rgba(0,0,0,.4); margin-top: 2px; }
+    .px-stat-num sup { font-size: .7rem; opacity: .35; font-weight: 400; }
+    .px-stat-label { font-family: var(--font-body); font-size: .72rem; color: var(--muted); margin-top: 2px; }
     .px-workspace {
       flex: 1; overflow: auto; min-height: 0;
       display: flex; align-items: center; justify-content: center; padding: 28px;
@@ -2624,32 +2624,31 @@
     #pixelCanvas {
       display: block; cursor: crosshair;
       image-rendering: pixelated; image-rendering: crisp-edges;
-      box-shadow: 0 4px 48px rgba(0,0,0,.1);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.07), 0 8px 64px rgba(0,0,0,.6);
     }
     .px-controls {
-      padding: 14px 48px 18px; border-top: 1px solid rgba(0,0,0,.08);
+      padding: 14px 48px 18px; border-top: 1px solid var(--border);
       display: flex; align-items: center; gap: 20px; flex-shrink: 0;
     }
-    .px-palette { display: flex; gap: 7px; flex-wrap: wrap; flex: 1; }
+    .px-palette { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
     .px-swatch {
-      width: 22px; height: 22px; border-radius: 4px; cursor: pointer;
+      width: 26px; height: 26px; border-radius: 5px; cursor: pointer;
       border: 2px solid transparent; transition: transform .12s, border-color .12s;
       flex-shrink: 0;
     }
-    .px-swatch:hover { transform: scale(1.2); }
-    .px-swatch.active { border-color: rgba(0,0,0,.55); transform: scale(1.25); }
-    .px-swatch.white-swatch { border-color: rgba(0,0,0,.18); }
-    .px-swatch.white-swatch.active { border-color: rgba(0,0,0,.55); }
+    .px-swatch:hover { transform: scale(1.18); }
+    .px-swatch.active { border-color: var(--accent); transform: scale(1.22); }
+    .px-swatch.white-swatch { border-color: rgba(255,255,255,.2); }
     .px-quota {
       font-family: var(--font-display); font-size: .62rem;
       letter-spacing: .1em; text-transform: uppercase;
-      color: rgba(0,0,0,.35); white-space: nowrap; flex-shrink: 0;
+      color: var(--muted); white-space: nowrap; flex-shrink: 0;
     }
-    .px-quota.done { color: #555; }
+    .px-quota.done { color: var(--accent); }
     .px-offline {
       font-family: var(--font-body); font-size: .72rem;
-      color: rgba(0,0,0,.4); text-align: center;
-      padding: 6px 48px; background: rgba(0,0,0,.04); flex-shrink: 0;
+      color: var(--muted); text-align: center;
+      padding: 6px 48px; border-bottom: 1px solid var(--border); flex-shrink: 0;
       display: none;
     }
     @media (max-width: 768px) {
@@ -2659,7 +2658,7 @@
       .px-stats { gap: 20px; }
       .px-workspace { padding: 12px; }
       .px-controls { padding: 10px 20px 14px; gap: 12px; }
-      .px-swatch { width: 19px; height: 19px; }
+      .px-swatch { width: 22px; height: 22px; }
     }
   </style>
 </head>
@@ -4990,7 +4989,7 @@
       };
       // ════════════════════════════════════════════════════════
 
-      const COLS = 80, ROWS = 50, MAX_PX = 50;
+      const COLS = 50, ROWS = 32, MAX_PX = 50;
       const PALETTE = [
         '#0f0f0f','#ffffff',
         '#ef4444','#f97316',
@@ -5024,7 +5023,7 @@
       function sizeCanvas() {
         const ws = document.getElementById('pxWorkspace');
         const mw = ws.clientWidth - 40, mh = ws.clientHeight - 40;
-        PXSZ = Math.max(6, Math.floor(Math.min(mw / COLS, mh / ROWS)));
+        PXSZ = Math.max(10, Math.floor(Math.min(mw / COLS, mh / ROWS)));
         canvas.width  = COLS * PXSZ;
         canvas.height = ROWS * PXSZ;
         render();
@@ -5032,7 +5031,7 @@
 
       // Rendu du canvas
       function render() {
-        ctx.fillStyle = '#fafaf7';
+        ctx.fillStyle = '#111114';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         // Pixels posés
         for (const [key, color] of Object.entries(pixelData)) {
@@ -5041,7 +5040,7 @@
           ctx.fillRect(x * PXSZ, y * PXSZ, PXSZ, PXSZ);
         }
         // Grille
-        ctx.strokeStyle = 'rgba(0,0,0,0.07)';
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
         ctx.lineWidth = 0.5;
         for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x*PXSZ,0); ctx.lineTo(x*PXSZ,canvas.height); ctx.stroke(); }
         for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0,y*PXSZ); ctx.lineTo(canvas.width,y*PXSZ); ctx.stroke(); }
