@@ -2102,10 +2102,6 @@
     }
     .quiz-hint.visible { opacity: 1; }
 
-    /* Label réponse */
-    .quiz-answer-label {
-      display: none; /* visible uniquement mobile */
-    }
 
     /* Valider */
     .quiz-submit {
@@ -2280,20 +2276,11 @@
       .quiz-layout { flex-direction: column; }
       .quiz-col-left { display: none; }
       .quiz-col-right {
-        flex: 1; display: flex; flex-direction: column; justify-content: center;
-        padding: 80px 28px 120px;
+        flex: 1; display: flex; flex-direction: column; justify-content: flex-start;
+        padding: 48px 28px 100px;
       }
       /* Énigme plus grande */
       .quiz-riddle { font-size: clamp(1.6rem, 5.5vw, 2rem); margin-bottom: 32px; }
-
-      /* Label réponse */
-      .quiz-answer-label {
-        display: block;
-        font-family: var(--font-display); font-size: .55rem;
-        letter-spacing: .25em; text-transform: uppercase;
-        color: rgba(255,255,255,.3);
-        margin-bottom: 12px;
-      }
 
       /* Réponse plus compacte, input pleine largeur */
       .quiz-field-wrap { font-size: .85rem; flex-wrap: nowrap; }
@@ -2304,12 +2291,12 @@
       #quizPrev { left: 24px; }
       #quizNext { right: 24px; }
 
-      /* Valider centré entre les flèches */
+      /* Valider centré entre les flèches, aligné en hauteur */
       .quiz-submit {
-        position: fixed; bottom: 20px;
+        position: fixed; bottom: 28px;
         left: 50%; transform: translateX(-50%);
         margin-top: 0; align-self: auto;
-        white-space: nowrap;
+        white-space: nowrap; height: 48px; padding: 0 28px;
       }
       .quiz-bravo-next { align-self: stretch; text-align: center; }
 
@@ -3734,7 +3721,6 @@
 
         <!-- Zone de réponse -->
         <div id="quizAnswerZone">
-          <div class="quiz-answer-label">Votre réponse :</div>
           <div class="quiz-field-wrap">
             <span id="quizPrefix"></span>
             <input id="quizInput" class="quiz-input" type="text" autocomplete="off" spellcheck="false">
@@ -4576,55 +4562,55 @@
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_MELVILLE.png',
           clue:'Raie sombre au centre,\nobsession au large…\nQui suis-je ?',
           prefix:'', suffix:' DICK', answer:'MORBIER',
-          hint:'Herman Melville', title:'Morbier Dick' },
+          hint:'Il se reconnaît à sa raie cendrée qui le coupe en deux.', title:'Morbier Dick' },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_DEFOE.png',
           clue:'Façonné à l\'écart du monde,\ndans les alpages perdus…\nQui suis-je ?',
           prefix:'', suffix:' CRUSOÉ', answer:'REBLOCHON',
-          hint:'Daniel Defoe', title:'Reblochon Crusoé' },
+          hint:'Incontournable dans une tartiflette, né en Haute-Savoie.', title:'Reblochon Crusoé' },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_FLAUBERT.png',
           clue:'Truffé de vides,\nune jeunesse qui se cherche et se perd…\nQui suis-je ?',
           prefix:"L'ÉDUCATION SANS ", suffix:'', answer:'EMMENTAL',
-          hint:'Gustave Flaubert', title:"L'Éducation sans emmental" },
+          hint:'Percé de grands trous, souvent associé à la Suisse.', title:"L'Éducation sans emmental" },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_PROUST.png',
           clue:'Vieilli en cave,\nil retrouve le goût des choses perdues…\nQui suis-je ?',
           prefix:'DU ', suffix:' DE CHEZ SWANN', answer:'COMTÉ',
-          hint:'Marcel Proust', title:'Du Comté de chez Swann' },
+          hint:'Fromage du Jura, affiné des mois en cave, au goût de noisette.', title:'Du Comté de chez Swann' },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_SEGUR.png',
           clue:'Percé de trous\ncomme ses aventures malheureuses…\nQui suis-je ?',
           prefix:'', suffix:' DE SOPHIE', answer:'LEERDAMMER',
-          hint:'Comtesse de Ségur', title:'Leerdammer de Sophie' },
+          hint:'Hollandais aux grands trous, plus doux et sucré que le Gruyère.', title:'Leerdammer de Sophie' },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_STEVENSON.png',
           clue:'Doux sous la croûte,\nredoutable dans les caves d\'Alsace…\nQui suis-je ?',
           prefix:'JEKYLL ET ', suffix:' HYDE', answer:'MUNSTER',
-          hint:'R.L. Stevenson', title:"L'Étrange cas du Dr. Jekyll et Munster Hyde" },
+          hint:'Alsacien à croûte orangée et odeur puissante. Un caractère double.', title:"L'Étrange cas du Dr. Jekyll et Munster Hyde" },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_ZOLA.png',
           clue:'Écarlate en surface,\nil trône dans les rayons du grand magasin…\nQui suis-je ?',
           prefix:"AU BONHEUR D'", suffix:'', answer:'EDAM',
-          hint:'Émile Zola', title:"Au bonheur d'Edam" },
+          hint:'Sa boule rouge est iconique. Fromage doux des Pays-Bas.', title:"Au bonheur d'Edam" },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_HUGO.png',
           clue:'Un rire gravé à jamais,\nen petites portions carrées…\nQui suis-je ?',
           prefix:"L'HOMME ", suffix:'', answer:'KIRI',
-          hint:'Victor Hugo', title:"L'Homme Kiri" },
+          hint:'Fromage frais fondu en petits cubes, dans un emballage aux couleurs vives.', title:"L'Homme Kiri" },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_FAULNKER.png',
           clue:'Une famille qui s\'effondre,\ndans une ambiance épaisse et crémeuse…\nQui suis-je ?',
           prefix:'LE ', suffix:' ET LA FUREUR', answer:'BRIE',
-          hint:'William Faulkner', title:'Le Brie et la Fureur' },
+          hint:'Pâte molle à croûte fleurie, roi de l\'Île-de-France.', title:'Le Brie et la Fureur' },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_FLAUBERT2.png',
           clue:'Une femme insatisfaite,\ndans une vie pleine de trous…\nQui suis-je ?',
           prefix:'', suffix:' BOVARY', answer:'MAASDAM',
-          hint:'Gustave Flaubert', title:'Maasdam Bovary' },
+          hint:'Hollandais aux grands trous, plus sucré et fruité que le Gruyère.', title:'Maasdam Bovary' },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_HEMINGWAY.png',
           clue:'Une ville, la légèreté,\net un parfum méditerranéen…\nQui suis-je ?',
           prefix:'PARIS EST UNE ', suffix:'', answer:'FÉTA',
-          hint:'Ernest Hemingway', title:'Paris est une Féta' },
+          hint:'Fromage grec blanc mariné en saumure, star des salades méditerranéennes.', title:'Paris est une Féta' },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_BOULLE.png',
           clue:'Un monde dominé par des primates,\net un plat qui rassemble autour de la table…\nQui suis-je ?',
           prefix:'LA ', suffix:' DES SINGES', answer:'RACLETTE',
-          hint:'Pierre Boulle', title:'La Raclette des singes' },
+          hint:'On le fait fondre sur des pommes de terre. Spécialité savoyarde conviviale.', title:'La Raclette des singes' },
         { img:'01_SOURCES/LAB_FROMAGE/LIVRE_VERNE.png',
           clue:'Une expédition sous-marine,\nmarquée par des veines profondes…\nQui suis-je ?',
           prefix:'20 000 ', suffix:' SOUS LES MERS', answer:'BLEUS',
-          hint:'Jules Verne', title:'20 000 Bleus sous les mers' },
+          hint:'Fromage à pâte persillée de veines bleues-vertes. Comme le Roquefort ou le Gorgonzola.', title:'20 000 Bleus sous les mers' },
       ];
 
       const modal       = document.getElementById('quizModal');
