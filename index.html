@@ -2618,13 +2618,12 @@
     .px-stat-num sup { font-size: .7rem; opacity: .35; font-weight: 400; }
     .px-stat-label { font-family: var(--font-body); font-size: .72rem; color: var(--muted); margin-top: 2px; }
     .px-workspace {
-      flex: 1; overflow: auto; min-height: 0;
-      display: flex; align-items: center; justify-content: center; padding: 28px;
+      flex: 1; overflow: hidden; min-height: 0;
+      display: block; padding: 0;
     }
     #pixelCanvas {
       display: block; cursor: crosshair;
       image-rendering: pixelated; image-rendering: crisp-edges;
-      box-shadow: 0 0 0 1px rgba(255,255,255,.07), 0 8px 64px rgba(0,0,0,.6);
     }
     .px-controls {
       padding: 14px 48px 18px; border-top: 1px solid var(--border);
@@ -2656,7 +2655,7 @@
       .px-title { font-size: 1.1rem; }
       .px-stat-num { font-size: 1.1rem; }
       .px-stats { gap: 20px; }
-      .px-workspace { padding: 12px; }
+      .px-workspace { padding: 0; }
       .px-controls { padding: 10px 20px 14px; gap: 12px; }
       .px-swatch { width: 22px; height: 22px; }
     }
@@ -4989,7 +4988,8 @@
       };
       // ════════════════════════════════════════════════════════
 
-      const COLS = 50, ROWS = 32, MAX_PX = 50;
+      const PXSZ = 6, MAX_PX = 50;
+      let COLS = 0, ROWS = 0;
       const PALETTE = [
         '#0f0f0f','#ffffff',
         '#ef4444','#f97316',
@@ -5016,14 +5016,13 @@
       let userCount = parseInt(localStorage.getItem('px_count') || '0');
       let selectedColor = PALETTE[0];
       let pixelData = {}; // { "x,y": color }
-      let PXSZ = 10; // pixel size in px
       let db = null;
 
       // Dimensionner le canvas selon l'espace disponible
       function sizeCanvas() {
         const ws = document.getElementById('pxWorkspace');
-        const mw = ws.clientWidth - 40, mh = ws.clientHeight - 40;
-        PXSZ = Math.max(10, Math.floor(Math.min(mw / COLS, mh / ROWS)));
+        COLS = Math.floor(ws.clientWidth  / PXSZ);
+        ROWS = Math.floor(ws.clientHeight / PXSZ);
         canvas.width  = COLS * PXSZ;
         canvas.height = ROWS * PXSZ;
         render();
