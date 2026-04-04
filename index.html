@@ -4496,8 +4496,10 @@
       function load(idx) {
         const r = riddles[idx];
         current = idx; attempts = 0;
-        bgImg.src = r.img;
+        bgImg.style.transition = 'none';
         bgImg.classList.remove('revealed');
+        bgImg.src = r.img;
+        requestAnimationFrame(() => { bgImg.style.transition = ''; });
         counter.textContent = String(idx + 1).padStart(2,'0') + ' / 13';
         riddleEl.textContent = r.clue;
         prefixEl.textContent = r.prefix;
