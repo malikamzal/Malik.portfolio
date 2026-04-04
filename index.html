@@ -2651,6 +2651,12 @@
       padding: 6px 48px; border-bottom: 1px solid var(--border); flex-shrink: 0;
       display: none;
     }
+    #pixelIntro {
+      position: absolute; inset: 0; z-index: 20;
+      background: var(--bg);
+      display: flex; align-items: flex-start; padding: 48px;
+    }
+    #pixelIntro.hidden { display: none; }
     @media (max-width: 768px) {
       .px-header { padding: 16px 20px 14px; }
       .px-title { font-size: 1.1rem; }
@@ -3743,6 +3749,24 @@
 
   <!-- Pixel Canvas Page -->
   <div id="pixelPage">
+
+    <!-- Intro / prépage -->
+    <div id="pixelIntro">
+      <div class="quiz-intro-inner">
+        <div class="quiz-intro-header">
+          <span class="quiz-intro-emoji">🖼️</span>
+          <h2 class="quiz-intro-title">Projet sans titre</h2>
+        </div>
+        <div class="quiz-intro-divider"></div>
+        <div class="quiz-intro-body">
+          <p>Un nouveau projet vient d'arriver…. Mais c'est la panne d'inspiration.</p>
+          <p>Alors on a essayé autre chose : tout miser sur l'intelligence collective pour respecter les deadlines.</p>
+          <p>Apportez votre pixel à l'édifice.</p>
+        </div>
+        <button class="quiz-intro-cta" id="pixelIntroStart">À votre tour !</button>
+      </div>
+    </div>
+
     <div class="px-header">
       <div>
         <div class="px-label">Labo · Expérimentation</div>
@@ -5112,12 +5136,27 @@
         }
       } catch(e) { elOffline.style.display = 'block'; }
 
+      // Intro pixel canvas
+      const pixelIntro      = document.getElementById('pixelIntro');
+      const pixelIntroStart = document.getElementById('pixelIntroStart');
+
+      function resetPixelIntroAnim() {
+        pixelIntro.querySelectorAll('.quiz-intro-header,.quiz-intro-divider,.quiz-intro-body,.quiz-intro-cta')
+          .forEach(el => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; });
+      }
+
+      pixelIntroStart.addEventListener('click', () => {
+        pixelIntro.classList.add('hidden');
+        setTimeout(sizeCanvas, 60);
+      });
+
       // Open / close + routing
       function _openDOM() {
         pixelPage.classList.add('open');
         glClose.classList.add('visible');
         document.body.style.overflow = 'hidden';
-        setTimeout(sizeCanvas, 60);
+        pixelIntro.classList.remove('hidden');
+        resetPixelIntroAnim();
       }
       function _closeDOM() {
         pixelPage.classList.remove('open');
