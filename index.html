@@ -276,7 +276,7 @@
     }
 
     /* Section base */
-    section { padding: 120px 64px; }
+    section { padding: 80px 64px; }
     .section-label {
       font-size: .7rem;
       letter-spacing: .2em;
@@ -627,7 +627,6 @@
     /* ── VIBES SECTION ── */
     #vibes {
       background: var(--bg);
-      border-top: 1px solid var(--border);
     }
     .vibes-header { margin-bottom: 64px; }
     .vibes-subtitle {
@@ -638,7 +637,7 @@
     }
 
     /* ── PARCOURS SLIDER ── */
-    #vibes { background: var(--bg); border-top: 1px solid var(--border); }
+    #vibes { background: var(--bg); }
     .vibes-header { margin-bottom: 48px; }
     .vibes-subtitle { font-size: .9rem; color: var(--muted); margin-top: 10px; font-style: italic; }
 
@@ -856,7 +855,7 @@
     }
 
     /* ── Lab'o Section ── */
-    #labo { padding: 120px 64px; }
+    #labo { padding: 80px 64px; }
     .labo-header { margin-bottom: 40px; }
     .labo-header .section-label { margin-bottom: 8px; }
     .labo-header .section-title { margin-bottom: 8px; }
@@ -2794,7 +2793,62 @@
 
   </section>
 
-  <div class="divider"></div>
+  <!-- Labo Section -->
+  <section id="labo">
+    <div class="labo-header reveal">
+      <div class="section-label">Labo</div>
+      <h2 class="section-title">Explorations</h2>
+      <p class="labo-sub">Des mini-expériences interactives. Cliquez pour explorer.</p>
+    </div>
+
+    <div class="labo-track reveal">
+
+      <!-- Card 1 : Littérature gratinée -->
+      <div class="labo-card" id="skinCard">
+        <div class="labo-card-bg skin"></div>
+        <div class="labo-tag">Beta</div>
+        <div class="labo-card-content">
+          <div class="labo-card-icon">🧀</div>
+          <div class="labo-card-name">Littérature gratinée</div>
+          <div class="labo-card-desc">Répondez au quiz mêlant littérature et connaissance fromagère</div>
+        </div>
+      </div>
+
+      <!-- Card 2 : Soon -->
+      <div class="labo-card soon">
+        <div class="labo-card-bg type"></div>
+        <div class="labo-tag soon-tag">Soon</div>
+        <div class="labo-card-content">
+          <div class="labo-card-icon">✍️</div>
+          <div class="labo-card-name">Type Tester</div>
+          <div class="labo-card-desc">Joue avec la typographie en temps réel</div>
+        </div>
+      </div>
+
+      <!-- Card 3 : Soon -->
+      <div class="labo-card soon">
+        <div class="labo-card-bg color"></div>
+        <div class="labo-tag soon-tag">Soon</div>
+        <div class="labo-card-content">
+          <div class="labo-card-icon">🎨</div>
+          <div class="labo-card-name">Palette Extractor</div>
+          <div class="labo-card-desc">Génère une palette couleur depuis une image</div>
+        </div>
+      </div>
+
+      <!-- Card 4 : Soon -->
+      <div class="labo-card soon">
+        <div class="labo-card-bg soon-bg"></div>
+        <div class="labo-tag soon-tag">Soon</div>
+        <div class="labo-card-content">
+          <div class="labo-card-icon">⚡</div>
+          <div class="labo-card-name">???</div>
+          <div class="labo-card-desc">Prochaine expérimentation en cours…</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <!-- Parcours Section -->
   <section id="vibes">
@@ -2823,7 +2877,7 @@
             <div class="tl-company-row">
               <div class="tl-logo">
                 <img src="01_SOURCES/GALERIES_LAFAYETTE_LOGO.png">
-              </div> 
+              </div>
               <span class="tl-company">Galeries Lafayette</span>
               <span class="tl-current"><span class="tl-current-dot"></span>Poste actuel</span>
             </div>
@@ -2926,65 +2980,6 @@
       </a>
     </div>
 
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Lab'o Section -->
-  <section id="labo">
-    <div class="labo-header reveal">
-      <div class="section-label">Lab'o</div>
-      <h2 class="section-title">Explorations</h2>
-      <p class="labo-sub">Des mini-expériences interactives. Cliquez pour explorer.</p>
-    </div>
-
-    <div class="labo-track reveal">
-
-      <!-- Card 1 : Littérature gratinée -->
-      <div class="labo-card" id="skinCard">
-        <div class="labo-card-bg skin"></div>
-        <div class="labo-tag">Beta</div>
-        <div class="labo-card-content">
-          <div class="labo-card-icon">🧀</div>
-          <div class="labo-card-name">Littérature gratinée</div>
-          <div class="labo-card-desc">Répondez au quiz mêlant littérature et connaissance fromagère</div>
-        </div>
-      </div>
-
-      <!-- Card 2 : Soon -->
-      <div class="labo-card soon">
-        <div class="labo-card-bg type"></div>
-        <div class="labo-tag soon-tag">Soon</div>
-        <div class="labo-card-content">
-          <div class="labo-card-icon">✍️</div>
-          <div class="labo-card-name">Type Tester</div>
-          <div class="labo-card-desc">Joue avec la typographie en temps réel</div>
-        </div>
-      </div>
-
-      <!-- Card 3 : Soon -->
-      <div class="labo-card soon">
-        <div class="labo-card-bg color"></div>
-        <div class="labo-tag soon-tag">Soon</div>
-        <div class="labo-card-content">
-          <div class="labo-card-icon">🎨</div>
-          <div class="labo-card-name">Palette Extractor</div>
-          <div class="labo-card-desc">Génère une palette couleur depuis une image</div>
-        </div>
-      </div>
-
-      <!-- Card 4 : Soon -->
-      <div class="labo-card soon">
-        <div class="labo-card-bg soon-bg"></div>
-        <div class="labo-tag soon-tag">Soon</div>
-        <div class="labo-card-content">
-          <div class="labo-card-icon">⚡</div>
-          <div class="labo-card-name">???</div>
-          <div class="labo-card-desc">Prochaine expérimentation en cours…</div>
-        </div>
-      </div>
-
-    </div>
   </section>
 
   <!-- Bouton fermer GL — en dehors de #glPage pour que position:fixed soit relatif au viewport -->
