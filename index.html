@@ -2660,6 +2660,17 @@
       padding: 48px;
     }
     #pixelIntro.hidden { display: none; }
+    #pxLoupe {
+      position: fixed; pointer-events: none; z-index: 9002;
+      width: 120px; height: 120px; border-radius: 50%;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 4px 24px rgba(0,0,0,.5);
+      overflow: hidden;
+      opacity: 0; transition: opacity .15s;
+      transform: translate(-50%, -50%);
+    }
+    #pxLoupe canvas { position: absolute; top: 0; left: 0; image-rendering: pixelated; }
+    #pixelPage:hover #pxLoupe { opacity: 1; }
     @media (max-width: 768px) {
       #pixelIntro {
         padding: max(48px, calc(env(safe-area-inset-top) + 24px)) 28px max(32px, calc(env(safe-area-inset-bottom) + 24px));
@@ -3757,6 +3768,9 @@
 
     </div>
   </div>
+
+  <!-- Loupe curseur Page blanche -->
+  <div id="pxLoupe"><canvas id="pxLoupeCanvas" width="120" height="120"></canvas></div>
 
   <!-- Bouton fermer Page blanche — hors de #pixelPage pour éviter le stacking context du transform -->
   <button class="quiz-close" id="pixelClose" style="opacity:0;pointer-events:none;transition:opacity .4s .3s;z-index:9001;">×</button>
@@ -5023,7 +5037,7 @@
       const PXSZ = 6, MAX_PX = 50;
       let COLS = 0, ROWS = 0;
       const PALETTE = [
-        '#0f0f0f','#ffffff',
+        '#ffffff',
         '#ef4444','#f97316',
         '#eab308','#22c55e',
         '#06b6d4','#3b82f6',
@@ -5118,6 +5132,35 @@
       window.addEventListener('mouseup',    () => { drawing = false; });
       canvas.addEventListener('touchstart', e => { e.preventDefault(); const c = cellFromEvent(e); placePixel(c.x, c.y); }, { passive: false });
       canvas.addEventListener('touchmove',  e => { e.preventDefault(); const c = cellFromEvent(e); placePixel(c.x, c.y); }, { passive: false });
+
+      // Loupe
+      const loupe     = document.getElementById('pxLoupe');
+      const loupeCanvas = document.getElementById('pxLoupeCanvas');
+      const loupeCtx  = loupeCanvas.getContext('2d');
+      const LOUPE_SIZE = 120, ZOOM = 4, LOUPE_CELLS = Math.ceil(LOUPE_SIZE / ZOOM);
+
+      function renderLoupe(mx, my) {
+        const r = canvas.getBoundingClientRect();
+        const sx = canvas.width / r.width, sy = canvas.height / r.height;
+        const cx = (mx - r.left) * sx, cy = (my - r.top) * sy;
+        const srcX = cx - (LOUPE_CELLS * PXSZ) / 2;
+        const srcY = cy - (LOUPE_CELLS * PXSZ) / 2;
+        loupeCtx.clearRect(0, 0, LOUPE_SIZE, LOUPE_SIZE);
+        loupeCtx.drawImage(canvas, srcX, srcY, LOUPE_CELLS * PXSZ, LOUPE_CELLS * PXSZ, 0, 0, LOUPE_SIZE, LOUPE_SIZE);
+        // Croix de visée
+        loupeCtx.strokeStyle = 'rgba(255,255,255,0.5)';
+        loupeCtx.lineWidth = 0.5;
+        loupeCtx.beginPath(); loupeCtx.moveTo(LOUPE_SIZE/2, 0); loupeCtx.lineTo(LOUPE_SIZE/2, LOUPE_SIZE); loupeCtx.stroke();
+        loupeCtx.beginPath(); loupeCtx.moveTo(0, LOUPE_SIZE/2); loupeCtx.lineTo(LOUPE_SIZE, LOUPE_SIZE/2); loupeCtx.stroke();
+      }
+
+      canvas.addEventListener('mousemove', e => {
+        loupe.style.left = e.clientX + 'px';
+        loupe.style.top  = (e.clientY - 80) + 'px';
+        loupe.style.opacity = '1';
+        renderLoupe(e.clientX, e.clientY);
+      });
+      canvas.addEventListener('mouseleave', () => { loupe.style.opacity = '0'; });
 
       // Palette
       PALETTE.forEach((color, i) => {
