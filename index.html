@@ -5143,10 +5143,18 @@
         const r = canvas.getBoundingClientRect();
         const sx = canvas.width / r.width, sy = canvas.height / r.height;
         const cx = (mx - r.left) * sx, cy = (my - r.top) * sy;
-        const srcX = cx - (LOUPE_CELLS * PXSZ) / 2;
-        const srcY = cy - (LOUPE_CELLS * PXSZ) / 2;
+        const srcW = LOUPE_CELLS * PXSZ;
+        const srcX = cx - srcW / 2, srcY = cy - srcW / 2;
         loupeCtx.clearRect(0, 0, LOUPE_SIZE, LOUPE_SIZE);
-        loupeCtx.drawImage(canvas, srcX, srcY, LOUPE_CELLS * PXSZ, LOUPE_CELLS * PXSZ, 0, 0, LOUPE_SIZE, LOUPE_SIZE);
+        loupeCtx.drawImage(canvas, srcX, srcY, srcW, srcW, 0, 0, LOUPE_SIZE, LOUPE_SIZE);
+        // Contour accent sur le pixel survolé
+        const scale = LOUPE_SIZE / srcW;
+        const cellPxX = Math.floor(cx / PXSZ) * PXSZ, cellPxY = Math.floor(cy / PXSZ) * PXSZ;
+        const lx = (cellPxX - srcX) * scale, ly = (cellPxY - srcY) * scale;
+        const lsz = PXSZ * scale;
+        loupeCtx.strokeStyle = '#c9f03d';
+        loupeCtx.lineWidth = 1.5;
+        loupeCtx.strokeRect(lx + 0.75, ly + 0.75, lsz - 1.5, lsz - 1.5);
       }
 
       canvas.addEventListener('mousemove', e => {
