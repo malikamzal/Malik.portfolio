@@ -5064,6 +5064,8 @@
       const pixelPage  = document.getElementById('pixelPage');
       const canvas     = document.getElementById('pixelCanvas');
       const ctx        = canvas.getContext('2d');
+      const CDPR       = window.devicePixelRatio || 1;
+      ctx.imageSmoothingEnabled = false;
       const elUsed     = document.getElementById('pxUsed');
       const elOffline  = document.getElementById('pxOffline');
       const pxClose    = document.getElementById('pixelClose');
@@ -5080,17 +5082,23 @@
       // Dimensionner le canvas selon l'espace disponible
       function sizeCanvas() {
         const ws = document.getElementById('pxWorkspace');
-        COLS = Math.floor(ws.clientWidth  / PXSZ);
-        ROWS = Math.floor(ws.clientHeight / PXSZ);
-        canvas.width  = COLS * PXSZ;
-        canvas.height = ROWS * PXSZ;
+        const cssW = ws.clientWidth, cssH = ws.clientHeight;
+        COLS = Math.floor(cssW / PXSZ);
+        ROWS = Math.floor(cssH / PXSZ);
+        canvas.width  = COLS * PXSZ * CDPR;
+        canvas.height = ROWS * PXSZ * CDPR;
+        canvas.style.width  = (COLS * PXSZ) + 'px';
+        canvas.style.height = (ROWS * PXSZ) + 'px';
+        ctx.scale(CDPR, CDPR);
+        ctx.imageSmoothingEnabled = false;
         render();
       }
 
       // Rendu du canvas
       function render() {
+        ctx.imageSmoothingEnabled = false;
         ctx.fillStyle = '#111114';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, COLS * PXSZ, ROWS * PXSZ);
         // Pixels posés
         for (const [key, color] of Object.entries(pixelData)) {
           const [x, y] = key.split(',').map(Number);
@@ -5100,8 +5108,8 @@
         // Grille
         ctx.strokeStyle = 'rgba(255,255,255,0.06)';
         ctx.lineWidth = 0.5;
-        for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x*PXSZ,0); ctx.lineTo(x*PXSZ,canvas.height); ctx.stroke(); }
-        for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0,y*PXSZ); ctx.lineTo(canvas.width,y*PXSZ); ctx.stroke(); }
+        for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x*PXSZ,0); ctx.lineTo(x*PXSZ,ROWS*PXSZ); ctx.stroke(); }
+        for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0,y*PXSZ); ctx.lineTo(COLS*PXSZ,y*PXSZ); ctx.stroke(); }
       }
 
       const elUndo = document.getElementById('pxUndo');
@@ -5152,10 +5160,9 @@
       let drawing = false;
       function cellFromEvent(e) {
         const r = canvas.getBoundingClientRect();
-        const sx = canvas.width / r.width, sy = canvas.height / r.height;
         const cx = (e.clientX ?? e.touches?.[0]?.clientX) - r.left;
         const cy = (e.clientY ?? e.touches?.[0]?.clientY) - r.top;
-        return { x: Math.floor(cx * sx / PXSZ), y: Math.floor(cy * sy / PXSZ) };
+        return { x: Math.floor(cx / PXSZ), y: Math.floor(cy / PXSZ) };
       }
       canvas.addEventListener('mousedown',  e => { drawing = true; const c = cellFromEvent(e); placePixel(c.x, c.y); });
       canvas.addEventListener('mousemove',  e => { if (drawing) { const c = cellFromEvent(e); placePixel(c.x, c.y); }});
@@ -5176,18 +5183,18 @@
 
       function renderLoupe(mx, my) {
         const r = canvas.getBoundingClientRect();
-        const sx = canvas.width / r.width, sy = canvas.height / r.height;
-        const cx = (mx - r.left) * sx, cy = (my - r.top) * sy;
-        const srcW = LOUPE_CELLS * PXSZ;
+        const cx = (mx - r.left) * CDPR, cy = (my - r.top) * CDPR;
+        const srcW = LOUPE_CELLS * PXSZ * CDPR;
         const srcX = cx - srcW / 2, srcY = cy - srcW / 2;
         loupeCtx.clearRect(0, 0, LOUPE_SIZE, LOUPE_SIZE);
         loupeCtx.imageSmoothingEnabled = false;
         loupeCtx.drawImage(canvas, srcX, srcY, srcW, srcW, 0, 0, LOUPE_SIZE, LOUPE_SIZE);
         // Contour accent sur le pixel survolé
         const scale = LOUPE_SIZE / srcW;
-        const cellPxX = Math.floor(cx / PXSZ) * PXSZ, cellPxY = Math.floor(cy / PXSZ) * PXSZ;
+        const cellPxX = Math.floor(cx / (PXSZ * CDPR)) * (PXSZ * CDPR);
+        const cellPxY = Math.floor(cy / (PXSZ * CDPR)) * (PXSZ * CDPR);
         const lx = (cellPxX - srcX) * scale, ly = (cellPxY - srcY) * scale;
-        const lsz = PXSZ * scale;
+        const lsz = PXSZ * CDPR * scale;
         loupeCtx.strokeStyle = '#c9f03d';
         loupeCtx.lineWidth = 1.5;
         loupeCtx.strokeRect(lx + 0.75, ly + 0.75, lsz - 1.5, lsz - 1.5);
