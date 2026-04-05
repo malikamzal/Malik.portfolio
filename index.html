@@ -2660,7 +2660,6 @@
       padding: 48px;
     }
     #pixelIntro.hidden { display: none; }
-    #pixelClose { z-index: 30; }
     @media (max-width: 768px) {
       #pixelIntro {
         padding: max(48px, calc(env(safe-area-inset-top) + 24px)) 28px max(32px, calc(env(safe-area-inset-bottom) + 24px));
@@ -3759,9 +3758,11 @@
     </div>
   </div>
 
+  <!-- Bouton fermer Page blanche — hors de #pixelPage pour éviter le stacking context du transform -->
+  <button class="quiz-close" id="pixelClose" style="opacity:0;pointer-events:none;transition:opacity .4s .3s;">×</button>
+
   <!-- Pixel Canvas Page -->
   <div id="pixelPage">
-    <button class="quiz-close" id="pixelClose">×</button>
 
     <!-- Intro / prépage -->
     <div id="pixelIntro">
@@ -5166,12 +5167,14 @@
       // Open / close + routing
       function _openDOM() {
         pixelPage.classList.add('open');
+        pxClose.style.opacity = '1'; pxClose.style.pointerEvents = 'auto';
         document.body.style.overflow = 'hidden';
         pixelIntro.classList.remove('hidden');
         resetPixelIntroAnim();
       }
       function _closeDOM() {
         pixelPage.classList.remove('open');
+        pxClose.style.opacity = '0'; pxClose.style.pointerEvents = 'none';
         document.body.style.overflow = '';
       }
       function openPixelPage() {
