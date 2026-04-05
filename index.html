@@ -2638,6 +2638,15 @@
     .px-swatch:hover { transform: scale(1.18); }
     .px-swatch.active { border-color: var(--accent); transform: scale(1.22); }
     .px-swatch.white-swatch { border-color: rgba(255,255,255,.2); }
+    .px-undo {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: color .15s, border-color .15s;
+    }
+    .px-undo:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+    .px-undo:disabled { opacity: .25; cursor: default; }
     .px-reset {
       font-family: var(--font-display); font-size: .6rem;
       letter-spacing: .12em; text-transform: uppercase;
@@ -3811,6 +3820,7 @@
         <div class="px-stat-num"><span id="pxUsed">0</span><sup> /50</sup></div>
         <div class="px-stat-label">vos pixels</div>
       </div>
+      <button class="px-undo" id="pxUndo" title="Annuler le dernier pixel">↩</button>
       <button class="px-reset" id="pxReset">Recommencer</button>
     </div>
   </div>
@@ -5060,6 +5070,7 @@
       let userCount = parseInt(localStorage.getItem('px_count') || '0');
       let selectedColor = PALETTE[0];
       let pixelData = {}; // { "x,y": color }
+      let pixelHistory = []; // stack des clés posées par l'user
       let db = null;
 
       // Dimensionner le canvas selon l'espace disponible
@@ -5089,13 +5100,27 @@
         for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0,y*PXSZ); ctx.lineTo(canvas.width,y*PXSZ); ctx.stroke(); }
       }
 
+      const elUndo = document.getElementById('pxUndo');
       function updateUI() {
         elUsed.textContent = userCount;
+        elUndo.disabled = pixelHistory.length === 0;
       }
+
+      // Annuler le dernier pixel
+      elUndo.addEventListener('click', () => {
+        if (pixelHistory.length === 0) return;
+        const key = pixelHistory.pop();
+        delete pixelData[key];
+        userCount = Math.max(0, userCount - 1);
+        localStorage.setItem('px_count', userCount);
+        render();
+        updateUI();
+      });
 
       // Recommencer : remet le canvas à zéro
       document.getElementById('pxReset').addEventListener('click', () => {
         pixelData = {};
+        pixelHistory = [];
         userCount = 0;
         localStorage.setItem('px_count', '0');
         render();
@@ -5109,6 +5134,7 @@
         const key = `${x},${y}`;
         if (pixelData[key]) return;
         pixelData[key] = selectedColor;
+        pixelHistory.push(key);
         userCount++;
         localStorage.setItem('px_count', userCount);
         render();
