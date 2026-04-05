@@ -2654,9 +2654,18 @@
     #pixelIntro {
       position: absolute; inset: 0; z-index: 20;
       background: var(--bg);
-      display: flex; align-items: flex-start; padding: 48px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 48px;
     }
     #pixelIntro.hidden { display: none; }
+    @media (max-width: 768px) {
+      #pixelIntro {
+        padding: max(48px, calc(env(safe-area-inset-top) + 24px)) 28px max(32px, calc(env(safe-area-inset-bottom) + 24px));
+        align-items: center; justify-content: center;
+        padding-top: max(48px, calc(env(safe-area-inset-top) + 48px));
+      }
+      #pixelIntro .quiz-intro-cta { align-self: stretch; text-align: center; }
+    }
     @media (max-width: 768px) {
       .px-header { padding: 16px 20px 14px; }
       .px-title { font-size: 1.1rem; }
