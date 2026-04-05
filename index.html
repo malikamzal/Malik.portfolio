@@ -5163,6 +5163,7 @@
       const loupe     = document.getElementById('pxLoupe');
       const loupeCanvas = document.getElementById('pxLoupeCanvas');
       const loupeCtx  = loupeCanvas.getContext('2d');
+      loupeCtx.imageSmoothingEnabled = false;
       const LOUPE_SIZE = 120, ZOOM = 8, LOUPE_CELLS = Math.ceil(LOUPE_SIZE / ZOOM);
 
       function renderLoupe(mx, my) {
@@ -5172,6 +5173,7 @@
         const srcW = LOUPE_CELLS * PXSZ;
         const srcX = cx - srcW / 2, srcY = cy - srcW / 2;
         loupeCtx.clearRect(0, 0, LOUPE_SIZE, LOUPE_SIZE);
+        loupeCtx.imageSmoothingEnabled = false;
         loupeCtx.drawImage(canvas, srcX, srcY, srcW, srcW, 0, 0, LOUPE_SIZE, LOUPE_SIZE);
         // Contour accent sur le pixel survolé
         const scale = LOUPE_SIZE / srcW;
