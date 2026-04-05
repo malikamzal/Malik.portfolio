@@ -2173,14 +2173,16 @@
 
     /* Fermer */
     .quiz-close {
-      position: fixed; top: 28px; right: 28px; z-index: 35;
-      width: 38px; height: 38px; border-radius: 50%;
-      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
-      color: rgba(255,255,255,.55); font-size: .85rem; cursor: none;
+      position: fixed; top: 20px; right: 24px; z-index: 35;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(16,16,16,.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text); font-size: 1.6rem; font-family: var(--font-display); font-weight: 300;
+      cursor: none; padding: 0;
       display: flex; align-items: center; justify-content: center;
-      transition: background .2s, color .2s;
+      transition: border-color .2s, background .2s;
     }
-    .quiz-close:hover { background: rgba(255,255,255,.18); color: #fff; }
+    .quiz-close:hover { border-color: rgba(255,255,255,.3); background: rgba(30,30,30,.9); }
 
     /* Confettis */
     #quizConfetti { position: fixed; inset: 0; pointer-events: none; z-index: 29; }
@@ -3758,7 +3760,7 @@
 
   <!-- Pixel Canvas Page -->
   <div id="pixelPage">
-    <button class="quiz-close" id="pixelClose">✕</button>
+    <button class="quiz-close" id="pixelClose">×</button>
 
     <!-- Intro / prépage -->
     <div id="pixelIntro">
@@ -3800,7 +3802,7 @@
   <!-- Quiz : Littérature gratinée -->
   <div id="quizModal">
     <canvas id="quizConfetti"></canvas>
-    <button class="quiz-close" id="quizClose">✕</button>
+    <button class="quiz-close" id="quizClose">×</button>
 
     <!-- Écran d'intro -->
     <div id="quizIntro">
