@@ -2672,13 +2672,17 @@
     #pxLoupe {
       position: fixed; pointer-events: none; z-index: 9002;
       width: 120px; height: 120px; border-radius: 50%;
-      border: 1.5px solid var(--border);
+      border: 1.5px solid rgba(255,255,255,.15);
       box-shadow: 0 4px 24px rgba(0,0,0,.5);
       overflow: hidden;
       opacity: 0; transition: opacity .15s;
       transform: translate(-50%, -50%);
     }
-    #pxLoupe canvas { position: absolute; top: 0; left: 0; image-rendering: pixelated; }
+    #pxLoupe canvas {
+      position: absolute; top: 0; left: 0;
+      width: 120px; height: 120px;
+      image-rendering: pixelated; image-rendering: crisp-edges;
+    }
     #pixelPage:hover #pxLoupe { opacity: 1; }
     @media (max-width: 768px) {
       #pixelIntro {
@@ -5163,8 +5167,12 @@
       const loupe     = document.getElementById('pxLoupe');
       const loupeCanvas = document.getElementById('pxLoupeCanvas');
       const loupeCtx  = loupeCanvas.getContext('2d');
-      loupeCtx.imageSmoothingEnabled = false;
       const LOUPE_SIZE = 120, ZOOM = 8, LOUPE_CELLS = Math.ceil(LOUPE_SIZE / ZOOM);
+      const DPR = window.devicePixelRatio || 1;
+      loupeCanvas.width  = LOUPE_SIZE * DPR;
+      loupeCanvas.height = LOUPE_SIZE * DPR;
+      loupeCtx.scale(DPR, DPR);
+      loupeCtx.imageSmoothingEnabled = false;
 
       function renderLoupe(mx, my) {
         const r = canvas.getBoundingClientRect();
