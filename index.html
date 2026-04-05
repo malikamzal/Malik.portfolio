@@ -3758,6 +3758,7 @@
 
   <!-- Pixel Canvas Page -->
   <div id="pixelPage">
+    <button class="quiz-close" id="pixelClose">✕</button>
 
     <!-- Intro / prépage -->
     <div id="pixelIntro">
@@ -5033,7 +5034,7 @@
       const ctx        = canvas.getContext('2d');
       const elUsed     = document.getElementById('pxUsed');
       const elOffline  = document.getElementById('pxOffline');
-      const glClose    = document.getElementById('glClose');
+      const pxClose    = document.getElementById('pixelClose');
 
       // Identité utilisateur
       let uid = localStorage.getItem('px_uid');
@@ -5162,14 +5163,12 @@
       // Open / close + routing
       function _openDOM() {
         pixelPage.classList.add('open');
-        glClose.classList.add('visible');
         document.body.style.overflow = 'hidden';
         pixelIntro.classList.remove('hidden');
         resetPixelIntroAnim();
       }
       function _closeDOM() {
         pixelPage.classList.remove('open');
-        glClose.classList.remove('visible');
         document.body.style.overflow = '';
       }
       function openPixelPage() {
@@ -5182,7 +5181,7 @@
       }
 
       document.getElementById('pixelCard').addEventListener('click', openPixelPage);
-      glClose.addEventListener('click', () => { if (pixelPage.classList.contains('open')) closePixelPage(); });
+      pxClose.addEventListener('click', closePixelPage);
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && pixelPage.classList.contains('open')) closePixelPage(); });
       window.addEventListener('resize',   () => { if (pixelPage.classList.contains('open')) sizeCanvas(); });
       window.addEventListener('popstate', e => {
