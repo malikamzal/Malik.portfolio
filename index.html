@@ -5132,25 +5132,21 @@
         canvas.height = ROWS * PXSZ * CDPR;
         canvas.style.width  = (COLS * PXSZ) + 'px';
         canvas.style.height = (ROWS * PXSZ) + 'px';
-        ctx.scale(CDPR, CDPR);
+        // NE PAS accumuler ctx.scale ici — render() applique CDPR via setTransform
         ctx.imageSmoothingEnabled = false;
         clampView();
         render();
       }
 
-      // Rendu du canvas
+      // Rendu du canvas — setTransform absolu pour éviter toute accumulation
       function render() {
-        // 1. Effacer tout en coords physiques
-        ctx.save();
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.fillStyle = '#111114';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.restore();
-
-        // 2. Appliquer le viewport (translate + zoom) en coords CSS
-        ctx.save();
-        ctx.translate(viewX, viewY);
-        ctx.scale(viewScale, viewScale);
+        // Tout en un seul setTransform : DPR × viewport × zoom
+        // Coordonnées de dessin = CSS, mappées en physique via ce transform
+        ctx.setTransform(
+          CDPR * viewScale, 0,
+          0, CDPR * viewScale,
+          CDPR * viewX, CDPR * viewY
+        );
         ctx.imageSmoothingEnabled = false;
 
         // Fond de la grille
@@ -5170,7 +5166,8 @@
         for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x*PXSZ,0); ctx.lineTo(x*PXSZ,ROWS*PXSZ); ctx.stroke(); }
         for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0,y*PXSZ); ctx.lineTo(COLS*PXSZ,y*PXSZ); ctx.stroke(); }
 
-        ctx.restore();
+        // Remettre à l'identité après — évite que d'autres appels ctx soient perturbés
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
       }
 
       const elUndo = document.getElementById('pxUndo');
@@ -5447,7 +5444,8 @@
 
       // Open / close + routing
       function _openDOM() {
-        viewX = 0; viewY = 0; viewScale = 1; // reset viewport à chaque ouverture
+        viewX = 0; viewY = 0; viewScale = 1;
+        gestureMode = 'idle'; postGesture = false; touchTarget = null;
         pixelPage.classList.add('open');
         pxClose.style.opacity = '1'; pxClose.style.pointerEvents = 'auto';
         document.body.style.overflow = 'hidden';
