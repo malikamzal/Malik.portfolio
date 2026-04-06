@@ -2789,7 +2789,8 @@
       /* Rangée 2 : stat, undo, reset */
       .px-stat { order: 1; }
       .px-undo { order: 2; }
-      .px-reset { order: 3; margin-left: auto; }
+      #pxSave { order: 3; }
+      .px-reset { order: 4; margin-left: auto; }
 
       /* Loupe plus grande + indicateur "positionné au-dessus" */
       #pxLoupe { border-width: 2px; border-color: rgba(255,255,255,.25); }
@@ -3925,6 +3926,7 @@
     <div class="px-controls">
       <div class="px-palette" id="pxPalette"></div>
       <button class="px-undo" id="pxUndo" title="Annuler le dernier pixel"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5H9a5 5 0 0 1 0 10H4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 5l3-3M1.5 5l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="px-undo" id="pxSave" title="Sauvegarder en JPG"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1v9M4 7l3.5 3.5L11 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 11.5v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
       <button class="px-reset" id="pxReset">Recommencer</button>
     </div>
 
@@ -5280,6 +5282,29 @@
         render();
         updateUI();
       }
+
+      // ── Sauvegarder en JPG ──
+      document.getElementById('pxSave').addEventListener('click', () => {
+        // Dessiner le canvas à l'identique sur un canvas temporaire avec fond opaque
+        const tmp = document.createElement('canvas');
+        tmp.width  = COLS * PXSZ;
+        tmp.height = ROWS * PXSZ;
+        const tCtx = tmp.getContext('2d');
+        tCtx.imageSmoothingEnabled = false;
+        // Fond
+        tCtx.fillStyle = '#111114';
+        tCtx.fillRect(0, 0, tmp.width, tmp.height);
+        // Pixels
+        for (const [key, color] of Object.entries(pixelData)) {
+          const [x, y] = key.split(',').map(Number);
+          tCtx.fillStyle = color;
+          tCtx.fillRect(x * PXSZ, y * PXSZ, PXSZ, PXSZ);
+        }
+        const a = document.createElement('a');
+        a.download = 'mon-idee-page-blanche.jpg';
+        a.href = tmp.toDataURL('image/jpeg', .92);
+        a.click();
+      });
 
       // ── Overlay "Merci pour l'idée" ──
       const pxSend     = document.getElementById('pxSend');
