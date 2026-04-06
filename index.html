@@ -2691,14 +2691,42 @@
         padding-top: max(48px, calc(env(safe-area-inset-top) + 48px));
       }
       #pixelIntro .quiz-intro-cta { align-self: stretch; text-align: center; }
-    }
-    @media (max-width: 768px) {
-      .px-header { padding: 16px 20px 14px; }
-      .px-title { font-size: 1.1rem; }
+
+      /* ── Pixel canvas layout mobile ── */
+      .px-header { padding: 14px 18px 12px; }
+      .px-title { font-size: 1rem; }
       .px-stat-num { font-size: 1rem; }
       .px-workspace { padding: 0; }
-      .px-controls { padding: 10px 20px 14px; gap: 12px; }
-      .px-swatch { width: 22px; height: 22px; }
+
+      /* Contrôles : 2 rangées — palette en haut, actions en bas */
+      .px-controls {
+        flex-wrap: wrap;
+        padding: 10px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+        gap: 8px 10px;
+        align-items: center;
+      }
+      /* Rangée 1 : palette pleine largeur, scrollable */
+      .px-palette {
+        flex: 0 0 100%;
+        order: 0;
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+        mask-image: linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%);
+      }
+      .px-palette::-webkit-scrollbar { display: none; }
+      .px-swatch { width: 30px; height: 30px; flex-shrink: 0; }
+
+      /* Rangée 2 : stat, undo, reset */
+      .px-stat { order: 1; }
+      .px-undo { order: 2; }
+      .px-reset { order: 3; margin-left: auto; }
+
+      /* Loupe plus grande + indicateur "positionné au-dessus" */
+      #pxLoupe { border-width: 2px; border-color: rgba(255,255,255,.25); }
     }
   </style>
 </head>
@@ -5167,15 +5195,59 @@
       canvas.addEventListener('mousedown',  e => { drawing = true; const c = cellFromEvent(e); placePixel(c.x, c.y); });
       canvas.addEventListener('mousemove',  e => { if (drawing) { const c = cellFromEvent(e); placePixel(c.x, c.y); }});
       window.addEventListener('mouseup',    () => { drawing = false; });
-      canvas.addEventListener('touchstart', e => { e.preventDefault(); const c = cellFromEvent(e); placePixel(c.x, c.y); }, { passive: false });
-      canvas.addEventListener('touchmove',  e => { e.preventDefault(); const c = cellFromEvent(e); placePixel(c.x, c.y); }, { passive: false });
+      // ── Touch : mécanique "viser puis relâcher" ──
+      // touchstart/touchmove → montre la loupe au-dessus du doigt, prévisualise le pixel ciblé
+      // touchend → pose le pixel au dernier emplacement ciblé
+      let touchTarget = null; // { x, y } en coords grille
+
+      function handleTouchAim(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const r = canvas.getBoundingClientRect();
+        const cx = touch.clientX - r.left;
+        const cy = touch.clientY - r.top;
+        touchTarget = { x: Math.floor(cx / PXSZ), y: Math.floor(cy / PXSZ) };
+        // Positionner la loupe au-dessus du doigt (centre loupe = au-dessus du touch)
+        const loupeCSSSize = parseInt(loupe.style.width) || 120;
+        const offset = loupeCSSSize / 2 + 56; // rayon loupe + espace pouce
+        const lx = Math.max(loupeCSSSize / 2 + 8, Math.min(window.innerWidth - loupeCSSSize / 2 - 8, touch.clientX));
+        const ly = Math.max(loupeCSSSize / 2 + 8, touch.clientY - offset);
+        loupe.style.left = lx + 'px';
+        loupe.style.top  = ly + 'px';
+        loupe.style.opacity = '1';
+        renderLoupe(touch.clientX, touch.clientY);
+      }
+
+      canvas.addEventListener('touchstart', handleTouchAim, { passive: false });
+      canvas.addEventListener('touchmove',  handleTouchAim, { passive: false });
+      canvas.addEventListener('touchend', e => {
+        e.preventDefault();
+        if (touchTarget) {
+          placePixel(touchTarget.x, touchTarget.y);
+          touchTarget = null;
+        }
+        // Masquer la loupe avec un léger délai pour feedback visuel
+        setTimeout(() => { loupe.style.opacity = '0'; }, 220);
+      }, { passive: false });
+      canvas.addEventListener('touchcancel', () => {
+        touchTarget = null;
+        loupe.style.opacity = '0';
+      });
 
       // Loupe
       const loupe     = document.getElementById('pxLoupe');
       const loupeCanvas = document.getElementById('pxLoupeCanvas');
       const loupeCtx  = loupeCanvas.getContext('2d');
-      const LOUPE_SIZE = 120, ZOOM = 8, LOUPE_CELLS = Math.ceil(LOUPE_SIZE / ZOOM);
+      // Loupe plus grande sur mobile pour plus de confort
+      const IS_TOUCH = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+      const LOUPE_SIZE = IS_TOUCH ? 160 : 120;
+      const ZOOM = 8, LOUPE_CELLS = Math.ceil(LOUPE_SIZE / ZOOM);
       const DPR = window.devicePixelRatio || 1;
+      // Appliquer la taille CSS de la loupe dynamiquement
+      loupe.style.width  = LOUPE_SIZE + 'px';
+      loupe.style.height = LOUPE_SIZE + 'px';
+      loupeCanvas.style.width  = LOUPE_SIZE + 'px';
+      loupeCanvas.style.height = LOUPE_SIZE + 'px';
       loupeCanvas.width  = LOUPE_SIZE * DPR;
       loupeCanvas.height = LOUPE_SIZE * DPR;
       loupeCtx.scale(DPR, DPR);
