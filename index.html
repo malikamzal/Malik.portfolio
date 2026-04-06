@@ -5359,30 +5359,31 @@
 
       function renderLoupe(mx, my) {
         const r = canvas.getBoundingClientRect();
-        const sx = mx - r.left, sy = my - r.top; // coords CSS canvas
+        const sx = mx - r.left, sy = my - r.top; // coords CSS sur le canvas
         const cx = sx * CDPR, cy = sy * CDPR;    // coords physiques canvas
 
-        // Taille source : LOUPE_CELLS cellules en tenant compte du zoom viewport
-        const cellPhys = PXSZ * viewScale * CDPR; // taille physique d'une cellule
-        const srcW = LOUPE_CELLS * cellPhys;
+        // Taille source FIXE (indépendante du viewScale) = toujours LOUPE_CELLS cellules de base
+        // → la loupe garde une magnification constante ×8, les pixels apparaissent
+        //   plus grands quand on a zoomé (car chaque cellule prend plus de physiques)
+        const baseCellPhys = PXSZ * CDPR;          // taille physique d'une cellule à zoom ×1
+        const srcW = LOUPE_CELLS * baseCellPhys;
         const srcX = cx - srcW / 2, srcY = cy - srcW / 2;
 
         loupeCtx.clearRect(0, 0, LOUPE_SIZE, LOUPE_SIZE);
         loupeCtx.imageSmoothingEnabled = false;
         loupeCtx.drawImage(canvas, srcX, srcY, srcW, srcW, 0, 0, LOUPE_SIZE, LOUPE_SIZE);
 
-        // Contour accent sur la cellule survolée (avec viewport)
+        // Contour accent sur la cellule survolée — taille physique selon viewScale courant
         const gx = Math.floor((sx - viewX) / (PXSZ * viewScale));
         const gy = Math.floor((sy - viewY) / (PXSZ * viewScale));
-        const cellScreenX = gx * PXSZ * viewScale + viewX;
-        const cellScreenY = gy * PXSZ * viewScale + viewY;
-        const cellPxX = cellScreenX * CDPR;
-        const cellPxY = cellScreenY * CDPR;
+        const cellPxX = (gx * PXSZ * viewScale + viewX) * CDPR;
+        const cellPxY = (gy * PXSZ * viewScale + viewY) * CDPR;
+        const cellPhysZoomed = PXSZ * viewScale * CDPR;
 
         const scale = LOUPE_SIZE / srcW;
         const lx  = (cellPxX - srcX) * scale;
         const ly  = (cellPxY - srcY) * scale;
-        const lsz = cellPhys * scale;
+        const lsz = cellPhysZoomed * scale;
         loupeCtx.strokeStyle = '#c9f03d';
         loupeCtx.lineWidth = 1.5;
         loupeCtx.strokeRect(lx + 0.75, ly + 0.75, lsz - 1.5, lsz - 1.5);
