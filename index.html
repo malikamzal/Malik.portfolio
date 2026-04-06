@@ -5270,6 +5270,8 @@
           gestureMode = 'aim';
           postGesture = false;
           aimFromTouch(e);
+          // Placement immédiat sur le premier contact (fiable sur tous les iOS)
+          if (touchTarget) placePixel(touchTarget.x, touchTarget.y);
         } else if (e.touches.length === 2) {
           gestureMode = 'panzoom';
           touchTarget = null;
@@ -5281,8 +5283,10 @@
 
       canvas.addEventListener('touchmove', e => {
         e.preventDefault();
-        if (e.touches.length === 1 && gestureMode === 'aim') {
+        if (e.touches.length === 1 && gestureMode === 'aim' && !postGesture) {
           aimFromTouch(e);
+          // Placement continu lors du glissement (mode peinture)
+          if (touchTarget) placePixel(touchTarget.x, touchTarget.y);
         } else if (e.touches.length >= 2) {
           if (gestureMode !== 'panzoom') {
             gestureMode = 'panzoom';
@@ -5297,7 +5301,6 @@
           const r    = canvas.getBoundingClientRect();
 
           if (lastPinchDist !== null && lastPinchMid !== null) {
-            // Zoom centré sur le point médian
             const scaleFactor = dist / lastPinchDist;
             const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, viewScale * scaleFactor));
             const realFactor = newScale / viewScale;
@@ -5305,7 +5308,6 @@
             viewX = pivotX - realFactor * (pivotX - viewX);
             viewY = pivotY - realFactor * (pivotY - viewY);
             viewScale = newScale;
-            // Pan : déplacement du centre entre les deux événements
             viewX += mid.x - lastPinchMid.x;
             viewY += mid.y - lastPinchMid.y;
           }
@@ -5318,9 +5320,6 @@
 
       canvas.addEventListener('touchend', e => {
         e.preventDefault();
-        if (gestureMode === 'aim' && touchTarget && !postGesture) {
-          placePixel(touchTarget.x, touchTarget.y);
-        }
         touchTarget = null;
         if (e.touches.length === 0) {
           if (gestureMode === 'panzoom') postGesture = true;
@@ -5329,9 +5328,8 @@
           lastPinchMid  = null;
           setTimeout(() => { loupe.style.opacity = '0'; }, 180);
         } else if (e.touches.length === 1 && gestureMode === 'panzoom') {
-          // Un doigt levé, on passe en aim sans poser immédiatement
           gestureMode  = 'aim';
-          postGesture  = true;
+          postGesture  = true; // évite un placement accidentel lors du relâché d'un geste
           lastPinchDist = null;
           lastPinchMid  = null;
         }
