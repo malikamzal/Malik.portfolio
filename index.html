@@ -2634,12 +2634,17 @@
     .px-palette { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
     .px-swatch {
       width: 26px; height: 26px; border-radius: 5px; cursor: pointer;
-      border: 2px solid transparent; transition: transform .12s, border-color .12s;
+      border: none; box-shadow: none;
+      transition: transform .12s, box-shadow .12s;
       flex-shrink: 0;
     }
-    .px-swatch:hover { transform: scale(1.18); }
-    .px-swatch.active { border-color: var(--accent); transform: scale(1.22); }
-    .px-swatch.white-swatch { border-color: rgba(255,255,255,.2); }
+    .px-swatch:hover { transform: scale(1.15); }
+    /* Contour inset : jamais coupé par overflow, visible sur toutes les couleurs */
+    .px-swatch.active { box-shadow: inset 0 0 0 2.5px var(--accent); transform: scale(1.1); }
+    /* Blanc : léger contour pour se distinguer du fond sombre */
+    .px-swatch.white-swatch { box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); }
+    /* Blanc actif : spécificité plus haute → le citron prime toujours */
+    .px-swatch.white-swatch.active { box-shadow: inset 0 0 0 2.5px var(--accent); }
     .px-undo {
       width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
       background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
