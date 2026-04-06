@@ -2622,7 +2622,7 @@
       display: block; padding: 0;
     }
     #pixelCanvas {
-      display: block; cursor: crosshair;
+      display: block; cursor: none;
       image-rendering: pixelated; image-rendering: crisp-edges;
     }
     .px-controls {
@@ -5206,7 +5206,8 @@
         loupe.style.opacity = '1';
         renderLoupe(e.clientX, e.clientY);
       });
-      canvas.addEventListener('mouseleave', () => { loupe.style.opacity = '0'; });
+      canvas.addEventListener('mouseenter', () => { cursor.style.opacity = '0'; cursorRing.style.opacity = '0'; });
+      canvas.addEventListener('mouseleave', () => { loupe.style.opacity = '0'; cursor.style.opacity = '1'; cursorRing.style.opacity = '1'; });
 
       // Palette
       PALETTE.forEach((color, i) => {
