@@ -2663,12 +2663,67 @@
       transition: background .2s, color .2s, border-color .2s;
     }
     .px-reset:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.35); color: #fff; }
-    .px-offline {
-      font-family: var(--font-body); font-size: .72rem;
-      color: var(--muted); text-align: center;
-      padding: 6px 48px; border-bottom: 1px solid var(--border); flex-shrink: 0;
-      display: none;
+
+    /* ── Bouton "Envoyer l'idée" — centre-bas du workspace ── */
+    .px-send {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #fff; color: #111114;
+      font-family: var(--font-display); font-weight: 700; font-size: .78rem;
+      letter-spacing: .08em; text-transform: uppercase;
+      border: none; border-radius: 100px;
+      padding: 12px 28px; cursor: pointer;
+      box-shadow: 0 4px 24px rgba(0,0,0,.35);
+      transition: transform .18s, box-shadow .18s, background .15s;
+      z-index: 10; white-space: nowrap;
     }
+    .px-send:hover { transform: translateX(-50%) scale(1.05); box-shadow: 0 6px 32px rgba(0,0,0,.45); }
+    .px-send:active { transform: translateX(-50%) scale(.97); }
+
+    /* ── Overlay "Merci" ── */
+    .px-thankyou {
+      position: absolute; inset: 0; z-index: 30;
+      background: rgba(17,17,20,.82);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s;
+    }
+    .px-thankyou.visible { opacity: 1; pointer-events: auto; }
+    .px-thankyou-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 40px 36px;
+      max-width: 420px; width: 100%; text-align: center;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .px-thankyou-title {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 2rem; color: var(--text); line-height: 1.1;
+    }
+    .px-thankyou-sub {
+      font-family: var(--font-body); font-size: .95rem;
+      color: var(--muted); line-height: 1.55;
+    }
+    .px-thankyou-actions {
+      display: flex; flex-direction: column; gap: 10px; margin-top: 8px;
+    }
+    .px-ty-more {
+      background: var(--accent); color: #111114;
+      font-family: var(--font-display); font-weight: 700; font-size: .78rem;
+      letter-spacing: .08em; text-transform: uppercase;
+      border: none; border-radius: 100px; padding: 14px 24px;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .px-ty-more:hover { opacity: .85; }
+    .px-ty-done {
+      background: transparent; color: var(--muted);
+      font-family: var(--font-display); font-size: .75rem;
+      letter-spacing: .06em; text-transform: uppercase;
+      border: 1px solid var(--border); border-radius: 100px;
+      padding: 12px 24px; cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .px-ty-done:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); color: #fff; }
     #pixelIntro {
       position: absolute; inset: 0; z-index: 20;
       background: var(--bg);
@@ -2736,6 +2791,13 @@
 
       /* Loupe plus grande + indicateur "positionné au-dessus" */
       #pxLoupe { border-width: 2px; border-color: rgba(255,255,255,.25); }
+
+      /* Bouton Envoyer mobile */
+      .px-send { bottom: 14px; padding: 11px 24px; font-size: .72rem; }
+
+      /* Overlay Merci mobile */
+      .px-thankyou-card { padding: 32px 24px; }
+      .px-thankyou-title { font-size: 1.55rem; }
     }
   </style>
 </head>
@@ -2979,7 +3041,7 @@
         <div class="labo-card-content">
           <div class="labo-card-icon">🤍</div>
           <div class="labo-card-name">Page blanche</div>
-          <div class="labo-card-desc">Posez jusqu'à 50 pixels sur la toile partagée</div>
+          <div class="labo-card-desc">Posez des pixels sur la toile pour me donner de l'inspiration</div>
         </div>
       </div>
 
@@ -3851,18 +3913,26 @@
         <h1 class="px-title">Page blanche</h1>
       </div>
     </div>
-    <div class="px-offline" id="pxOffline">⚠ Mode local — configurez Firebase pour activer la collaboration temps réel</div>
     <div class="px-workspace" id="pxWorkspace">
       <canvas id="pixelCanvas"></canvas>
+      <button class="px-send" id="pxSend">Envoyer l'idée</button>
     </div>
     <div class="px-controls">
       <div class="px-palette" id="pxPalette"></div>
-      <div class="px-stat">
-        <div class="px-stat-num"><span id="pxUsed">0</span><sup> /50</sup></div>
-        <div class="px-stat-label">vos pixels</div>
-      </div>
       <button class="px-undo" id="pxUndo" title="Annuler le dernier pixel"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5H9a5 5 0 0 1 0 10H4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 5l3-3M1.5 5l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="px-reset" id="pxReset">Recommencer</button>
+    </div>
+
+    <!-- Overlay "Merci" -->
+    <div class="px-thankyou" id="pxThankyou">
+      <div class="px-thankyou-card">
+        <div class="px-thankyou-title">Merci pour l'idée&nbsp;!</div>
+        <div class="px-thankyou-sub">Je ne sais pas si ça va me permettre d'avancer mais au moins le syndrôme de la page blanche est évité&nbsp;🌱</div>
+        <div class="px-thankyou-actions">
+          <button class="px-ty-more" id="pxTyMore">Ajouter une idée</button>
+          <button class="px-ty-done" id="pxTyDone">J'ai tout donné</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -5085,7 +5155,7 @@
       };
       // ════════════════════════════════════════════════════════
 
-      const PXSZ = 6, MAX_PX = 50;
+      const PXSZ = 6;
       let COLS = 0, ROWS = 0;
       const PALETTE = [
         '#ffffff',
@@ -5103,14 +5173,12 @@
       const ctx        = canvas.getContext('2d');
       const CDPR       = window.devicePixelRatio || 1;
       ctx.imageSmoothingEnabled = false;
-      const elUsed     = document.getElementById('pxUsed');
-      const elOffline  = document.getElementById('pxOffline');
       const pxClose    = document.getElementById('pixelClose');
 
       // Identité utilisateur
       let uid = localStorage.getItem('px_uid');
       if (!uid) { uid = Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('px_uid', uid); }
-      let userCount = parseInt(localStorage.getItem('px_count') || '0');
+      let userCount = 0;
       let selectedColor = PALETTE[0];
       let pixelData = {}; // { "x,y": color }
       let pixelHistory = []; // stack des clés posées par l'user
@@ -5177,7 +5245,6 @@
 
       const elUndo = document.getElementById('pxUndo');
       function updateUI() {
-        elUsed.textContent = userCount;
         elUndo.disabled = pixelHistory.length === 0;
       }
 
@@ -5186,8 +5253,6 @@
         if (pixelHistory.length === 0) return;
         const key = pixelHistory.pop();
         delete pixelData[key];
-        userCount = Math.max(0, userCount - 1);
-        localStorage.setItem('px_count', userCount);
         render();
         updateUI();
       });
@@ -5196,28 +5261,39 @@
       document.getElementById('pxReset').addEventListener('click', () => {
         pixelData = {};
         pixelHistory = [];
-        userCount = 0;
-        localStorage.setItem('px_count', '0');
         render();
         updateUI();
       });
 
       // Poser un pixel
       function placePixel(x, y) {
-        if (userCount >= MAX_PX) return;
         if (x < 0 || y < 0 || x >= COLS || y >= ROWS) return;
         const key = `${x},${y}`;
         if (pixelData[key]) return;
         pixelData[key] = selectedColor;
         pixelHistory.push(key);
-        userCount++;
-        localStorage.setItem('px_count', userCount);
         render();
         updateUI();
-        if (db) {
-          db.collection('pixels').doc(`${x}_${y}`).set({ x, y, color: selectedColor, uid, ts: firebase.firestore.FieldValue.serverTimestamp() }).catch(()=>{});
-        }
       }
+
+      // ── Overlay "Merci pour l'idée" ──
+      const pxSend     = document.getElementById('pxSend');
+      const pxThankyou = document.getElementById('pxThankyou');
+      const pxTyMore   = document.getElementById('pxTyMore');
+      const pxTyDone   = document.getElementById('pxTyDone');
+
+      pxSend.addEventListener('click', () => {
+        pxThankyou.classList.add('visible');
+      });
+      pxTyMore.addEventListener('click', () => {
+        pxThankyou.classList.remove('visible');
+      });
+      pxTyDone.addEventListener('click', () => {
+        pxThankyou.classList.remove('visible');
+        // Ferme le projet (même logique que le × du pixel canvas)
+        document.getElementById('pixelPage').classList.remove('open');
+        document.body.style.overflow = '';
+      });
 
       // Interactions souris + tactile
       let drawing = false;
@@ -5416,23 +5492,7 @@
         document.getElementById('pxPalette').appendChild(s);
       });
 
-      // Firebase
-      try {
-        if (FB_CONFIG.apiKey !== 'VOTRE_API_KEY') {
-          if (!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
-          db = firebase.firestore();
-          db.collection('pixels').onSnapshot(snap => {
-            snap.docChanges().forEach(ch => {
-              const d = ch.doc.data();
-              if (ch.type === 'removed') delete pixelData[`${d.x},${d.y}`];
-              else pixelData[`${d.x},${d.y}`] = d.color;
-            });
-            render(); updateUI();
-          });
-        } else {
-          elOffline.style.display = 'block';
-        }
-      } catch(e) { elOffline.style.display = 'block'; }
+      // Firebase désactivé — mode local uniquement
 
       // Intro pixel canvas
       const pixelIntro      = document.getElementById('pixelIntro');
