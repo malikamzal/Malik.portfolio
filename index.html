@@ -2666,13 +2666,14 @@
 
     /* ── Bouton "Envoyer l'idée" — centre-bas du workspace ── */
     .px-send {
-      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
       background: #fff; color: #111114;
       font-family: var(--font-display); font-weight: 700; font-size: .78rem;
       letter-spacing: .08em; text-transform: uppercase;
       border: none; border-radius: 100px;
-      padding: 12px 28px; cursor: pointer;
+      padding: 11px 22px 11px 18px; cursor: pointer;
       box-shadow: 0 4px 24px rgba(0,0,0,.35);
+      display: flex; align-items: center; gap: 8px;
       transition: transform .18s, box-shadow .18s, background .15s;
       z-index: 10; white-space: nowrap;
     }
@@ -2716,14 +2717,14 @@
     }
     .px-ty-more:hover { opacity: .85; }
     .px-ty-done {
-      background: transparent; color: var(--muted);
-      font-family: var(--font-display); font-size: .75rem;
-      letter-spacing: .06em; text-transform: uppercase;
-      border: 1px solid var(--border); border-radius: 100px;
-      padding: 12px 24px; cursor: pointer;
+      background: rgba(255,255,255,.07); color: rgba(255,255,255,.5);
+      font-family: var(--font-display); font-size: .72rem;
+      letter-spacing: .18em; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.15); border-radius: 100px;
+      padding: 12px 28px; cursor: pointer;
       transition: background .2s, color .2s, border-color .2s;
     }
-    .px-ty-done:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); color: #fff; }
+    .px-ty-done:hover { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.4); color: #fff; }
     #pixelIntro {
       position: absolute; inset: 0; z-index: 20;
       background: var(--bg);
@@ -2793,7 +2794,7 @@
       #pxLoupe { border-width: 2px; border-color: rgba(255,255,255,.25); }
 
       /* Bouton Envoyer mobile */
-      .px-send { bottom: 14px; padding: 11px 24px; font-size: .72rem; }
+      .px-send { top: 12px; padding: 9px 18px 9px 14px; font-size: .7rem; gap: 6px; }
 
       /* Overlay Merci mobile */
       .px-thankyou-card { padding: 32px 24px; }
@@ -3915,7 +3916,10 @@
     </div>
     <div class="px-workspace" id="pxWorkspace">
       <canvas id="pixelCanvas"></canvas>
-      <button class="px-send" id="pxSend">Envoyer l'idée</button>
+      <button class="px-send" id="pxSend">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14.5 1.5 1 6l5 2.5L13.5 4 8.5 12.5 6 7.5l8.5-6z" fill="currentColor"/></svg>
+        Envoyer votre idée
+      </button>
     </div>
     <div class="px-controls">
       <div class="px-palette" id="pxPalette"></div>
@@ -3926,11 +3930,11 @@
     <!-- Overlay "Merci" -->
     <div class="px-thankyou" id="pxThankyou">
       <div class="px-thankyou-card">
-        <div class="px-thankyou-title">Merci pour l'idée&nbsp;!</div>
+        <div class="px-thankyou-title">Merci pour le coup de pouce&nbsp;!</div>
         <div class="px-thankyou-sub">Je ne sais pas si ça va me permettre d'avancer mais au moins le syndrôme de la page blanche est évité&nbsp;🌱</div>
         <div class="px-thankyou-actions">
           <button class="px-ty-more" id="pxTyMore">Ajouter une idée</button>
-          <button class="px-ty-done" id="pxTyDone">J'ai tout donné</button>
+          <button class="px-ty-done" id="pxTyDone">Oups, panne d'inspiration…</button>
         </div>
       </div>
     </div>
