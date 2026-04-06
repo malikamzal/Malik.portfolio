@@ -2624,7 +2624,9 @@
     #pixelCanvas {
       display: block; cursor: none;
       image-rendering: pixelated; image-rendering: crisp-edges;
+      touch-action: none; /* empêche zoom double-tap et scroll natif */
     }
+    .px-controls { touch-action: manipulation; /* empêche zoom double-tap sur les boutons */ }
     .px-controls {
       padding: 14px 48px 18px; border-top: 1px solid var(--border);
       display: flex; align-items: center; gap: 20px; flex-shrink: 0;
@@ -2693,7 +2695,9 @@
       #pixelIntro .quiz-intro-cta { align-self: stretch; text-align: center; }
 
       /* ── Pixel canvas layout mobile ── */
-      .px-header { padding: 14px 18px 12px; }
+      /* quiz-close est à top:20px height:44px → centre à y=42px
+         label(~10px) + title(~16px) = ~26px, centre à padding-top+13=42 → padding-top≈29 */
+      .px-header { padding: 29px 66px 15px 18px; /* droite: espace pour le bouton × */ }
       .px-title { font-size: 1rem; }
       .px-stat-num { font-size: 1rem; }
       .px-workspace { padding: 0; }
@@ -2705,17 +2709,17 @@
         gap: 8px 10px;
         align-items: center;
       }
-      /* Rangée 1 : palette pleine largeur, scrollable */
+      /* Rangée 1 : palette pleine largeur, scrollable horizontalement */
       .px-palette {
         flex: 0 0 100%;
         order: 0;
         flex-wrap: nowrap !important;
         overflow-x: auto;
+        overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        padding-bottom: 2px;
-        mask-image: linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%);
-        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%);
+        /* Pas de fade : démarre bord à bord, la dernière couleur dépasse */
+        padding: 0;
       }
       .px-palette::-webkit-scrollbar { display: none; }
       .px-swatch { width: 30px; height: 30px; flex-shrink: 0; }
@@ -3852,7 +3856,7 @@
         <div class="px-stat-num"><span id="pxUsed">0</span><sup> /50</sup></div>
         <div class="px-stat-label">vos pixels</div>
       </div>
-      <button class="px-undo" id="pxUndo" title="Annuler le dernier pixel">↩</button>
+      <button class="px-undo" id="pxUndo" title="Annuler le dernier pixel"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5H9a5 5 0 0 1 0 10H4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 5l3-3M1.5 5l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="px-reset" id="pxReset">Recommencer</button>
     </div>
   </div>
@@ -5107,6 +5111,17 @@
       let pixelHistory = []; // stack des clés posées par l'user
       let db = null;
 
+      // ── Viewport : pan + zoom ──
+      let viewX = 0, viewY = 0, viewScale = 1;
+      const MIN_SCALE = 1, MAX_SCALE = 6;
+
+      function clampView() {
+        const cssW = canvas.offsetWidth  || COLS * PXSZ;
+        const cssH = canvas.offsetHeight || ROWS * PXSZ;
+        viewX = Math.max(cssW - COLS * PXSZ * viewScale, Math.min(0, viewX));
+        viewY = Math.max(cssH - ROWS * PXSZ * viewScale, Math.min(0, viewY));
+      }
+
       // Dimensionner le canvas selon l'espace disponible
       function sizeCanvas() {
         const ws = document.getElementById('pxWorkspace');
@@ -5119,25 +5134,43 @@
         canvas.style.height = (ROWS * PXSZ) + 'px';
         ctx.scale(CDPR, CDPR);
         ctx.imageSmoothingEnabled = false;
+        clampView();
         render();
       }
 
       // Rendu du canvas
       function render() {
+        // 1. Effacer tout en coords physiques
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.fillStyle = '#111114';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+
+        // 2. Appliquer le viewport (translate + zoom) en coords CSS
+        ctx.save();
+        ctx.translate(viewX, viewY);
+        ctx.scale(viewScale, viewScale);
         ctx.imageSmoothingEnabled = false;
+
+        // Fond de la grille
         ctx.fillStyle = '#111114';
         ctx.fillRect(0, 0, COLS * PXSZ, ROWS * PXSZ);
+
         // Pixels posés
         for (const [key, color] of Object.entries(pixelData)) {
           const [x, y] = key.split(',').map(Number);
           ctx.fillStyle = color;
           ctx.fillRect(x * PXSZ, y * PXSZ, PXSZ, PXSZ);
         }
-        // Grille
+
+        // Grille (épaisseur constante quel que soit le zoom)
         ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-        ctx.lineWidth = 0.5;
+        ctx.lineWidth = 0.5 / viewScale;
         for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x*PXSZ,0); ctx.lineTo(x*PXSZ,ROWS*PXSZ); ctx.stroke(); }
         for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0,y*PXSZ); ctx.lineTo(COLS*PXSZ,y*PXSZ); ctx.stroke(); }
+
+        ctx.restore();
       }
 
       const elUndo = document.getElementById('pxUndo');
@@ -5190,47 +5223,123 @@
         const r = canvas.getBoundingClientRect();
         const cx = (e.clientX ?? e.touches?.[0]?.clientX) - r.left;
         const cy = (e.clientY ?? e.touches?.[0]?.clientY) - r.top;
-        return { x: Math.floor(cx / PXSZ), y: Math.floor(cy / PXSZ) };
+        // Inverser le viewport pour obtenir les coords grille
+        return {
+          x: Math.floor((cx - viewX) / (PXSZ * viewScale)),
+          y: Math.floor((cy - viewY) / (PXSZ * viewScale))
+        };
       }
       canvas.addEventListener('mousedown',  e => { drawing = true; const c = cellFromEvent(e); placePixel(c.x, c.y); });
       canvas.addEventListener('mousemove',  e => { if (drawing) { const c = cellFromEvent(e); placePixel(c.x, c.y); }});
       window.addEventListener('mouseup',    () => { drawing = false; });
-      // ── Touch : mécanique "viser puis relâcher" ──
-      // touchstart/touchmove → montre la loupe au-dessus du doigt, prévisualise le pixel ciblé
-      // touchend → pose le pixel au dernier emplacement ciblé
-      let touchTarget = null; // { x, y } en coords grille
+      // ── Touch : gestion multi-touch (1 doigt = viser/poser, 2 doigts = pan+zoom) ──
+      let touchTarget  = null;  // cellule ciblée par le doigt unique
+      let gestureMode  = 'idle'; // 'idle' | 'aim' | 'panzoom'
+      let postGesture  = false;  // empêche un placement accidentel après un pan/zoom
+      let lastPinchDist = null;
+      let lastPinchMid  = null;
 
-      function handleTouchAim(e) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const r = canvas.getBoundingClientRect();
-        const cx = touch.clientX - r.left;
-        const cy = touch.clientY - r.top;
-        touchTarget = { x: Math.floor(cx / PXSZ), y: Math.floor(cy / PXSZ) };
-        // Positionner la loupe au-dessus du doigt (centre loupe = au-dessus du touch)
-        const loupeCSSSize = parseInt(loupe.style.width) || 120;
-        const offset = loupeCSSSize / 2 + 56; // rayon loupe + espace pouce
-        const lx = Math.max(loupeCSSSize / 2 + 8, Math.min(window.innerWidth - loupeCSSSize / 2 - 8, touch.clientX));
-        const ly = Math.max(loupeCSSSize / 2 + 8, touch.clientY - offset);
+      function pinchDist(a, b) { return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY); }
+      function pinchMid(a, b)  { return { x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2 }; }
+
+      function positionLoupe(clientX, clientY) {
+        const lsz = parseInt(loupe.style.width) || LOUPE_SIZE;
+        const offset = lsz / 2 + 56;
+        const lx = Math.max(lsz / 2 + 8, Math.min(window.innerWidth  - lsz / 2 - 8, clientX));
+        const ly = Math.max(lsz / 2 + 8, clientY - offset);
         loupe.style.left = lx + 'px';
         loupe.style.top  = ly + 'px';
+      }
+
+      function aimFromTouch(e) {
+        const touch = e.touches[0];
+        const r = canvas.getBoundingClientRect();
+        const sx = touch.clientX - r.left, sy = touch.clientY - r.top;
+        touchTarget = {
+          x: Math.floor((sx - viewX) / (PXSZ * viewScale)),
+          y: Math.floor((sy - viewY) / (PXSZ * viewScale))
+        };
+        positionLoupe(touch.clientX, touch.clientY);
         loupe.style.opacity = '1';
         renderLoupe(touch.clientX, touch.clientY);
       }
 
-      canvas.addEventListener('touchstart', handleTouchAim, { passive: false });
-      canvas.addEventListener('touchmove',  handleTouchAim, { passive: false });
+      canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        if (e.touches.length === 1) {
+          gestureMode = 'aim';
+          postGesture = false;
+          aimFromTouch(e);
+        } else if (e.touches.length === 2) {
+          gestureMode = 'panzoom';
+          touchTarget = null;
+          loupe.style.opacity = '0';
+          lastPinchDist = pinchDist(e.touches[0], e.touches[1]);
+          lastPinchMid  = pinchMid(e.touches[0],  e.touches[1]);
+        }
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', e => {
+        e.preventDefault();
+        if (e.touches.length === 1 && gestureMode === 'aim') {
+          aimFromTouch(e);
+        } else if (e.touches.length >= 2) {
+          if (gestureMode !== 'panzoom') {
+            gestureMode = 'panzoom';
+            touchTarget = null;
+            loupe.style.opacity = '0';
+            lastPinchDist = pinchDist(e.touches[0], e.touches[1]);
+            lastPinchMid  = pinchMid(e.touches[0],  e.touches[1]);
+          }
+          const t0 = e.touches[0], t1 = e.touches[1];
+          const dist = pinchDist(t0, t1);
+          const mid  = pinchMid(t0,  t1);
+          const r    = canvas.getBoundingClientRect();
+
+          if (lastPinchDist !== null && lastPinchMid !== null) {
+            // Zoom centré sur le point médian
+            const scaleFactor = dist / lastPinchDist;
+            const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, viewScale * scaleFactor));
+            const realFactor = newScale / viewScale;
+            const pivotX = mid.x - r.left, pivotY = mid.y - r.top;
+            viewX = pivotX - realFactor * (pivotX - viewX);
+            viewY = pivotY - realFactor * (pivotY - viewY);
+            viewScale = newScale;
+            // Pan : déplacement du centre entre les deux événements
+            viewX += mid.x - lastPinchMid.x;
+            viewY += mid.y - lastPinchMid.y;
+          }
+          lastPinchDist = dist;
+          lastPinchMid  = mid;
+          clampView();
+          render();
+        }
+      }, { passive: false });
+
       canvas.addEventListener('touchend', e => {
         e.preventDefault();
-        if (touchTarget) {
+        if (gestureMode === 'aim' && touchTarget && !postGesture) {
           placePixel(touchTarget.x, touchTarget.y);
-          touchTarget = null;
         }
-        // Masquer la loupe avec un léger délai pour feedback visuel
-        setTimeout(() => { loupe.style.opacity = '0'; }, 220);
-      }, { passive: false });
-      canvas.addEventListener('touchcancel', () => {
         touchTarget = null;
+        if (e.touches.length === 0) {
+          if (gestureMode === 'panzoom') postGesture = true;
+          gestureMode = 'idle';
+          lastPinchDist = null;
+          lastPinchMid  = null;
+          setTimeout(() => { loupe.style.opacity = '0'; }, 180);
+        } else if (e.touches.length === 1 && gestureMode === 'panzoom') {
+          // Un doigt levé, on passe en aim sans poser immédiatement
+          gestureMode  = 'aim';
+          postGesture  = true;
+          lastPinchDist = null;
+          lastPinchMid  = null;
+        }
+      }, { passive: false });
+
+      canvas.addEventListener('touchcancel', () => {
+        touchTarget = null; gestureMode = 'idle';
+        lastPinchDist = null; lastPinchMid = null;
         loupe.style.opacity = '0';
       });
 
@@ -5255,18 +5364,30 @@
 
       function renderLoupe(mx, my) {
         const r = canvas.getBoundingClientRect();
-        const cx = (mx - r.left) * CDPR, cy = (my - r.top) * CDPR;
-        const srcW = LOUPE_CELLS * PXSZ * CDPR;
+        const sx = mx - r.left, sy = my - r.top; // coords CSS canvas
+        const cx = sx * CDPR, cy = sy * CDPR;    // coords physiques canvas
+
+        // Taille source : LOUPE_CELLS cellules en tenant compte du zoom viewport
+        const cellPhys = PXSZ * viewScale * CDPR; // taille physique d'une cellule
+        const srcW = LOUPE_CELLS * cellPhys;
         const srcX = cx - srcW / 2, srcY = cy - srcW / 2;
+
         loupeCtx.clearRect(0, 0, LOUPE_SIZE, LOUPE_SIZE);
         loupeCtx.imageSmoothingEnabled = false;
         loupeCtx.drawImage(canvas, srcX, srcY, srcW, srcW, 0, 0, LOUPE_SIZE, LOUPE_SIZE);
-        // Contour accent sur le pixel survolé
+
+        // Contour accent sur la cellule survolée (avec viewport)
+        const gx = Math.floor((sx - viewX) / (PXSZ * viewScale));
+        const gy = Math.floor((sy - viewY) / (PXSZ * viewScale));
+        const cellScreenX = gx * PXSZ * viewScale + viewX;
+        const cellScreenY = gy * PXSZ * viewScale + viewY;
+        const cellPxX = cellScreenX * CDPR;
+        const cellPxY = cellScreenY * CDPR;
+
         const scale = LOUPE_SIZE / srcW;
-        const cellPxX = Math.floor(cx / (PXSZ * CDPR)) * (PXSZ * CDPR);
-        const cellPxY = Math.floor(cy / (PXSZ * CDPR)) * (PXSZ * CDPR);
-        const lx = (cellPxX - srcX) * scale, ly = (cellPxY - srcY) * scale;
-        const lsz = PXSZ * CDPR * scale;
+        const lx  = (cellPxX - srcX) * scale;
+        const ly  = (cellPxY - srcY) * scale;
+        const lsz = cellPhys * scale;
         loupeCtx.strokeStyle = '#c9f03d';
         loupeCtx.lineWidth = 1.5;
         loupeCtx.strokeRect(lx + 0.75, ly + 0.75, lsz - 1.5, lsz - 1.5);
@@ -5328,6 +5449,7 @@
 
       // Open / close + routing
       function _openDOM() {
+        viewX = 0; viewY = 0; viewScale = 1; // reset viewport à chaque ouverture
         pixelPage.classList.add('open');
         pxClose.style.opacity = '1'; pxClose.style.pointerEvents = 'auto';
         document.body.style.overflow = 'hidden';
