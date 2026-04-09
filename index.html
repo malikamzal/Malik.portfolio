@@ -2326,31 +2326,26 @@
 
     .footer-main {
       padding: 64px 64px 52px;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
-    }
-    .footer-contact-title {
-      font-family: var(--font-display); font-weight: 800;
-      font-size: 1.8rem; color: var(--text); line-height: 1.1;
-      margin-bottom: 16px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center;
     }
     .footer-contact-sub {
-      font-family: var(--font-body); font-size: .92rem;
-      color: var(--muted); line-height: 1.65; max-width: 360px;
+      font-family: var(--font-body); font-size: 1rem;
+      color: var(--muted); line-height: 1.7; max-width: 380px;
     }
     .footer-links {
-      display: flex; flex-direction: column; gap: 10px;
-      justify-content: center; align-items: flex-start;
+      display: flex; flex-direction: column; gap: 12px;
+      align-items: flex-start;
     }
     .footer-link {
-      display: inline-flex; align-items: center; gap: 9px;
-      color: rgba(255,255,255,.55); text-decoration: none;
-      font-family: var(--font-display); font-size: .8rem;
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--text); text-decoration: none;
+      font-family: var(--font-display); font-size: .85rem;
       letter-spacing: .04em;
       transition: color .2s;
     }
     .footer-link:hover { color: var(--accent); }
-    .footer-link svg { opacity: .6; flex-shrink: 0; transition: opacity .2s; }
-    .footer-link:hover svg { opacity: 1; }
+    .footer-link svg { flex-shrink: 0; transition: opacity .2s; }
 
     .footer-bar {
       padding: 18px 64px;
@@ -2362,27 +2357,24 @@
       color: var(--muted); letter-spacing: .03em;
     }
 
+    /* Wordmark tronqué : font-size sur le wrapper = référence pour em */
     .footer-wordmark {
       overflow: hidden;
-      height: 0.72em;          /* clip bottom — only top of letters visible */
+      font-size: clamp(80px, 14vw, 200px);
+      height: 0.82em;   /* 82% visible, 18% coupé en bas */
       padding: 0 48px;
-      margin-top: 4px;
       line-height: 1;
     }
     .footer-wordmark-text {
       font-family: var(--font-display); font-weight: 800;
-      font-size: clamp(80px, 14vw, 200px);
-      color: var(--text); display: block;
-      white-space: nowrap; line-height: 1;
-      opacity: .9;
+      font-size: 1em; color: var(--text);
+      display: block; white-space: nowrap; line-height: 1;
     }
 
     @media (max-width: 768px) {
-      .footer-main { grid-template-columns: 1fr; padding: 48px 24px 40px; gap: 36px; }
-      .footer-contact-title { font-size: 1.4rem; }
+      .footer-main { grid-template-columns: 1fr; padding: 48px 24px 40px; gap: 32px; }
       .footer-bar { padding: 16px 24px; flex-direction: column; gap: 6px; align-items: flex-start; }
-      .footer-wordmark { padding: 0 24px; height: 0.68em; margin-top: 2px; }
-      .footer-wordmark-text { font-size: clamp(52px, 18vw, 120px); }
+      .footer-wordmark { font-size: clamp(52px, 18vw, 120px); padding: 0 24px; height: 0.82em; }
     }
 
     /* Animations */
@@ -4054,7 +4046,6 @@
     <div class="footer-main">
       <!-- Gauche : accroche -->
       <div>
-        <div class="footer-contact-title">Restons en contact</div>
         <p class="footer-contact-sub">Toujours dispo pour parler design, produit ou nouvelles idées — et pourquoi pas collaborer ensemble.</p>
       </div>
       <!-- Droite : liens -->
