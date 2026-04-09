@@ -636,222 +636,262 @@
       font-style: italic;
     }
 
-    /* ── PARCOURS SLIDER ── */
+    /* ── À PROPOS SECTION ── */
     #vibes { background: var(--bg); }
     .vibes-header { margin-bottom: 48px; }
     .vibes-subtitle { font-size: .9rem; color: var(--muted); margin-top: 10px; font-style: italic; }
 
-    /* Slider outer / track */
-    .timeline-outer {
-      margin: 0 -64px;
-      padding: 0 64px;
-      overflow-x: scroll;
-      scroll-snap-type: x mandatory;
-      scroll-padding-left: 64px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      cursor: grab;
-      user-select: none;
-    }
-    .timeline-outer::-webkit-scrollbar { display: none; }
-    .timeline-outer.dragging { cursor: grabbing; }
-    .timeline-track {
-      display: flex;
-      gap: 28px;
-      will-change: transform;
-    }
-    .timeline-track.no-transition { transition: none; }
-
-    /* Item wrapper (year header + card) */
-    .tl-item {
-      min-width: 480px;
-      max-width: 480px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      cursor: grab;
-      transition: opacity .4s, transform .4s;
-      scroll-snap-align: start;
-    }
-    .timeline-outer.dragging .tl-item { cursor: grabbing; }
-    .tl-item.active-card {
-      pointer-events: auto;
+    /* Two-column grid */
+    .vibes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 64px;
+      align-items: start;
     }
 
-    /* Year row: big year + timeline connector */
-    .tl-year-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
+    /* ── Vertical timeline (left) ── */
+    .vtl { position: relative; display: flex; flex-direction: column; }
+    .vtl::before {
+      content: '';
+      position: absolute;
+      left: 4px; top: 8px; bottom: 52px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), rgba(201,240,61,.04));
     }
-    .tl-year {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(2.8rem, 5vw, 4rem);
-      letter-spacing: -.06em;
-      color: var(--text);
-      line-height: 1;
-      flex-shrink: 0;
-      padding-right: 14px;
-    }
-
-    /* Connector: dot + line */
-    .tl-connector {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 0;
-      overflow: visible;
-    }
-    .tl-dot {
+    .vtl-item { display: flex; gap: 18px; padding-bottom: 24px; position: relative; }
+    .vtl-item:last-child { padding-bottom: 0; }
+    .vtl-dot {
       width: 10px; height: 10px;
       border-radius: 50%;
       border: 2px solid var(--accent);
       background: var(--bg);
       flex-shrink: 0;
+      margin-top: 5px;
+      z-index: 1;
     }
-    .tl-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, var(--accent), rgba(201,240,61,.15));
-      /* extend slightly past item into the gap */
-      margin-right: -28px;
+    .vtl-content { flex: 1; }
+    .vtl-year {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -.04em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 2px;
     }
-
-    /* Date full — below year, above card */
-    .tl-date-full {
-      font-size: .63rem;
-      letter-spacing: .14em;
+    .vtl-date {
+      font-size: .58rem;
+      letter-spacing: .12em;
       text-transform: uppercase;
       color: var(--muted);
       font-family: var(--font-display);
-      margin-bottom: 14px;
+      margin-bottom: 8px;
     }
 
     /* Card body */
     .tl-card {
       background: var(--surface);
-      border-radius: 16px;
-      padding: 22px 22px 18px;
+      border-radius: 12px;
+      padding: 14px 16px 12px;
       display: flex;
       flex-direction: column;
-      flex: 1;
     }
-
-    /* Role */
     .tl-role {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: clamp(1.2rem, 1.9vw, 1.5rem);
-      letter-spacing: -.03em;
+      font-size: .95rem;
+      letter-spacing: -.02em;
       color: var(--text);
-      line-height: 1.15;
-      margin-bottom: 6px;
+      line-height: 1.2;
+      margin-bottom: 3px;
     }
-    .tl-role small {
-      display: block;
-      font-size: .72em;
-      font-weight: 400;
-      color: var(--muted);
-      margin-top: 3px;
-    }
-
-    /* Contract + city */
     .tl-meta {
-      font-size: .8rem;
-      color: var(--text);
+      font-size: .72rem;
+      color: var(--muted);
       font-family: var(--font-body);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-
-    /* Company row — logo + name + optional badge */
     .tl-company-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: auto;
+      display: flex; align-items: center; gap: 8px; margin-top: auto;
     }
     .tl-logo {
-      width: 26px; height: 26px;
-      border-radius: 7px;
+      width: 22px; height: 22px;
+      border-radius: 6px;
       background: var(--surface2);
       border: 1px solid rgba(255,255,255,.07);
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
+      overflow: hidden; flex-shrink: 0;
     }
-    .tl-logo img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+    .tl-logo img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
     .tl-company {
-      font-size: .65rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-family: var(--font-display);
-      font-weight: 600;
-      flex: 1;
+      font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); font-family: var(--font-display); font-weight: 600; flex: 1;
     }
-
-    /* Current badge — bottom right of card */
     .tl-current {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 9px;
-      background: rgba(201,240,61,.10);
-      border: 1px solid var(--accent);
-      border-radius: 100px;
-      font-size: .55rem;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-family: var(--font-display);
-      font-weight: 700;
-      white-space: nowrap;
-      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px;
+      background: rgba(201,240,61,.10); border: 1px solid var(--accent);
+      border-radius: 100px; font-size: .5rem; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--accent);
+      font-family: var(--font-display); font-weight: 700;
+      white-space: nowrap; flex-shrink: 0;
     }
     .tl-current-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 1.8s infinite;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--accent); animation: pulse 1.8s infinite;
     }
 
     /* CTA download */
-    .tl-cta-wrap {
-      display: flex;
-      justify-content: center;
-      margin-top: 40px;
-    }
+    .tl-cta-wrap { margin-top: 28px; }
     .tl-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      font-family: var(--font-display);
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      cursor: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px;
+      border: 1px solid var(--border); border-radius: 100px;
+      font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; cursor: none;
       transition: border-color .2s, color .2s, background .2s;
     }
-    .tl-cta:hover {
-      border-color: rgba(201,240,61,.4);
-      color: var(--text);
-      background: rgba(201,240,61,.04);
-    }
+    .tl-cta:hover { border-color: rgba(201,240,61,.4); color: var(--text); background: rgba(201,240,61,.04); }
     .tl-cta-icon { font-size: .9rem; }
 
-    .tl-spacer { min-width: 64px; flex-shrink: 0; }
+    /* ── Vibe blocks (right) ── */
+    .vibes-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .vibe-block {
+      background: var(--surface);
+      border-radius: 16px; padding: 18px;
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: transform .2s, border-color .2s;
+      border: 1px solid var(--border);
+      min-height: 190px;
+      display: flex; flex-direction: column;
+    }
+    .vibe-block:hover { transform: translateY(-3px); border-color: rgba(201,240,61,.3); }
+    .vibe-label {
+      font-size: .52rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); font-family: var(--font-display); font-weight: 700; margin-bottom: 7px;
+    }
+    .vibe-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: .95rem; color: var(--text);
+      letter-spacing: -.02em; line-height: 1.2; margin-bottom: 2px;
+    }
+    .vibe-sub { font-size: .7rem; color: var(--muted); font-family: var(--font-body); }
+
+    /* Reveal overlay */
+    .vibe-reveal {
+      position: absolute; inset: 0;
+      background: var(--surface); border-radius: 16px; padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+      display: flex; flex-direction: column;
+      align-items: flex-start; justify-content: center;
+    }
+    .vibe-block.revealed .vibe-reveal { opacity: 1; pointer-events: auto; }
+    .vibe-reveal-text {
+      font-family: var(--font-body); font-size: .82rem;
+      color: var(--text); line-height: 1.6; font-style: italic;
+    }
+    .vibe-reveal-credit {
+      font-size: .62rem; color: var(--muted);
+      font-family: var(--font-display); letter-spacing: .05em; margin-top: 10px;
+    }
+    .vibe-reveal-close {
+      position: absolute; top: 12px; right: 12px;
+      background: none; border: none; color: var(--muted);
+      font-size: .75rem; cursor: pointer; padding: 4px;
+      font-family: var(--font-display);
+    }
+    .vibe-reveal-close:hover { color: var(--text); }
+
+    /* Music visual */
+    .vibe-music-visual {
+      margin-top: auto; display: flex; flex-direction: column; gap: 5px; opacity: .35;
+    }
+    .vibe-music-line { height: 1px; background: var(--text); position: relative; }
+    .vibe-music-note {
+      position: absolute; width: 5px; height: 5px;
+      background: var(--accent); border-radius: 50%; top: -2px;
+      animation: noteFloat 2s ease-in-out infinite;
+    }
+    @keyframes noteFloat {
+      0%,100% { transform: translateY(0); opacity: .6; }
+      50% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* Film visual */
+    .vibe-film-visual { margin-top: auto; display: flex; gap: 3px; opacity: .25; }
+    .vibe-film-strip { flex: 1; height: 24px; background: var(--text); border-radius: 2px; }
+
+    /* Book visual */
+    .vibe-book-visual {
+      margin-top: auto; width: 34px; height: 48px;
+      background: linear-gradient(135deg, #8B0000, #3D0000);
+      border-radius: 3px 6px 6px 3px; border-left: 4px solid rgba(0,0,0,.4);
+      opacity: .65; position: relative;
+    }
+    .vibe-book-visual::after {
+      content: ''; position: absolute;
+      top: 8px; left: 5px; right: 5px; height: 1px;
+      background: rgba(255,255,255,.2);
+      box-shadow: 0 7px 0 rgba(255,255,255,.15), 0 14px 0 rgba(255,255,255,.1);
+    }
+
+    /* Zelda block */
+    .vibe-zelda { padding: 0; cursor: default; }
+    .vibe-zelda:hover { transform: none; }
+    #zeldaCanvas {
+      display: block; width: 100%; height: 100%;
+      image-rendering: pixelated; image-rendering: crisp-edges;
+      border-radius: 15px; min-height: 190px;
+    }
+    .zelda-hearts {
+      position: absolute; top: 10px; left: 12px;
+      display: flex; gap: 3px; z-index: 2; pointer-events: none;
+    }
+    .zelda-heart { font-size: .8rem; line-height: 1; transition: opacity .3s; }
+    .zelda-heart.empty { opacity: .18; }
+    .zelda-score {
+      position: absolute; top: 10px; right: 12px;
+      font-family: var(--font-display); font-size: .52rem;
+      letter-spacing: .1em; color: rgba(255,255,255,.55);
+      z-index: 2; pointer-events: none;
+    }
+    .zelda-game-label {
+      position: absolute; bottom: 10px; left: 12px;
+      font-family: var(--font-display); font-size: .5rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      z-index: 2; pointer-events: none;
+    }
+    .zelda-gameover {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.84); border-radius: 15px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      opacity: 0; pointer-events: none; transition: opacity .4s; z-index: 3;
+    }
+    .zelda-gameover.show { opacity: 1; pointer-events: auto; }
+    .zelda-gameover-title {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 1rem; letter-spacing: .14em;
+      color: #ff4444; text-transform: uppercase;
+    }
+    .zelda-gameover-btn {
+      padding: 6px 18px; background: none;
+      border: 1px solid rgba(255,255,255,.28); border-radius: 100px;
+      color: var(--text); font-family: var(--font-display);
+      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+      cursor: pointer; transition: border-color .2s, background .2s;
+    }
+    .zelda-gameover-btn:hover { border-color: var(--accent); background: rgba(201,240,61,.08); }
+
     @media (max-width: 768px) {
-      .tl-spacer { min-width: 24px; }
-      .timeline-outer { margin: 0 -24px; padding: 0 24px; }
-      .tl-item { min-width: 300px; max-width: 300px; }
-      .tl-year { font-size: 2.5rem; }
+      .vibes-grid { grid-template-columns: 1fr; gap: 40px; }
+      .vibes-blocks { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .vibe-block { min-height: 160px; padding: 14px; }
+      .vibe-title { font-size: .88rem; }
+      #zeldaCanvas { min-height: 160px; }
     }
 
     /* ── Lab'o Section ── */
@@ -3122,134 +3162,185 @@
     </div>
   </section>
 
-  <!-- Parcours Section -->
+  <!-- À propos Section -->
   <section id="vibes">
     <div class="vibes-header reveal">
       <div class="section-label" id="vibesLabel">Parcours</div>
-      <h2 class="section-title" id="vibesTitle">Mon expérience</h2>
-      <p class="vibes-subtitle" id="vibesSub">8 ans à la croisée du design et de la direction artistique.</p>
+      <h2 class="section-title" id="vibesTitle">À propos de moi</h2>
+      <p class="vibes-subtitle" id="vibesSub">Product designer. Joueur. Mélomane. Lecteur.</p>
     </div>
 
-    <div class="timeline-outer" id="tlOuter">
-      <div class="timeline-track" id="tlTrack">
+    <div class="vibes-grid">
 
-        <!-- Galeries Lafayette -->
-        <div class="tl-item active-card">
-          <div class="tl-year-row">
-            <span class="tl-year">2026</span>
-            <div class="tl-connector">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
+      <!-- ── Colonne gauche : expériences ── -->
+      <div class="vibes-exp">
+        <div class="vtl">
+
+          <!-- Galeries Lafayette -->
+          <div class="vtl-item">
+            <div class="vtl-dot"></div>
+            <div class="vtl-content">
+              <div class="vtl-year">2026</div>
+              <div class="vtl-date">Jan. 2023 — Aujourd'hui</div>
+              <div class="tl-card">
+                <div class="tl-role">Product Designer</div>
+                <div class="tl-meta">CDI · Paris</div>
+                <div class="tl-company-row">
+                  <div class="tl-logo"><img src="01_SOURCES/GALERIES_LAFAYETTE_LOGO.png"></div>
+                  <span class="tl-company">Galeries Lafayette</span>
+                  <span class="tl-current"><span class="tl-current-dot"></span>Poste actuel</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="tl-date-full">Jan. 2023 — Aujourd'hui</div>
-          <div class="tl-card">
-            <div class="tl-role">Product Designer</div>
-            <div class="tl-meta">CDI · Paris</div>
-            <div class="tl-company-row">
-              <div class="tl-logo">
-                <img src="01_SOURCES/GALERIES_LAFAYETTE_LOGO.png">
+
+          <!-- TBWA -->
+          <div class="vtl-item">
+            <div class="vtl-dot"></div>
+            <div class="vtl-content">
+              <div class="vtl-year">2023</div>
+              <div class="vtl-date">Août 2018 — Jan. 2023</div>
+              <div class="tl-card">
+                <div class="tl-role">UI Designer</div>
+                <div class="tl-meta">CDI · Paris</div>
+                <div class="tl-company-row">
+                  <div class="tl-logo"><img src="01_SOURCES/TBWA_LOGO.jpg"></div>
+                  <span class="tl-company">TBWA\Paris</span>
+                </div>
               </div>
-              <span class="tl-company">Galeries Lafayette</span>
-              <span class="tl-current"><span class="tl-current-dot"></span>Poste actuel</span>
             </div>
+          </div>
+
+          <!-- Grand Palais -->
+          <div class="vtl-item">
+            <div class="vtl-dot"></div>
+            <div class="vtl-content">
+              <div class="vtl-year">2018</div>
+              <div class="vtl-date">Juillet 2018</div>
+              <div class="tl-card">
+                <div class="tl-role">Médiateur culturel</div>
+                <div class="tl-meta">Mission · Paris</div>
+                <div class="tl-company-row">
+                  <div class="tl-logo"><img src="01_SOURCES/GRAND_PALAIS_LOGO.png"></div>
+                  <span class="tl-company">Grand Palais</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Belazar -->
+          <div class="vtl-item">
+            <div class="vtl-dot"></div>
+            <div class="vtl-content">
+              <div class="vtl-year">2018</div>
+              <div class="vtl-date">Fév. 2016 — Mars 2018</div>
+              <div class="tl-card">
+                <div class="tl-role">Directeur artistique</div>
+                <div class="tl-meta">CDI · Paris</div>
+                <div class="tl-company-row">
+                  <div class="tl-logo"><img src="01_SOURCES/BELAZAR_LOGO.jpeg"></div>
+                  <span class="tl-company">Agence Belazar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ici Barbès -->
+          <div class="vtl-item">
+            <div class="vtl-dot"></div>
+            <div class="vtl-content">
+              <div class="vtl-year">2014</div>
+              <div class="vtl-date">Mai — Août 2014</div>
+              <div class="tl-card">
+                <div class="tl-role">Assistant UX Designer</div>
+                <div class="tl-meta">Stage · Paris</div>
+                <div class="tl-company-row">
+                  <div class="tl-logo"><img src="01_SOURCES/ICI_BARBES_LOGO.png"></div>
+                  <span class="tl-company">Ici Barbès</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tl-cta-wrap">
+          <a href="#" id="cvBtn" class="tl-cta" target="_blank" rel="noopener">
+            <span class="tl-cta-icon">↓</span>
+            Télécharger le CV complet
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Colonne droite : blocs vibes ── -->
+      <div class="vibes-blocks">
+
+        <!-- 🎵 Satie -->
+        <div class="vibe-block vibe-music" id="vibeMusic">
+          <div class="vibe-label">🎵 En écoute</div>
+          <div class="vibe-title">Gnossiennes 1–6</div>
+          <div class="vibe-sub">Erik Satie</div>
+          <div class="vibe-music-visual">
+            <div class="vibe-music-line"><span class="vibe-music-note" style="left:14%"></span><span class="vibe-music-note" style="left:44%;animation-delay:.5s"></span><span class="vibe-music-note" style="left:74%;animation-delay:1s"></span></div>
+            <div class="vibe-music-line"></div>
+            <div class="vibe-music-line"></div>
+            <div class="vibe-music-line"></div>
+          </div>
+          <div class="vibe-reveal">
+            <button class="vibe-reveal-close">✕</button>
+            <div class="vibe-reveal-text">"En boucle quand j'ai besoin d'être concentré."</div>
           </div>
         </div>
 
-        <!-- TBWA / P&G -->
-        <div class="tl-item">
-          <div class="tl-year-row">
-            <span class="tl-year">2023</span>
-            <div class="tl-connector">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
-            </div>
+        <!-- 🎮 Zelda Wind Waker -->
+        <div class="vibe-block vibe-zelda" id="vibeZelda">
+          <div class="zelda-hearts">
+            <span class="zelda-heart" id="zh1">❤️</span>
+            <span class="zelda-heart" id="zh2">❤️</span>
+            <span class="zelda-heart" id="zh3">❤️</span>
           </div>
-          <div class="tl-date-full">Août 2018 — Jan. 2023</div>
-          <div class="tl-card">
-            <div class="tl-role">UI Designer</div>
-            <div class="tl-meta">CDI · Paris</div>
-            <div class="tl-company-row">
-              <div class="tl-logo">
-                <img src="01_SOURCES/TBWA_LOGO.jpg">
-              </div>
-              <span class="tl-company">TBWA\Paris</span>
-            </div>
+          <div class="zelda-score" id="zeldaScore">★ 0</div>
+          <canvas id="zeldaCanvas"></canvas>
+          <div class="zelda-game-label">🎮 Zelda: Wind Waker</div>
+          <div class="zelda-gameover" id="zeldaGameover">
+            <div class="zelda-gameover-title">GAME OVER</div>
+            <button class="zelda-gameover-btn" id="zeldaRestart">Recommencer</button>
           </div>
         </div>
 
-        <!-- Grand Palais -->
-        <div class="tl-item">
-          <div class="tl-year-row">
-            <span class="tl-year">2018</span>
-            <div class="tl-connector">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
-            </div>
+        <!-- 🎬 La Reine Margot -->
+        <div class="vibe-block vibe-film" id="vibeFilm">
+          <div class="vibe-label">🎬 Dernier film</div>
+          <div class="vibe-title">La Reine Margot</div>
+          <div class="vibe-sub">Patrice Chéreau, 1994</div>
+          <div class="vibe-film-visual">
+            <div class="vibe-film-strip"></div>
+            <div class="vibe-film-strip"></div>
+            <div class="vibe-film-strip"></div>
+            <div class="vibe-film-strip"></div>
+            <div class="vibe-film-strip"></div>
           </div>
-          <div class="tl-date-full">Juillet 2018</div>
-          <div class="tl-card">
-            <div class="tl-role">Médiateur culturel</div>
-            <div class="tl-meta">Mission · Paris</div>
-            <div class="tl-company-row">
-              <div class="tl-logo">
-                <img src="01_SOURCES/GRAND_PALAIS_LOGO.png">
-              </div>
-              <span class="tl-company">Grand Palais</span>
-            </div>
+          <div class="vibe-reveal">
+            <button class="vibe-reveal-close">✕</button>
+            <div class="vibe-reveal-text">"Flamboyant et brutal. Chéreau dépeint la Saint-Barthélemy avec une intensité viscérale, porté par une Adjani magnétique. Du grand cinéma français."</div>
+            <div class="vibe-reveal-credit">★★★★★ Allociné</div>
           </div>
         </div>
 
-        <!-- Belazar -->
-        <div class="tl-item">
-          <div class="tl-year-row">
-            <span class="tl-year">2018</span>
-            <div class="tl-connector">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
-            </div>
-          </div>
-          <div class="tl-date-full">Fév. 2016 — Mars 2018</div>
-          <div class="tl-card">
-            <div class="tl-role">Directeur artistique</div>
-            <div class="tl-meta">CDI · Paris</div>
-            <div class="tl-company-row">
-              <div class="tl-logo">
-                <img src="01_SOURCES/BELAZAR_LOGO.jpeg">
-              </div>
-              <span class="tl-company">Agence Belazar</span>
-            </div>
+        <!-- 📖 Dracula -->
+        <div class="vibe-block vibe-book" id="vibeBook">
+          <div class="vibe-label">📖 En lecture</div>
+          <div class="vibe-title">Dracula</div>
+          <div class="vibe-sub">Bram Stoker</div>
+          <div class="vibe-book-visual"></div>
+          <div class="vibe-reveal">
+            <button class="vibe-reveal-close">✕</button>
+            <div class="vibe-reveal-text">"Listen to them — the children of the night. What music they make !"</div>
+            <div class="vibe-reveal-credit">— Bram Stoker, Dracula</div>
           </div>
         </div>
-
-        <!-- Ici Barbès -->
-        <div class="tl-item">
-          <div class="tl-year-row">
-            <span class="tl-year">2014</span>
-          </div>
-          <div class="tl-date-full">Mai — Août 2014</div>
-          <div class="tl-card">
-            <div class="tl-role">Assistant UX Designer</div>
-            <div class="tl-meta">Stage · Paris</div>
-            <div class="tl-company-row">
-              <div class="tl-logo">
-                <img src="01_SOURCES/ICI_BARBES_LOGO.png">
-              </div>
-              <span class="tl-company">Ici Barbès</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="tl-spacer"></div>
 
       </div>
-    </div>
-
-    <div class="tl-cta-wrap">
-      <a href="#" id="cvBtn" class="tl-cta" target="_blank" rel="noopener">
-        <span class="tl-cta-icon">↓</span>
-        Télécharger le CV complet
-      </a>
     </div>
 
   </section>
@@ -4061,7 +4152,7 @@
         <a class="footer-link" href="mailto:malikamzal@gmail.com">malikamzal@gmail.com</a>
         <a class="footer-link" href="tel:+33635367930">+33 06 35 36 79 30</a>
         <a class="footer-link" href="https://www.linkedin.com/in/malikamzal" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="footer-link" href="01_SOURCES/CV_MALIK_AMZAL.pdf" target="_blank" rel="noopener">Voir mon CV</a>
+        <a class="footer-link" id="cvFooterBtn" href="#" target="_blank" rel="noopener">Voir mon CV</a>
       </div>
     </div>
 
@@ -4073,7 +4164,7 @@
     <!-- Barre mentions -->
     <div class="footer-bar">
       <span class="footer-bar-copy">© 2026 Malik Amzal &bull; Product Designer</span>
-      <span class="footer-bar-credit">Fais avec ❤️ à Paris &bull; Malik x Claude Code</span>
+      <span class="footer-bar-credit">Fait avec ❤️ à Paris &bull; Malik x Claude Code</span>
     </div>
   </footer>
 
@@ -4142,8 +4233,8 @@
         projLabel: 'Travaux sélectionnés',
         projTitle: 'Mes projets',
         vibesLabel: 'Parcours',
-        vibesTitle: 'Mon expérience',
-        vibesSub: '8 ans à la croisée du design et de la direction artistique.',
+        vibesTitle: 'À propos de moi',
+        vibesSub: 'Product designer. Joueur. Mélomane. Lecteur.',
         contactLabel: 'Contact',
         scrollHint: 'Scroll',
       },
@@ -4154,9 +4245,9 @@
         stackLabel: 'Stack & tools',
         projLabel: 'Selected work',
         projTitle: 'My projects',
-        vibesLabel: 'Career',
-        vibesTitle: 'My experience',
-        vibesSub: '8 years at the crossroads of design and art direction.',
+        vibesLabel: 'About',
+        vibesTitle: 'About me',
+        vibesSub: 'Product designer. Gamer. Music lover. Bookworm.',
         contactLabel: 'Contact',
         scrollHint: 'Scroll',
       }
@@ -4746,101 +4837,221 @@
       else kIdx=0;
     });
 
-    // ── TIMELINE SLIDER (native scroll + snap) ──
+    // ── VIBE BLOCK REVEALS ──
     (function() {
-      const track = document.getElementById('tlTrack');
-      const outer = document.getElementById('tlOuter');
-      if (!track) return;
+      ['vibeMusic','vibeFilm','vibeBook'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('click', e => {
+          if (!e.target.closest('.vibe-reveal-close')) el.classList.add('revealed');
+        });
+      });
+      document.querySelectorAll('.vibe-reveal-close').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          btn.closest('.vibe-block').classList.remove('revealed');
+        });
+      });
+    })();
 
-      const cards = Array.from(track.querySelectorAll('.tl-item'));
-      const total = cards.length;
-      const GAP   = 28;
-      let current = 0;
+    // ── ZELDA MINI-GAME ──
+    (function() {
+      const canvas = document.getElementById('zeldaCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const W = 192, H = 112;
+      canvas.width = W; canvas.height = H;
 
-      function getCardWidth() { return cards[0].getBoundingClientRect().width + GAP; }
+      const PX = 3;          // NES pixel scale
+      const GY  = H - 16;   // ground Y
+      const LX  = 12;       // Link left edge
+      const LW  = 9;        // Link width in NES px
+      const LH  = 12;       // Link height in NES px
+      const EW  = 8;        // Enemy width in NES px
+      const EH  = 12;       // Enemy height in NES px
 
-      function updateState(idx) {
-        current = Math.max(0, Math.min(total - 1, idx));
-        cards.forEach((c, i) => c.classList.toggle('active-card', i === current));
+      const heartEls = ['zh1','zh2','zh3'].map(id => document.getElementById(id));
+      const scoreEl  = document.getElementById('zeldaScore');
+      const goEl     = document.getElementById('zeldaGameover');
+      const restBtn  = document.getElementById('zeldaRestart');
+
+      let s = {}; // game state
+      let raf = null;
+
+      function drawBg() {
+        // Sky
+        ctx.fillStyle = '#0d0b2e';
+        ctx.fillRect(0, 0, W, GY);
+        // Stars
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        [[16,7],[48,13],[90,5],[128,17],[162,10],[35,26],[152,22],[74,32]].forEach(([x,y]) => ctx.fillRect(x,y,1,1));
+        // Ground strip
+        ctx.fillStyle = '#1a0800';
+        ctx.fillRect(0, GY, W, H - GY);
+        ctx.fillStyle = '#3a1e00';
+        ctx.fillRect(0, GY, W, 2);
+        ctx.fillStyle = '#503000';
+        ctx.fillRect(0, GY + 3, W, 1);
+        // NES-style scan lines (subtle)
+        ctx.fillStyle = 'rgba(0,0,0,0.08)';
+        for (let y = 0; y < GY; y += 2) ctx.fillRect(0, y, W, 1);
       }
 
-      function goTo(idx, animate = true) {
-        const target = Math.max(0, Math.min(total - 1, idx));
-        outer.scrollTo({ left: target * getCardWidth(), behavior: animate ? 'smooth' : 'instant' });
-        updateState(target);
+      function drawLink(attacking) {
+        const x = LX, y = GY - LH * PX;
+        const p = PX;
+        // Hair
+        ctx.fillStyle = '#6b1a00';
+        ctx.fillRect(x+2*p, y,     5*p, 2*p);
+        // Face
+        ctx.fillStyle = '#F8A040';
+        ctx.fillRect(x+2*p, y+2*p, 5*p, 3*p);
+        // Eyes
+        ctx.fillStyle = '#1a0000';
+        ctx.fillRect(x+3*p, y+3*p, p, p);
+        ctx.fillRect(x+5*p, y+3*p, p, p);
+        // Tunic (torso)
+        ctx.fillStyle = '#108010';
+        ctx.fillRect(x+p,   y+5*p, 7*p, 3*p);
+        // Shield left arm
+        ctx.fillStyle = '#1010C0';
+        ctx.fillRect(x,     y+5*p, p,   3*p);
+        // Belt
+        ctx.fillStyle = '#5a3000';
+        ctx.fillRect(x+2*p, y+8*p, 5*p, p);
+        // Legs
+        ctx.fillStyle = '#108010';
+        ctx.fillRect(x+2*p, y+9*p,  2*p, 2*p);
+        ctx.fillRect(x+5*p, y+9*p,  2*p, 2*p);
+        // Boots
+        ctx.fillStyle = '#4a1800';
+        ctx.fillRect(x+p,   y+11*p, 3*p, p);
+        ctx.fillRect(x+5*p, y+11*p, 3*p, p);
+        // Attack: arm + sword
+        if (attacking) {
+          ctx.fillStyle = '#F8A040';
+          ctx.fillRect(x+8*p, y+5*p, 2*p, p);
+          ctx.fillStyle = '#8B4513';
+          ctx.fillRect(x+8*p, y+4*p, 2*p, 3*p);
+          ctx.fillStyle = '#D8D8D8';
+          ctx.fillRect(x+10*p, y+5*p, 7*p, p);
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(x+16*p, y+4*p, p, 3*p);
+        }
       }
 
-      // Native scroll → update active state
-      let scrollTimer = null;
-      outer.addEventListener('scroll', () => {
-        clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(() => {
-          const idx = Math.round(outer.scrollLeft / getCardWidth());
-          updateState(idx);
-        }, 50);
-      }, { passive: true });
+      function drawEnemy(e) {
+        const x = Math.round(e.x), y = GY - EH * PX;
+        const p = PX;
+        if (e.flash > 0 && Math.floor(e.flash / 3) % 2 === 0) return;
+        // Helmet
+        ctx.fillStyle = '#8B3030';
+        ctx.fillRect(x+2*p, y,     4*p, 2*p);
+        ctx.fillStyle = '#B04040';
+        ctx.fillRect(x+p,   y+2*p, 6*p, p);
+        // Face
+        ctx.fillStyle = '#E09060';
+        ctx.fillRect(x+2*p, y+3*p, 4*p, 2*p);
+        // Eyes (angry)
+        ctx.fillStyle = '#FF2020';
+        ctx.fillRect(x+2*p, y+3*p, p, p);
+        ctx.fillRect(x+5*p, y+3*p, p, p);
+        // Body
+        ctx.fillStyle = '#C02828';
+        ctx.fillRect(x+p,   y+5*p, 6*p, 4*p);
+        // Arms
+        ctx.fillStyle = '#A02020';
+        ctx.fillRect(x,     y+5*p, p,   3*p);
+        ctx.fillRect(x+7*p, y+5*p, p,   3*p);
+        // Legs
+        ctx.fillRect(x+2*p, y+9*p,  2*p, 2*p);
+        ctx.fillRect(x+5*p, y+9*p,  2*p, 2*p);
+        // Boots
+        ctx.fillStyle = '#600000';
+        ctx.fillRect(x+p,   y+11*p, 3*p, p);
+        ctx.fillRect(x+5*p, y+11*p, 3*p, p);
+      }
 
-      // Mouse drag
-      let isDragging = false, hasMoved = false;
-      let startX = 0, scrollStart = 0;
+      function updateHUD() {
+        heartEls.forEach((h, i) => { if (h) h.classList.toggle('empty', i >= s.lives); });
+        if (scoreEl) scoreEl.textContent = '★ ' + s.score;
+      }
 
-      outer.addEventListener('mousedown', e => {
-        isDragging = true;
-        hasMoved   = false;
-        startX     = e.clientX;
-        scrollStart = outer.scrollLeft;
-        outer.classList.add('dragging');
-        outer.style.scrollSnapType = 'none';
-      });
-
-      window.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        const dx = e.clientX - startX;
-        if (Math.abs(dx) > 4) hasMoved = true;
-        outer.scrollLeft = scrollStart - dx;
-      });
-
-      window.addEventListener('mouseup', e => {
-        if (!isDragging) return;
-        isDragging = false;
-        outer.classList.remove('dragging');
-        outer.style.scrollSnapType = '';
-        if (hasMoved) {
-          const dx = e.clientX - startX;
-          goTo(dx < 0 ? current + 1 : current - 1);
-        } else {
-          const clicked = e.target.closest('.tl-item');
-          if (clicked) { const idx = cards.indexOf(clicked); if (idx !== -1) goTo(idx); }
-          else goTo(current);
+      function tick() {
+        if (s.dead) return;
+        s.frame++;
+        // Spawn
+        s.spawnT++;
+        if (s.spawnT >= s.spawnInterval) {
+          s.spawnT = 0;
+          s.spawnInterval = Math.max(65, 160 - s.score * 4);
+          s.enemies.push({ x: W + 6, speed: 0.5 + Math.random() * 0.3 + s.score * 0.015, flash: 0 });
         }
-      });
+        // Attack timer
+        if (s.attacking) { s.attackTimer--; if (s.attackTimer <= 0) s.attacking = false; }
+        // Move enemies & collision
+        s.enemies.forEach(e => {
+          e.x -= e.speed;
+          if (e.flash > 0) e.flash--;
+          if (e.x < LX + LW * PX && e.x > -10) {
+            e.x = -999;
+            s.lives = Math.max(0, s.lives - 1);
+            updateHUD();
+            if (s.lives === 0) {
+              s.dead = true;
+              if (raf) { cancelAnimationFrame(raf); raf = null; }
+              if (goEl) goEl.classList.add('show');
+            }
+          }
+        });
+        s.enemies = s.enemies.filter(e => e.x > -20);
+        // Draw
+        ctx.clearRect(0, 0, W, H);
+        drawBg();
+        drawLink(s.attacking);
+        s.enemies.forEach(drawEnemy);
+      }
 
-      // Touch
-      let tlStartX = 0, tlMoved = false, tlScrollStart = 0;
-      outer.addEventListener('touchstart', e => {
-        tlStartX = e.touches[0].clientX;
-        tlMoved  = false;
-        tlScrollStart = outer.scrollLeft;
-      }, { passive: true });
-      outer.addEventListener('touchmove', e => {
-        const dx = e.touches[0].clientX - tlStartX;
-        if (Math.abs(dx) > 4) tlMoved = true;
-        outer.scrollLeft = tlScrollStart - dx;
-        e.preventDefault();
-      }, { passive: false });
-      outer.addEventListener('touchend', e => {
-        const dx = e.changedTouches[0].clientX - tlStartX;
-        if (tlMoved && Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
-        else if (!tlMoved) {
-          const tapped = e.target.closest('.tl-item');
-          if (tapped) { const idx = cards.indexOf(tapped); if (idx !== -1) goTo(idx); }
-          else goTo(current);
-        } else {
-          goTo(current);
-        }
-      });
+      function loop() { tick(); raf = requestAnimationFrame(loop); }
 
-      goTo(0, false);
+      function attack() {
+        if (s.dead) return;
+        s.attacking = true; s.attackTimer = 18;
+        const hitL = LX + LW * PX;
+        const hitR = hitL + 8 * PX;
+        let hit = false;
+        s.enemies.forEach(e => {
+          const mid = e.x + EW * PX / 2;
+          if (mid >= hitL && mid <= hitR) {
+            e.x = -999; e.flash = 6;
+            s.score++; hit = true;
+          }
+        });
+        if (hit) updateHUD();
+      }
+
+      function restart() {
+        if (raf) cancelAnimationFrame(raf);
+        s = { lives:3, score:0, attacking:false, attackTimer:0, enemies:[], spawnT:0, spawnInterval:160, dead:false, frame:0 };
+        updateHUD();
+        if (goEl) goEl.classList.remove('show');
+        loop();
+      }
+
+      canvas.addEventListener('click', attack);
+      canvas.addEventListener('touchend', e => { e.preventDefault(); attack(); }, { passive: false });
+      if (restBtn) restBtn.addEventListener('click', restart);
+
+      // Pause when off-screen, resume when visible
+      const observer = new IntersectionObserver(entries => {
+        const vis = entries[0].isIntersecting;
+        if (vis && !s.dead && !raf) { loop(); }
+        else if (!vis && raf) { cancelAnimationFrame(raf); raf = null; }
+      }, { threshold: 0.2 });
+      const block = document.getElementById('vibeZelda');
+      if (block) observer.observe(block);
+
+      restart();
     })();
 
 
@@ -4865,6 +5076,8 @@
       var url = URL.createObjectURL(blob);
       var btn = document.getElementById('cvBtn');
       if (btn) btn.href = url;
+      var btnFooter = document.getElementById('cvFooterBtn');
+      if (btnFooter) btnFooter.href = url;
     })();
 
     // ── AVATAR TOGGLE ──
