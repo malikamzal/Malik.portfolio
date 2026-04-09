@@ -521,7 +521,7 @@
     }
     .wallet-nav {
       display: flex; justify-content: center; align-items: center; gap: 12px;
-      margin-top: 16px;
+      margin-top: 16px; padding: 0 24px;
     }
     .wallet-btn {
       width: 42px; height: 42px;
@@ -2312,7 +2312,13 @@
     }
 
     @media (max-width: 768px) {
-      #labo { padding: 80px 24px; }
+      #labo { padding: 48px 24px; }
+      .labo-track {
+        margin-left: -24px;
+        margin-right: -24px;
+        padding-left: 24px;
+        padding-right: 24px;
+      }
       .labo-card { flex: 0 0 80vw; }
     }
 
@@ -2423,7 +2429,7 @@
     @media (max-width: 768px) {
       #expertise { padding: 48px 24px; }
       .expertise-inner { grid-template-columns: 1fr; gap: 40px; }
-      .hero, section { padding-left: 24px; padding-right: 24px; }
+      .hero, section { padding-left: 24px; padding-right: 24px; padding-top: 48px; padding-bottom: 48px; }
       .hero { min-height: unset; padding-top: 100px; padding-bottom: 48px; }
       .hero-title { font-size: clamp(2.4rem, 10vw, 3.5rem); }
       .carousel-outer, .carousel-nav { display: none; }
@@ -2848,7 +2854,7 @@
 
     <p class="hero-sub">
       Coucou et bienvenue sur mon portfolio.<br>
-      <strong>Product Designer</strong> chez Galeries Lafayette avec + de 7 ans d'expérience. Mon temps se divise entre la <strong>mode</strong>, la <strong>déco</strong>, les <strong>jeux vidéo</strong> et l'<strong>expérimentation IA</strong>.
+      <strong>Product Designer</strong> chez Galeries Lafayette avec + de 7 ans d'expérience. Mon temps libre se divise entre la <strong>mode</strong>, la <strong>déco</strong>, les <strong>jeux vidéo</strong> et l'<strong>expérimentation IA</strong>.
     </p>
 
     </div><!-- /hero-block -->
@@ -4071,7 +4077,7 @@
       fr: {
         heroLabel: 'Product Designer · Paris',
         heroTitle: 'Je design des<br>produits <span class="hero-humain" id="heroHumain">humains</span>.',
-        heroBio: 'Coucou et bienvenue sur mon portfolio.<br><strong>Product Designer</strong> chez Galeries Lafayette avec + de 7 ans d\'expérience. Mon temps se divise entre la <strong>mode</strong>, la <strong>déco</strong>, les <strong>jeux vidéo</strong> et l\'<strong>expérimentation IA</strong>.',
+        heroBio: 'Coucou et bienvenue sur mon portfolio.<br><strong>Product Designer</strong> chez Galeries Lafayette avec + de 7 ans d\'expérience. Mon temps libre se divise entre la <strong>mode</strong>, la <strong>déco</strong>, les <strong>jeux vidéo</strong> et l\'<strong>expérimentation IA</strong>.',
         stackLabel: 'Stack & outils',
         projLabel: 'Travaux sélectionnés',
         projTitle: 'Mes projets',
