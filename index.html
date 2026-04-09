@@ -702,14 +702,14 @@
     .tl-cta-icon { font-size: .9rem; }
 
     /* ── Vibe blocks (right) ── */
-    .vibes-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .vibes-blocks { display: grid; grid-template-columns: 1fr; gap: 12px; }
     .vibe-block {
       background: var(--surface);
       border-radius: 16px; padding: 18px;
       cursor: pointer; position: relative; overflow: hidden;
       transition: transform .2s, border-color .2s;
       border: 1px solid var(--border);
-      min-height: 190px;
+      min-height: 140px;
       display: flex; flex-direction: column;
     }
     .vibe-block:hover { transform: translateY(-3px); border-color: rgba(201,240,61,.3); }
@@ -857,7 +857,7 @@
     #zeldaCanvas {
       display: block; width: 100%; height: 100%;
       image-rendering: pixelated; image-rendering: crisp-edges;
-      border-radius: 15px; min-height: 190px;
+      border-radius: 15px; min-height: 140px;
     }
     .zelda-hearts {
       position: absolute; top: 10px; left: 12px;
@@ -902,10 +902,10 @@
 
     @media (max-width: 768px) {
       .vibes-grid { grid-template-columns: 1fr; gap: 40px; }
-      .vibes-blocks { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .vibe-block { min-height: 160px; padding: 14px; }
+      .vibes-blocks { grid-template-columns: 1fr; gap: 10px; }
+      .vibe-block { min-height: 130px; padding: 14px; }
       .vibe-title { font-size: .88rem; }
-      #zeldaCanvas { min-height: 160px; }
+      #zeldaCanvas { min-height: 130px; }
     }
 
     /* ── Lab'o Section ── */
