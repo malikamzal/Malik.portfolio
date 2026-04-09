@@ -765,27 +765,63 @@
       50% { transform: translateY(-5px); opacity: 1; }
     }
 
-    /* Film visual */
-    /* Film / Book — inner layout (info + image) */
-    .vibe-film-inner, .vibe-book-inner {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; gap: 12px; flex: 1;
+    /* ── Film — affiche plein fond, dégradé cinéma ── */
+    .vibe-film { padding: 0; }
+    .vibe-film-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 15%;
+      border-radius: 15px; z-index: 0;
+      transition: transform .4s;
     }
-    .vibe-film-info, .vibe-book-info { flex: 1; min-width: 0; }
-    .vibe-film-poster {
-      width: 54px; flex-shrink: 0;
-      border-radius: 6px; object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,.5);
+    .vibe-film:hover .vibe-film-bg { transform: scale(1.04); }
+    .vibe-film-overlay {
+      position: absolute; inset: 0; z-index: 1; border-radius: 15px;
+      background: linear-gradient(to top, rgba(0,0,0,.92) 40%, rgba(0,0,0,.18) 100%);
+    }
+    .vibe-film-content {
+      position: relative; z-index: 2;
+      padding: 16px; height: 100%; min-height: 190px;
+      display: flex; flex-direction: column; justify-content: flex-end; gap: 2px;
+    }
+    .vibe-film-content .vibe-label { color: rgba(255,255,255,.5); margin-bottom: 3px; }
+    .vibe-film-content .vibe-title {
+      color: #fff; font-size: 1.05rem;
+      text-shadow: 0 1px 8px rgba(0,0,0,.6);
+    }
+    .vibe-film-content .vibe-sub { color: rgba(255,255,255,.38); }
+    .vibe-film .vibe-reveal { z-index: 3; border-radius: 15px; }
+
+    /* ── Livre — couverture flush bord droit ── */
+    .vibe-book { padding: 0; }
+    .vibe-book-inner {
+      display: flex; height: 100%; min-height: 190px;
+    }
+    .vibe-book-info {
+      flex: 1; padding: 18px;
+      display: flex; flex-direction: column;
+    }
+    .vibe-book-cover-wrap {
+      width: 72px; flex-shrink: 0;
+      border-radius: 0 15px 15px 0; overflow: hidden;
+      position: relative;
     }
     .vibe-book-cover {
-      width: 44px; flex-shrink: 0;
-      border-radius: 4px; object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,.5);
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
     }
+    .vibe-book-cover-wrap::before {
+      content: ''; position: absolute;
+      inset: 0; left: 0; width: 18px;
+      background: linear-gradient(to right, rgba(0,0,0,.55), transparent);
+      z-index: 1;
+    }
+    .vibe-book .vibe-reveal { border-radius: 15px; }
 
     /* Book progress bar */
     .vibe-book-progress-wrap {
-      margin-top: 10px; height: 3px;
+      margin-top: auto; padding-top: 14px; height: 3px;
       background: rgba(255,255,255,.1); border-radius: 100px; overflow: hidden;
     }
     .vibe-book-progress-bar {
@@ -3230,14 +3266,14 @@
         </div>
 
         <!-- 🎬 La Reine Margot -->
+        <!-- 🎬 La Reine Margot -->
         <div class="vibe-block vibe-film" id="vibeFilm">
-          <div class="vibe-film-inner">
-            <div class="vibe-film-info">
-              <div class="vibe-label">🎬 Dernière claque cinématographique</div>
-              <div class="vibe-title">La Reine Margot</div>
-              <div class="vibe-sub">Patrice Chéreau, 1994</div>
-            </div>
-            <img class="vibe-film-poster" src="https://image.tmdb.org/t/p/w300_and_h450_face/8uGkhBLiJMIkwohGPo3iB9AuwDg.jpg" alt="La Reine Margot">
+          <img class="vibe-film-bg" src="https://image.tmdb.org/t/p/w300_and_h450_face/8uGkhBLiJMIkwohGPo3iB9AuwDg.jpg" alt="">
+          <div class="vibe-film-overlay"></div>
+          <div class="vibe-film-content">
+            <div class="vibe-label">🎬 Dernière claque cinématographique</div>
+            <div class="vibe-title">La Reine Margot</div>
+            <div class="vibe-sub">Patrice Chéreau • 1994</div>
           </div>
           <div class="vibe-reveal vibe-reveal-allocine">
             <button class="vibe-reveal-close">✕</button>
@@ -3259,7 +3295,9 @@
               </div>
               <div class="vibe-book-progress-label">30% lu</div>
             </div>
-            <img class="vibe-book-cover" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Dracula_-_Front_Cover_1919_Edition.jpg" alt="Dracula">
+            <div class="vibe-book-cover-wrap">
+              <img class="vibe-book-cover" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Dracula_-_Front_Cover_1919_Edition.jpg" alt="Dracula">
+            </div>
           </div>
           <div class="vibe-reveal">
             <button class="vibe-reveal-close">✕</button>
