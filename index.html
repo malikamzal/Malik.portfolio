@@ -781,7 +781,7 @@
       position: absolute; inset: 0; border-radius: 15px;
       overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden;
     }
-    .film-face-front { }
+    .film-face-front { transform: translateZ(1px); }
     .film-face-back {
       transform: rotateY(180deg);
       background:
@@ -836,7 +836,7 @@
       position: absolute; inset: 0; border-radius: 15px;
       overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden;
     }
-    .book-face-front { background: var(--surface); padding: 18px; display: flex; flex-direction: column; will-change: transform; }
+    .book-face-front { background: var(--surface); padding: 18px; display: flex; flex-direction: column; transform: translateZ(1px); }
     .vibe-book.flipped .vibe-book-cover { animation: none; transform: rotate(-2deg); filter: drop-shadow(0 8px 18px rgba(0,0,0,.55)); }
     .book-face-back {
       transform: rotateY(180deg); padding: 18px; display: flex; flex-direction: column;
