@@ -771,7 +771,9 @@
 
     /* ── Film — flip card ── */
     .vibe-film { padding: 0; cursor: pointer; overflow: visible; perspective: 1000px; transform: none !important; transition: box-shadow .2s, border-color .2s; }
-    .vibe-film:hover { box-shadow: 0 8px 28px rgba(0,0,0,.45); border-color: rgba(201,240,61,.3); }
+    @media (hover: hover) {
+      .vibe-film:hover .film-inner { transform: rotateY(180deg); }
+    }
     .film-inner {
       flex: 1; min-height: 190px; position: relative;
       transform-style: preserve-3d;
@@ -827,7 +829,9 @@
 
     /* ── Livre — flip card ── */
     .vibe-book { padding: 0; cursor: pointer; overflow: visible; perspective: 1000px; transform: none !important; transition: box-shadow .2s, border-color .2s; }
-    .vibe-book:hover { box-shadow: 0 8px 28px rgba(0,0,0,.45); border-color: rgba(201,240,61,.3); }
+    @media (hover: hover) {
+      .vibe-book:hover .book-inner { transform: rotateY(180deg); }
+    }
     .book-inner {
       flex: 1; min-height: 190px; position: relative;
       transform-style: preserve-3d;
@@ -5085,21 +5089,15 @@
       });
     })();
 
-    // ── FILM LA REINE MARGOT — flip card ──
+    // ── FILM & LIVRE — flip sur touch uniquement (desktop = CSS :hover) ──
     (function() {
-      const card = document.getElementById('vibeFilm');
-      if (!card) return;
-      card.addEventListener('click', function() {
-        card.classList.toggle('flipped');
-      });
-    })();
-
-    // ── LIVRE DRACULA — flip card ──
-    (function() {
-      const card = document.getElementById('vibeBook');
-      if (!card) return;
-      card.addEventListener('click', function() {
-        card.classList.toggle('flipped');
+      if (window.matchMedia('(hover: hover)').matches) return; // desktop : géré par CSS
+      ['vibeFilm', 'vibeBook'].forEach(function(id) {
+        const card = document.getElementById(id);
+        if (!card) return;
+        card.addEventListener('click', function() {
+          card.classList.toggle('flipped');
+        });
       });
     })();
 
