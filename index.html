@@ -702,15 +702,19 @@
     .tl-cta-icon { font-size: .9rem; }
 
     /* ── Vibe blocks (right) ── */
-    .vibes-blocks { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .vibes-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; grid-auto-rows: 1fr; }
     .vibe-block {
       background: var(--surface);
       border-radius: 16px; padding: 18px;
       cursor: pointer; position: relative; overflow: hidden;
       transition: transform .2s, border-color .2s;
       border: 1px solid var(--border);
-      min-height: 140px;
+      min-height: 165px;
       display: flex; flex-direction: column;
+    }
+    .vibe-mid {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; padding: 8px 0;
     }
     .vibe-block:hover { transform: translateY(-3px); border-color: rgba(201,240,61,.3); }
     .vibe-label {
@@ -777,67 +781,67 @@
     .vibe-film:hover .vibe-film-bg { transform: scale(1.04); }
     .vibe-film-overlay {
       position: absolute; inset: 0; z-index: 1; border-radius: 15px;
-      background: linear-gradient(to top, rgba(0,0,0,.92) 40%, rgba(0,0,0,.18) 100%);
+      background: rgba(0,0,0,.6);
     }
     .vibe-film-content {
       position: relative; z-index: 2;
       padding: 16px; height: 100%; min-height: 190px;
-      display: flex; flex-direction: column; justify-content: flex-end; gap: 2px;
+      display: flex; flex-direction: column; justify-content: space-between;
     }
-    .vibe-film-content .vibe-label { color: rgba(255,255,255,.5); margin-bottom: 3px; }
-    .vibe-film-content .vibe-title {
-      color: #fff; font-size: 1.05rem;
-      text-shadow: 0 1px 8px rgba(0,0,0,.6);
+    .vibe-film-content .vibe-label { color: rgba(255,255,255,.5); margin-bottom: 0; }
+    .vibe-film-content .vibe-mid .vibe-title {
+      color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.6);
     }
-    .vibe-film-content .vibe-sub { color: rgba(255,255,255,.38); }
+    .vibe-film-content .vibe-sub { color: rgba(255,255,255,.38); margin-top: 2px; }
+    .vibe-film-stat-label {
+      font-size: .44rem; text-transform: uppercase; letter-spacing: .1em;
+      color: rgba(255,255,255,.45); margin-bottom: 3px;
+      font-family: var(--font-display); font-weight: 700;
+    }
+    .vibe-film-stars { font-size: .68rem; color: var(--accent); letter-spacing: 2px; }
     .vibe-film .vibe-reveal { z-index: 3; border-radius: 15px; }
 
-    /* ── Livre — layout référence : info gauche, cover droite ── */
-    .vibe-book { padding: 18px 0 18px 18px; }
+    /* ── Livre — layout référence : info gauche, cover flottante droite ── */
+    .vibe-book { padding: 18px; }
     .vibe-book-inner {
       display: flex; align-items: stretch;
-      gap: 0; height: 100%; min-height: 154px;
+      height: 100%; min-height: 154px;
     }
     .vibe-book-info {
       flex: 1; display: flex; flex-direction: column; min-width: 0;
-      padding-right: 12px;
     }
-    .vibe-book-info .vibe-label { margin-bottom: 10px; }
-    .vibe-book-info .vibe-title {
-      font-size: 1.05rem; font-weight: 800;
-      letter-spacing: -.03em; line-height: 1.2;
-    }
-    .vibe-book-info .vibe-sub { margin-top: 4px; }
+    .vibe-book-info .vibe-label { margin-bottom: 0; }
+    .vibe-book-info .vibe-sub { margin-top: 2px; }
     .vibe-book-cover-wrap {
-      flex-shrink: 0; align-self: stretch;
-      width: 88px; position: relative;
-      border-radius: 0 15px 15px 0; overflow: hidden;
+      flex-shrink: 0; align-self: center;
+      width: 96px; padding-left: 6px;
     }
     .vibe-book-cover {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      display: block;
-    }
-    .vibe-book-cover-wrap::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; bottom: 0; width: 14px;
-      background: linear-gradient(to right, rgba(0,0,0,.5), transparent);
-      z-index: 1;
+      width: 100%; display: block;
+      object-fit: contain;
+      animation: bookFloat 3.5s ease-in-out infinite;
     }
     .vibe-book .vibe-reveal { border-radius: 15px; }
 
     /* Book progress bar */
+    .vibe-book-progress-label {
+      font-size: .44rem; color: var(--muted); text-transform: uppercase;
+      font-family: var(--font-display); letter-spacing: .1em; font-weight: 700;
+      margin-bottom: 8px;
+    }
     .vibe-book-progress-wrap {
-      margin-top: auto; padding-top: 16px; height: 4px;
+      height: 6px;
       background: rgba(255,255,255,.1); border-radius: 100px; overflow: hidden;
+      width: 75%;
     }
     .vibe-book-progress-bar {
       height: 100%; width: 30%;
       background: var(--accent); border-radius: 100px;
     }
-    .vibe-book-progress-label {
-      font-size: .58rem; color: var(--muted);
-      font-family: var(--font-display); letter-spacing: .08em; margin-top: 5px;
+
+    @keyframes bookFloat {
+      0%, 100% { transform: translateY(0) rotate(-2deg); filter: drop-shadow(0 8px 18px rgba(0,0,0,.55)); }
+      50%       { transform: translateY(-9px) rotate(-2deg); filter: drop-shadow(0 20px 28px rgba(0,0,0,.7)); }
     }
 
     /* Allociné-themed reveal */
@@ -851,33 +855,95 @@
     .vibe-reveal-allocine .vibe-reveal-credit { color: #F6A623; font-weight: 700; }
     .vibe-reveal-allocine .vibe-reveal-close { color: rgba(255,255,255,.4); }
 
-    /* Zelda block */
-    .vibe-zelda { padding: 0; cursor: default; }
+    /* Zelda block — flip card */
+    .vibe-zelda { padding: 0; cursor: pointer; overflow: visible; }
     .vibe-zelda:hover { transform: none; }
-    #zeldaCanvas {
-      display: block; width: 100%; height: 100%;
-      image-rendering: pixelated; image-rendering: crisp-edges;
-      border-radius: 15px; min-height: 140px;
+    .zelda-inner {
+      flex: 1; min-height: 165px;
+      position: relative; transform-style: preserve-3d;
+      transition: transform .65s cubic-bezier(.4,0,.2,1);
     }
-    .zelda-hearts {
-      position: absolute; top: 10px; left: 12px;
-      display: flex; gap: 3px; z-index: 2; pointer-events: none;
+    .vibe-zelda.flipped .zelda-inner { transform: rotateY(180deg); }
+    .zelda-face {
+      position: absolute; inset: 0; border-radius: 15px; overflow: hidden;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
     }
+    .zelda-face-back { transform: rotateY(180deg); background: #0d0b2e; }
+    .vibe-zelda-bg {
+      position: absolute; inset: -10%; width: 120%; height: 120%;
+      object-fit: cover; object-position: 90% center; z-index: 0;
+    }
+    .zelda-front-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: rgba(0,0,0,.78); border-radius: 15px;
+    }
+    .zelda-hud-top {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px; pointer-events: none;
+    }
+    .zelda-top-label {
+      font-family: var(--font-display); font-size: .52rem;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); font-weight: 700;
+    }
+    .zelda-hearts { display: flex; gap: 3px; }
     .zelda-heart { font-size: .8rem; line-height: 1; transition: opacity .3s; }
     .zelda-heart.empty { opacity: .18; }
     .zelda-score {
-      position: absolute; top: 10px; right: 12px;
       font-family: var(--font-display); font-size: .52rem;
       letter-spacing: .1em; color: rgba(255,255,255,.55);
-      z-index: 2; pointer-events: none;
+      pointer-events: none;
     }
-    .zelda-game-label {
-      position: absolute; bottom: 10px; left: 12px;
-      font-family: var(--font-display); font-size: .5rem;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: rgba(255,255,255,.4);
-      z-index: 2; pointer-events: none;
+    .zelda-mid {
+      position: absolute; top: 50%; left: 0; right: 0;
+      transform: translateY(-50%); padding: 0 16px; z-index: 2; pointer-events: none;
     }
+    .zelda-game-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: .95rem; color: #fff; letter-spacing: -.02em; line-height: 1.2; margin-bottom: 2px;
+    }
+    .zelda-game-sub { font-size: .7rem; color: rgba(255,255,255,.45); margin-top: 2px; }
+    .zelda-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+      padding: 16px; pointer-events: none;
+    }
+    .zelda-stat-lbl { font-size: .44rem; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.45); font-family: var(--font-display); font-weight: 700; margin-bottom: 4px; }
+    .zelda-stat-val { font-size: .7rem; font-weight: 700; color: var(--accent); }
+    #zeldaCanvas {
+      display: block; width: 100%; height: 100%;
+      image-rendering: pixelated; image-rendering: crisp-edges;
+      min-height: 165px;
+    }
+    .zelda-back-btn {
+      position: absolute; top: 10px; right: 10px; z-index: 4;
+      background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50%; width: 24px; height: 24px;
+      color: rgba(255,255,255,.7); font-size: .65rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .zelda-back-btn:hover { background: rgba(0,0,0,.8); color: #fff; }
+    .zelda-gameover {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.84);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      opacity: 0; pointer-events: none; transition: opacity .4s; z-index: 3;
+    }
+    .zelda-gameover.show { opacity: 1; pointer-events: auto; }
+    .zelda-gameover-title {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 1rem; letter-spacing: .14em;
+      color: #ff4444; text-transform: uppercase;
+    }
+    .zelda-gameover-btn {
+      padding: 6px 18px; background: none;
+      border: 1px solid rgba(255,255,255,.28); border-radius: 100px;
+      color: var(--text); font-family: var(--font-display);
+      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+      cursor: pointer; transition: border-color .2s, background .2s;
+    }
+    .zelda-gameover-btn:hover { border-color: var(--accent); background: rgba(201,240,61,.08); }
     .zelda-gameover {
       position: absolute; inset: 0;
       background: rgba(0,0,0,.84); border-radius: 15px;
@@ -899,6 +965,55 @@
       cursor: pointer; transition: border-color .2s, background .2s;
     }
     .zelda-gameover-btn:hover { border-color: var(--accent); background: rgba(201,240,61,.08); }
+
+    /* Music block */
+    .vibe-music { cursor: pointer; }
+    .vibe-music-inner { display: flex; align-items: stretch; height: 100%; padding-right: 88px; }
+    .vibe-music-info { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .vibe-music-disc {
+      width: 88px; flex-shrink: 0; align-self: center; margin-left: 14px;
+      aspect-ratio: 1; border-radius: 50%;
+      background: conic-gradient(from 0deg,
+        #c0bed4 0deg, #eeeef8 40deg, #a8a8c2 85deg,
+        #d4d4ec 130deg, #f2f2fc 175deg, #b4b2cc 220deg,
+        #e6e6f6 265deg, #c8c6dc 310deg, #c0bed4 360deg
+      );
+      box-shadow: 0 4px 22px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vibe-music-disc::after {
+      content: ''; width: 22px; height: 22px; border-radius: 50%;
+      background: var(--surface); box-shadow: 0 0 8px rgba(0,0,0,.5);
+    }
+    .vibe-music-stat-label {
+      font-size: .44rem; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--muted); font-family: var(--font-display); font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .vibe-music-stat-value { font-size: .7rem; font-weight: 700; color: var(--accent); }
+    /* Vinyl */
+    .vibe-vinyl {
+      width: 152px; height: 152px;
+      position: absolute; right: -52px; top: 50%; transform: translateY(-50%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, transparent 0%, transparent 17%, #1a1a1a 17%),
+        repeating-radial-gradient(circle at center, #1a1a1a 0%, #1a1a1a 1.5px, #323232 1.5px, #323232 3px);
+      box-shadow: 0 4px 32px rgba(0,0,0,.8), 0 0 0 2px rgba(255,255,255,.14), inset 0 0 0 1px rgba(255,255,255,.06);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vibe-vinyl-label {
+      width: 56px; height: 56px; border-radius: 50%;
+      overflow: hidden; position: relative; z-index: 2;
+      box-shadow: 0 0 0 1.5px rgba(255,255,255,.1);
+    }
+    .vibe-vinyl-label img { width: 100%; height: 100%; object-fit: cover; }
+    .vibe-vinyl-hole {
+      position: absolute; width: 5px; height: 5px; border-radius: 50%;
+      background: #080808; z-index: 3;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    .vibe-music-disc { display: none; }
 
     @media (max-width: 768px) {
       .vibes-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -3243,44 +3358,45 @@
       <!-- ── Colonne droite : blocs vibes ── -->
       <div class="vibes-blocks">
 
-        <!-- 🎵 Satie -->
-        <div class="vibe-block vibe-music" id="vibeMusic" style="cursor:default;">
-          <div class="vibe-label" style="margin-bottom:12px;">🎵 Pour me concentrer</div>
-          <iframe
-            src="https://open.spotify.com/embed/track/4820SC1xnUaabzzYQTDkP2?utm_source=generator&theme=0"
-            width="100%" height="152"
-            frameborder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            style="border-radius:10px; display:block;">
-          </iframe>
-        </div>
-
-        <!-- 🎮 Zelda Wind Waker -->
-        <div class="vibe-block vibe-zelda" id="vibeZelda">
-          <div class="zelda-hearts">
-            <span class="zelda-heart" id="zh1">❤️</span>
-            <span class="zelda-heart" id="zh2">❤️</span>
-            <span class="zelda-heart" id="zh3">❤️</span>
+        <!-- 📖 Dracula -->
+        <div class="vibe-block vibe-book" id="vibeBook">
+          <div class="vibe-book-inner">
+            <div class="vibe-book-info">
+              <div class="vibe-label">🚀 Pour m'évader</div>
+              <div class="vibe-mid">
+                <div class="vibe-title">Dracula</div>
+                <div class="vibe-sub">Bram Stoker • 1897</div>
+              </div>
+              <div class="vibe-book-progress-label">Progression</div>
+              <div class="vibe-book-progress-wrap">
+                <div class="vibe-book-progress-bar"></div>
+              </div>
+            </div>
+            <div class="vibe-book-cover-wrap">
+              <img class="vibe-book-cover" src="01_SOURCES/ABOUT_ME/LIVRE_DRACULA.png" alt="Dracula">
+            </div>
           </div>
-          <div class="zelda-score" id="zeldaScore">★ 0</div>
-          <canvas id="zeldaCanvas"></canvas>
-          <div class="zelda-game-label">🎮 Zelda: Wind Waker</div>
-          <div class="zelda-gameover" id="zeldaGameover">
-            <div class="zelda-gameover-title">GAME OVER</div>
-            <button class="zelda-gameover-btn" id="zeldaRestart">Recommencer</button>
+          <div class="vibe-reveal">
+            <button class="vibe-reveal-close">✕</button>
+            <div class="vibe-reveal-text">"Listen to them — the children of the night. What music they make !"</div>
+            <div class="vibe-reveal-credit">— Bram Stoker, Dracula</div>
           </div>
         </div>
 
-        <!-- 🎬 La Reine Margot -->
         <!-- 🎬 La Reine Margot -->
         <div class="vibe-block vibe-film" id="vibeFilm">
-          <img class="vibe-film-bg" src="https://image.tmdb.org/t/p/w780/6lGTDkWbd1ETg10xOV0OueH3x8a.jpg" alt="">
+          <img class="vibe-film-bg" src="01_SOURCES/ABOUT_ME/FILM_MARGOT.png" alt="">
           <div class="vibe-film-overlay"></div>
           <div class="vibe-film-content">
-            <div class="vibe-label">🎬 Dernière claque cinématographique</div>
-            <div class="vibe-title">La Reine Margot</div>
-            <div class="vibe-sub">Patrice Chéreau • 1994</div>
+            <div class="vibe-label">🍿 Plein mes yeux</div>
+            <div class="vibe-mid">
+              <div class="vibe-title">La Reine Margot</div>
+              <div class="vibe-sub">Patrice Chéreau • 1994</div>
+            </div>
+            <div>
+              <div class="vibe-film-stat-label">Ma note</div>
+              <div class="vibe-film-stars">★★★★★</div>
+            </div>
           </div>
           <div class="vibe-reveal vibe-reveal-allocine">
             <button class="vibe-reveal-close">✕</button>
@@ -3290,26 +3406,71 @@
           </div>
         </div>
 
-        <!-- 📖 Dracula -->
-        <div class="vibe-block vibe-book" id="vibeBook">
-          <div class="vibe-book-inner">
-            <div class="vibe-book-info">
-              <div class="vibe-label">📖 Pour m'évader à domicile</div>
-              <div class="vibe-title">Dracula</div>
-              <div class="vibe-sub">Bram Stoker</div>
-              <div class="vibe-book-progress-wrap">
-                <div class="vibe-book-progress-bar"></div>
+        <!-- 🎮 Zelda Wind Waker — flip card -->
+        <div class="vibe-block vibe-zelda" id="vibeZelda">
+          <div class="zelda-inner" id="zeldaInner">
+
+            <!-- RECTO : visuel -->
+            <div class="zelda-face zelda-face-front">
+              <img class="vibe-zelda-bg" src="01_SOURCES/ABOUT_ME/JEU_ZELDA.png" alt="">
+              <div class="zelda-front-overlay"></div>
+              <div class="zelda-hud-top">
+                <div class="zelda-top-label">🕹️ Muscler mes pouces</div>
               </div>
-              <div class="vibe-book-progress-label">30% lu</div>
+              <div class="zelda-mid">
+                <div class="zelda-game-title">Zelda : The Wind Waker</div>
+                <div class="zelda-game-sub">Nintendo • 2003</div>
+              </div>
+              <div class="zelda-bottom">
+                <div class="zelda-stat-lbl">Heures de jeu</div>
+                <div class="zelda-stat-val">15h</div>
+              </div>
             </div>
-            <div class="vibe-book-cover-wrap">
-              <img class="vibe-book-cover" src="https://covers.openlibrary.org/b/isbn/2253004685-L.jpg" alt="Dracula">
+
+            <!-- VERSO : mini-jeu -->
+            <div class="zelda-face zelda-face-back">
+              <canvas id="zeldaCanvas"></canvas>
+              <div class="zelda-hud-top">
+                <div class="zelda-hearts">
+                  <span class="zelda-heart" id="zh1">❤️</span>
+                  <span class="zelda-heart" id="zh2">❤️</span>
+                  <span class="zelda-heart" id="zh3">❤️</span>
+                </div>
+                <div class="zelda-score" id="zeldaScore">★ 0</div>
+              </div>
+              <button class="zelda-back-btn" id="zeldaBackBtn">✕</button>
+              <div class="zelda-gameover" id="zeldaGameover">
+                <div class="zelda-gameover-title">GAME OVER</div>
+                <button class="zelda-gameover-btn" id="zeldaRestart">Recommencer</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 🎵 Satie -->
+        <div class="vibe-block vibe-music" id="vibeMusic">
+          <div class="vibe-music-inner">
+            <div class="vibe-music-info">
+              <div class="vibe-label">🎧 Pour me concentrer</div>
+              <div class="vibe-mid">
+                <div class="vibe-title">Gnossiennes No.1</div>
+                <div class="vibe-sub">Erik Satie • 1893</div>
+              </div>
+              <div class="vibe-music-stat-label">Nombre d'écoutes</div>
+              <div class="vibe-music-stat-value">69 fois ce mois-ci</div>
+            </div>
+            <div class="vibe-vinyl">
+              <div class="vibe-vinyl-label">
+                <img src="01_SOURCES/ABOUT_ME/MUSIQUE_SATIE.png" alt="Satie">
+              </div>
+              <div class="vibe-vinyl-hole"></div>
             </div>
           </div>
           <div class="vibe-reveal">
             <button class="vibe-reveal-close">✕</button>
-            <div class="vibe-reveal-text">"Listen to them — the children of the night. What music they make !"</div>
-            <div class="vibe-reveal-credit">— Bram Stoker, Dracula</div>
+            <div class="vibe-reveal-text">"La musique de Satie donne l'impression que le temps s'arrête — et que c'est très bien ainsi."</div>
+            <div class="vibe-reveal-credit">— Erik Satie</div>
           </div>
         </div>
 
@@ -5015,16 +5176,42 @@
       canvas.addEventListener('touchend', e => { e.preventDefault(); attack(); }, { passive: false });
       if (restBtn) restBtn.addEventListener('click', restart);
 
-      // Pause when off-screen, resume when visible
+      // Expose pour le flip handler
+      window._zeldaRestart = restart;
+      window._zeldaPause = function() { if (raf) { cancelAnimationFrame(raf); raf = null; } };
+
+      // Pause quand hors écran
       const observer = new IntersectionObserver(entries => {
         const vis = entries[0].isIntersecting;
-        if (vis && !s.dead && !raf) { loop(); }
-        else if (!vis && raf) { cancelAnimationFrame(raf); raf = null; }
+        const flipped = document.getElementById('vibeZelda').classList.contains('flipped');
+        if (vis && flipped && !s.dead && !raf) { loop(); }
+        else if ((!vis || !flipped) && raf) { cancelAnimationFrame(raf); raf = null; }
       }, { threshold: 0.2 });
       const block = document.getElementById('vibeZelda');
       if (block) observer.observe(block);
 
-      restart();
+      // Ne pas démarrer au chargement (jeu masqué au recto)
+    })();
+
+    // ── ZELDA FLIP ──
+    (function() {
+      const card = document.getElementById('vibeZelda');
+      const backBtn = document.getElementById('zeldaBackBtn');
+      if (!card) return;
+
+      card.addEventListener('click', function(e) {
+        if (card.classList.contains('flipped')) return;
+        card.classList.add('flipped');
+        setTimeout(function() {
+          if (window._zeldaRestart) window._zeldaRestart();
+        }, 330); // démarre le jeu à mi-flip
+      });
+
+      if (backBtn) backBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (window._zeldaPause) window._zeldaPause();
+        card.classList.remove('flipped');
+      });
     })();
 
 
