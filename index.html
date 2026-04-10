@@ -771,9 +771,6 @@
 
     /* ── Film — flip card ── */
     .vibe-film { padding: 0; cursor: pointer; overflow: visible; perspective: 1000px; transform: none !important; transition: box-shadow .2s, border-color .2s; }
-    @media (hover: hover) {
-      .vibe-film:hover .film-inner { transform: rotateY(180deg); }
-    }
     .film-inner {
       flex: 1; min-height: 190px; position: relative;
       transform-style: preserve-3d;
@@ -829,9 +826,6 @@
 
     /* ── Livre — flip card ── */
     .vibe-book { padding: 0; cursor: pointer; overflow: visible; perspective: 1000px; transform: none !important; transition: box-shadow .2s, border-color .2s; }
-    @media (hover: hover) {
-      .vibe-book:hover .book-inner { transform: rotateY(180deg); }
-    }
     .book-inner {
       flex: 1; min-height: 190px; position: relative;
       transform-style: preserve-3d;
@@ -5089,15 +5083,18 @@
       });
     })();
 
-    // ── FILM & LIVRE — flip sur touch uniquement (desktop = CSS :hover) ──
+    // ── FILM & LIVRE — hover desktop / tap mobile ──
     (function() {
-      if (window.matchMedia('(hover: hover)').matches) return; // desktop : géré par CSS
+      const isDesktop = window.matchMedia('(hover: hover)').matches;
       ['vibeFilm', 'vibeBook'].forEach(function(id) {
         const card = document.getElementById(id);
         if (!card) return;
-        card.addEventListener('click', function() {
-          card.classList.toggle('flipped');
-        });
+        if (isDesktop) {
+          card.addEventListener('mouseenter', function() { card.classList.add('flipped'); });
+          card.addEventListener('mouseleave', function() { card.classList.remove('flipped'); });
+        } else {
+          card.addEventListener('click', function() { card.classList.toggle('flipped'); });
+        }
       });
     })();
 
