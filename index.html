@@ -5067,6 +5067,28 @@
       });
     })();
 
+    // ── MOBILE : fermeture globale des cartes ──
+    window._closeAllCards = function(except) {
+      ['vibeFilm','vibeBook'].forEach(function(id) {
+        var c = document.getElementById(id);
+        if (c && c !== except) c.classList.remove('hovered');
+      });
+      // Ferme aussi musique
+      var music = document.getElementById('vibeMusic');
+      if (music && music !== except) {
+        var a = document.getElementById('satieAudio');
+        var v = music.querySelector && music.querySelector('.vibe-vinyl');
+        if (a) { a.pause(); a.currentTime = 0; }
+        if (v) v.classList.remove('spinning');
+      }
+      // Ferme aussi zelda
+      var zelda = document.getElementById('vibeZelda');
+      if (zelda && zelda !== except && zelda.classList.contains('hovered')) {
+        zelda.classList.remove('hovered');
+        if (window._zeldaPause) window._zeldaPause();
+      }
+    };
+
     // ── FILM & LIVRE — crossfade mobile (touchstart) ──
     (function() {
       if (window.matchMedia('(hover: hover)').matches) return;
@@ -5075,7 +5097,9 @@
         if (!card) return;
         card.addEventListener('touchstart', function(e) {
           e.preventDefault();
-          card.classList.toggle('hovered');
+          var opening = !card.classList.contains('hovered');
+          window._closeAllCards(card);
+          if (opening) card.classList.add('hovered');
         }, { passive: false });
       });
     })();
@@ -5123,6 +5147,7 @@
         card.addEventListener('touchstart', function(e) {
           e.preventDefault();
           if (audio.paused) {
+            if (window._closeAllCards) window._closeAllCards(card);
             audio.play().catch(function() {});
             vinyl.classList.add('spinning');
           } else {
@@ -5354,11 +5379,7 @@
         if (front) {
           front.addEventListener('touchstart', function(e) {
             e.preventDefault();
-            // Ferme film/book si ouverts
-            ['vibeFilm','vibeBook'].forEach(function(id) {
-              var c = document.getElementById(id);
-              if (c) c.classList.remove('hovered');
-            });
+            if (window._closeAllCards) window._closeAllCards(card);
             card.classList.add('hovered');
             setTimeout(function() { if (window._zeldaStart) window._zeldaStart(); }, 50);
           }, { passive: false });
@@ -5366,21 +5387,6 @@
       }
     })();
 
-    // ── Fermeture Zelda au tap sur une autre carte (mobile) ──
-    (function() {
-      if (window.matchMedia('(hover: hover)').matches) return;
-      ['vibeFilm','vibeBook','vibeMusic'].forEach(function(id) {
-        var c = document.getElementById(id);
-        if (!c) return;
-        c.addEventListener('touchstart', function() {
-          var zelda = document.getElementById('vibeZelda');
-          if (zelda && zelda.classList.contains('hovered')) {
-            zelda.classList.remove('hovered');
-            if (window._zeldaPause) window._zeldaPause();
-          }
-        }, { passive: true });
-      });
-    })();
 
 
     const sections = document.querySelectorAll('section[id]');
