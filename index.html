@@ -5095,12 +5095,11 @@
       ['vibeFilm', 'vibeBook'].forEach(function(id) {
         var card = document.getElementById(id);
         if (!card) return;
-        card.addEventListener('touchstart', function(e) {
-          e.preventDefault();
+        card.addEventListener('touchend', function(e) {
           var opening = !card.classList.contains('hovered');
           window._closeAllCards(card);
           if (opening) card.classList.add('hovered');
-        }, { passive: false });
+        });
       });
     })();
 
@@ -5144,8 +5143,7 @@
           vinyl.classList.remove('spinning');
         });
       } else {
-        card.addEventListener('touchstart', function(e) {
-          e.preventDefault();
+        card.addEventListener('touchend', function() {
           if (audio.paused) {
             if (window._closeAllCards) window._closeAllCards(card);
             audio.play().catch(function() {});
@@ -5155,7 +5153,7 @@
             audio.currentTime = 0;
             vinyl.classList.remove('spinning');
           }
-        }, { passive: false });
+        });
       }
     })();
 
@@ -5377,12 +5375,11 @@
         // Mobile : touchstart sur la face recto → ferme autres cartes, révèle + lance
         var front = card.querySelector('.zelda-face-front');
         if (front) {
-          front.addEventListener('touchstart', function(e) {
-            e.preventDefault();
+          front.addEventListener('touchend', function() {
             if (window._closeAllCards) window._closeAllCards(card);
             card.classList.add('hovered');
             setTimeout(function() { if (window._zeldaStart) window._zeldaStart(); }, 50);
-          }, { passive: false });
+          });
         }
       }
     })();
