@@ -5313,11 +5313,16 @@
       canvas.addEventListener('touchend', function(e) { e.preventDefault(); e.stopPropagation(); attack(); }, { passive: false });
       if (restBtn) restBtn.addEventListener('click', function(e) { e.stopPropagation(); restart(); });
 
-      // Pause hors écran
-      var obs = new IntersectionObserver(function(entries) {
-        if (!entries[0].isIntersecting) pauseGame();
-      }, { threshold: 0.1 });
+      // Pause hors écran, reprend si visible + carte active
       var block = document.getElementById('vibeZelda');
+      var obs = new IntersectionObserver(function(entries) {
+        var vis = entries[0].isIntersecting;
+        if (!vis) {
+          pauseGame();
+        } else if (block && block.classList.contains('hovered') && !raf && s && !s.dead) {
+          loop();
+        }
+      }, { threshold: 0.1 });
       if (block) obs.observe(block);
 
       window._zeldaStart   = startGame;
@@ -5336,10 +5341,11 @@
         card.addEventListener('mouseenter', function() { if (window._zeldaStart) window._zeldaStart(); });
         card.addEventListener('mouseleave', function() { if (window._zeldaPause) window._zeldaPause(); });
       } else {
-        // Mobile : tap = afficher le jeu et lancer ; canvas gère l'attaque
+        // Mobile : tap = afficher le jeu et lancer ; taps suivants = attaque
         card.addEventListener('click', function(e) {
-          if (card.classList.contains('hovered')) return;
-          card.classList.add('hovered');
+          if (!card.classList.contains('hovered')) {
+            card.classList.add('hovered');
+          }
           if (window._zeldaStart) window._zeldaStart();
         });
         if (backBtn) backBtn.addEventListener('click', function(e) {
