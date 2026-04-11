@@ -5095,10 +5095,10 @@
       ['vibeFilm', 'vibeBook'].forEach(function(id) {
         var card = document.getElementById(id);
         if (!card) return;
-        card.addEventListener('touchend', function(e) {
+        card.addEventListener('touchend', function() {
           var opening = !card.classList.contains('hovered');
           window._closeAllCards(card);
-          if (opening) card.classList.add('hovered');
+          card.classList.toggle('hovered', opening);
         });
       });
     })();
