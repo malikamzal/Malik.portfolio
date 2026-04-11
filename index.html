@@ -1061,8 +1061,13 @@
       .vibes-grid { grid-template-columns: 1fr; gap: 40px; }
       .vibes-blocks { grid-template-columns: 1fr; gap: 10px; }
       .vibe-block { min-height: 130px; padding: 14px; }
+      /* Cartes sans padding interne : ne pas laisser le reset mobile les affecter */
+      .vibe-film, .vibe-book, .vibe-zelda { padding: 0; }
       .vibe-title { font-size: .88rem; }
       #zeldaCanvas { min-height: 130px; }
+      /* CTA full width */
+      .tl-cta-wrap { display: block; }
+      .tl-cta { display: flex; justify-content: center; width: 100%; box-sizing: border-box; }
     }
 
     /* ── Lab'o Section ── */
