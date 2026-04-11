@@ -769,26 +769,21 @@
       50% { transform: translateY(-5px); opacity: 1; }
     }
 
-    /* ── Film — flip card ── */
-    .vibe-film { padding: 0; cursor: pointer; overflow: visible; perspective: 1000px; transform: none !important; transition: box-shadow .2s, border-color .2s; }
-    .film-inner {
-      flex: 1; min-height: 190px; position: relative;
-      transform-style: preserve-3d;
-      transition: transform .65s cubic-bezier(.4,0,.2,1);
-    }
-    .vibe-film.flipped .film-inner { transform: rotateY(180deg); }
-    .film-face {
-      position: absolute; inset: 0; border-radius: 15px;
-      overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    }
-    .film-face-front { transform: translateZ(1px); }
+    /* ── Film — crossfade ── */
+    .vibe-film { padding: 0; cursor: pointer; overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s; }
+    .vibe-film:hover { transform: translateY(-2px); border-color: rgba(201,240,61,.3); }
+    .film-inner { flex: 1; min-height: 190px; position: relative; }
+    .film-face { position: absolute; inset: 0; border-radius: 15px; overflow: hidden; }
+    .film-face-front { transition: opacity .4s ease; }
     .film-face-back {
-      transform: rotateY(180deg);
       background:
         radial-gradient(ellipse at 50% 0%, rgba(100,0,15,.28) 0%, transparent 70%),
         var(--surface);
       padding: 18px; display: flex; flex-direction: column; justify-content: center;
+      opacity: 0; transition: opacity .4s ease;
     }
+    .vibe-film:hover .film-face-front, .vibe-film.hovered .film-face-front { opacity: 0; }
+    .vibe-film:hover .film-face-back,  .vibe-film.hovered .film-face-back  { opacity: 1; }
     .vibe-film-bg {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
@@ -824,24 +819,16 @@
       text-transform: uppercase; font-weight: 700;
     }
 
-    /* ── Livre — flip card ── */
-    .vibe-book { padding: 0; cursor: pointer; overflow: visible; perspective: 1000px; transform: none !important; transition: box-shadow .2s, border-color .2s; }
-    .book-inner {
-      flex: 1; min-height: 190px; position: relative;
-      transform-style: preserve-3d;
-      transition: transform .65s cubic-bezier(.4,0,.2,1);
-    }
-    .vibe-book.flipped .book-inner { transform: rotateY(180deg); }
-    .book-face {
-      position: absolute; inset: 0; border-radius: 15px;
-      overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    }
-    .book-face-front { background: var(--surface); padding: 18px; display: flex; flex-direction: column; transform: translateZ(1px); }
-    .vibe-book.flipped .vibe-book-cover { animation: none; transform: rotate(-2deg); filter: drop-shadow(0 8px 18px rgba(0,0,0,.55)); }
-    .book-face-back {
-      transform: rotateY(180deg); padding: 18px; display: flex; flex-direction: column;
-      background: var(--surface);
-    }
+    /* ── Livre — crossfade ── */
+    .vibe-book { padding: 0; cursor: pointer; overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s; }
+    .vibe-book:hover { transform: translateY(-2px); border-color: rgba(201,240,61,.3); }
+    .book-inner { flex: 1; min-height: 190px; position: relative; }
+    .book-face { position: absolute; inset: 0; border-radius: 15px; overflow: hidden; }
+    .book-face-front { background: var(--surface); padding: 18px; display: flex; flex-direction: column; transition: opacity .4s ease; }
+    .book-face-back { background: var(--surface); padding: 18px; display: flex; flex-direction: column; opacity: 0; transition: opacity .4s ease; }
+    .vibe-book:hover .book-face-front, .vibe-book.hovered .book-face-front { opacity: 0; }
+    .vibe-book:hover .book-face-back,  .vibe-book.hovered .book-face-back  { opacity: 1; }
+    .vibe-book:hover .vibe-book-cover  { animation: none; }
     /* Recto inner layout */
     .vibe-book-inner {
       display: flex; align-items: stretch;
@@ -923,20 +910,16 @@
     .vibe-reveal-allocine .vibe-reveal-credit { color: #F6A623; font-weight: 700; }
     .vibe-reveal-allocine .vibe-reveal-close { color: rgba(255,255,255,.4); }
 
-    /* Zelda block — flip card */
-    .vibe-zelda { padding: 0; cursor: pointer; overflow: visible; }
-    .vibe-zelda:hover { transform: none; }
-    .zelda-inner {
-      flex: 1; min-height: 165px;
-      position: relative; transform-style: preserve-3d;
-      transition: transform .65s cubic-bezier(.4,0,.2,1);
-    }
-    .vibe-zelda.flipped .zelda-inner { transform: rotateY(180deg); }
-    .zelda-face {
-      position: absolute; inset: 0; border-radius: 15px; overflow: hidden;
-      backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    }
-    .zelda-face-back { transform: rotateY(180deg); background: #0d0b2e; }
+    /* Zelda block — crossfade + mini-jeu */
+    .vibe-zelda { padding: 0; cursor: pointer; overflow: hidden; transition: border-color .2s, box-shadow .2s; }
+    .vibe-zelda:hover { border-color: rgba(201,240,61,.3); }
+    .zelda-inner { flex: 1; min-height: 190px; position: relative; }
+    .zelda-face { position: absolute; inset: 0; border-radius: 15px; overflow: hidden; }
+    .zelda-face-front { transition: opacity .4s ease; }
+    .zelda-face-back { opacity: 0; transition: opacity .4s ease; background: #000; }
+    .vibe-zelda:hover .zelda-face-front, .vibe-zelda.hovered .zelda-face-front { opacity: 0; }
+    .vibe-zelda:hover .zelda-face-back,  .vibe-zelda.hovered .zelda-face-back  { opacity: 1; }
+    @media (hover: hover) { .zelda-back-btn { display: none; } }
     .vibe-zelda-bg {
       position: absolute; inset: -10%; width: 120%; height: 120%;
       object-fit: cover; object-position: 90% center; z-index: 0;
@@ -981,7 +964,7 @@
     #zeldaCanvas {
       display: block; width: 100%; height: 100%;
       image-rendering: pixelated; image-rendering: crisp-edges;
-      min-height: 165px;
+      min-height: 190px; cursor: crosshair;
     }
     .zelda-back-btn {
       position: absolute; top: 10px; right: 10px; z-index: 4;
@@ -994,27 +977,6 @@
     .zelda-gameover {
       position: absolute; inset: 0;
       background: rgba(0,0,0,.84);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 12px;
-      opacity: 0; pointer-events: none; transition: opacity .4s; z-index: 3;
-    }
-    .zelda-gameover.show { opacity: 1; pointer-events: auto; }
-    .zelda-gameover-title {
-      font-family: var(--font-display); font-weight: 800;
-      font-size: 1rem; letter-spacing: .14em;
-      color: #ff4444; text-transform: uppercase;
-    }
-    .zelda-gameover-btn {
-      padding: 6px 18px; background: none;
-      border: 1px solid rgba(255,255,255,.28); border-radius: 100px;
-      color: var(--text); font-family: var(--font-display);
-      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
-      cursor: pointer; transition: border-color .2s, background .2s;
-    }
-    .zelda-gameover-btn:hover { border-color: var(--accent); background: rgba(201,240,61,.08); }
-    .zelda-gameover {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,.84); border-radius: 15px;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 12px;
       opacity: 0; pointer-events: none; transition: opacity .4s; z-index: 3;
@@ -3506,18 +3468,18 @@
 
             <!-- RECTO : visuel -->
             <div class="zelda-face zelda-face-front">
-              <img class="vibe-zelda-bg" src="01_SOURCES/ABOUT_ME/JEU_ZELDA.png" alt="">
+              <img class="vibe-zelda-bg" src="01_SOURCES/ABOUT_ME/JEU_ZELDA.png?v=2" alt="">
               <div class="zelda-front-overlay"></div>
               <div class="zelda-hud-top">
                 <div class="zelda-top-label">🕹️ Muscler mes pouces</div>
               </div>
               <div class="zelda-mid">
-                <div class="zelda-game-title">Zelda : The Wind Waker</div>
-                <div class="zelda-game-sub">Nintendo • 2003</div>
+                <div class="zelda-game-title">The Legend of Zelda : TotK</div>
+                <div class="zelda-game-sub">Nintendo • 2023</div>
               </div>
               <div class="zelda-bottom">
                 <div class="zelda-stat-lbl">Heures de jeu</div>
-                <div class="zelda-stat-val">15h</div>
+                <div class="zelda-stat-val">80h</div>
               </div>
             </div>
 
@@ -3535,7 +3497,7 @@
               <button class="zelda-back-btn" id="zeldaBackBtn">✕</button>
               <div class="zelda-gameover" id="zeldaGameover">
                 <div class="zelda-gameover-title">GAME OVER</div>
-                <button class="zelda-gameover-btn" id="zeldaRestart">Recommencer</button>
+                <button class="zelda-gameover-btn" id="zeldaRestart">REJOUER</button>
               </div>
             </div>
 
@@ -5083,18 +5045,13 @@
       });
     })();
 
-    // ── FILM & LIVRE — hover desktop / tap mobile ──
+    // ── FILM & LIVRE — crossfade : CSS :hover desktop / tap mobile ──
     (function() {
-      const isDesktop = window.matchMedia('(hover: hover)').matches;
+      if (window.matchMedia('(hover: hover)').matches) return; // desktop géré par CSS
       ['vibeFilm', 'vibeBook'].forEach(function(id) {
         const card = document.getElementById(id);
         if (!card) return;
-        if (isDesktop) {
-          card.addEventListener('mouseenter', function() { card.classList.add('flipped'); });
-          card.addEventListener('mouseleave', function() { card.classList.remove('flipped'); });
-        } else {
-          card.addEventListener('click', function() { card.classList.toggle('flipped'); });
-        }
+        card.addEventListener('click', function() { card.classList.toggle('hovered'); });
       });
     })();
 
@@ -5105,242 +5062,256 @@
       const audio = document.getElementById('satieAudio');
       if (!card || !vinyl || !audio) return;
 
-      card.addEventListener('click', function() {
-        if (audio.paused) {
-          audio.play();
+      const isDesktop = window.matchMedia('(hover: hover)').matches;
+
+      // Les navigateurs bloquent l'audio hors d'un geste utilisateur direct.
+      // On amorce silencieusement l'élément audio au premier clic sur la page :
+      // play muet → pause immédiate → l'élément est "activé" et peut ensuite
+      // être joué depuis mouseenter.
+      let audioReady = false;
+      function primeAudio() {
+        if (audioReady) return;
+        audio.muted = true;
+        audio.play().then(function() {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.muted = false;
+          audioReady = true;
+        }).catch(function() { audio.muted = false; });
+      }
+      document.addEventListener('click', primeAudio, { once: true });
+      document.addEventListener('touchend', primeAudio, { once: true });
+
+      if (isDesktop) {
+        card.addEventListener('mouseenter', function() {
+          if (audioReady) {
+            audio.play().catch(function() {});
+          }
           vinyl.classList.add('spinning');
-        } else {
+        });
+        card.addEventListener('mouseleave', function() {
           audio.pause();
           audio.currentTime = 0;
           vinyl.classList.remove('spinning');
-        }
-      });
+        });
+      } else {
+        card.addEventListener('click', function() {
+          if (audio.paused) {
+            audio.play().catch(function() {});
+            vinyl.classList.add('spinning');
+          } else {
+            audio.pause();
+            audio.currentTime = 0;
+            vinyl.classList.remove('spinning');
+          }
+        });
+      }
     })();
 
-    // ── ZELDA MINI-GAME ──
+    // ── ZELDA MINI-JEU (sprites) ──
     (function() {
       const canvas = document.getElementById('zeldaCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      const W = 192, H = 112;
+      const W = 320, H = 190;
       canvas.width = W; canvas.height = H;
 
-      const PX = 3;          // NES pixel scale
-      const GY  = H - 16;   // ground Y
-      const LX  = 12;       // Link left edge
-      const LW  = 9;        // Link width in NES px
-      const LH  = 12;       // Link height in NES px
-      const EW  = 8;        // Enemy width in NES px
-      const EH  = 12;       // Enemy height in NES px
+      // ── Dimensions & constantes ──
+      const GROUND_Y    = Math.round(H * 0.87); // sol dans BG1
+      const CHAR_H      = Math.round(H * 0.46); // hauteur des sprites perso
+      const LINK_X      = Math.round(W * 0.05); // position X de Link
+      const SWORD_REACH = Math.round(W * 0.22); // portée épée à droite de Link
 
-      const heartEls = ['zh1','zh2','zh3'].map(id => document.getElementById(id));
-      const scoreEl  = document.getElementById('zeldaScore');
-      const goEl     = document.getElementById('zeldaGameover');
-      const restBtn  = document.getElementById('zeldaRestart');
+      // ── Chargement des sprites ──
+      const S = '01_SOURCES/ABOUT_ME/';
+      const imgs = {};
+      (function() {
+        var map = { bg:'JEU_ZELDA_BG1.png', link:'JEU_ZELDA_SPRITE2.png', attack:'JEU_ZELDA_SPRITE3.png',
+                    hit:'JEU_ZELDA_SPRITE4.png', e1a:'JEU_ZELDA_SPRITE5.png', e1b:'JEU_ZELDA_SPRITE6.png',
+                    e2a:'JEU_ZELDA_SPRITE7.png', e2b:'JEU_ZELDA_SPRITE8.png' };
+        Object.keys(map).forEach(function(k) { imgs[k] = new Image(); imgs[k].src = S + map[k]; });
+      })();
 
-      let s = {}; // game state
-      let raf = null;
-
-      function drawBg() {
-        // Sky
-        ctx.fillStyle = '#0d0b2e';
-        ctx.fillRect(0, 0, W, GY);
-        // Stars
-        ctx.fillStyle = 'rgba(255,255,255,0.5)';
-        [[16,7],[48,13],[90,5],[128,17],[162,10],[35,26],[152,22],[74,32]].forEach(([x,y]) => ctx.fillRect(x,y,1,1));
-        // Ground strip
-        ctx.fillStyle = '#1a0800';
-        ctx.fillRect(0, GY, W, H - GY);
-        ctx.fillStyle = '#3a1e00';
-        ctx.fillRect(0, GY, W, 2);
-        ctx.fillStyle = '#503000';
-        ctx.fillRect(0, GY + 3, W, 1);
-        // NES-style scan lines (subtle)
-        ctx.fillStyle = 'rgba(0,0,0,0.08)';
-        for (let y = 0; y < GY; y += 2) ctx.fillRect(0, y, W, 1);
+      // largeur proportionnelle d'un sprite à hauteur fixée
+      function iw(img, h) {
+        return (!img.complete || !img.naturalWidth) ? Math.round(h * 0.6) : Math.round(h * img.naturalWidth / img.naturalHeight);
       }
 
-      function drawLink(attacking) {
-        const x = LX, y = GY - LH * PX;
-        const p = PX;
-        // Hair
-        ctx.fillStyle = '#6b1a00';
-        ctx.fillRect(x+2*p, y,     5*p, 2*p);
-        // Face
-        ctx.fillStyle = '#F8A040';
-        ctx.fillRect(x+2*p, y+2*p, 5*p, 3*p);
-        // Eyes
-        ctx.fillStyle = '#1a0000';
-        ctx.fillRect(x+3*p, y+3*p, p, p);
-        ctx.fillRect(x+5*p, y+3*p, p, p);
-        // Tunic (torso)
-        ctx.fillStyle = '#108010';
-        ctx.fillRect(x+p,   y+5*p, 7*p, 3*p);
-        // Shield left arm
-        ctx.fillStyle = '#1010C0';
-        ctx.fillRect(x,     y+5*p, p,   3*p);
-        // Belt
-        ctx.fillStyle = '#5a3000';
-        ctx.fillRect(x+2*p, y+8*p, 5*p, p);
-        // Legs
-        ctx.fillStyle = '#108010';
-        ctx.fillRect(x+2*p, y+9*p,  2*p, 2*p);
-        ctx.fillRect(x+5*p, y+9*p,  2*p, 2*p);
-        // Boots
-        ctx.fillStyle = '#4a1800';
-        ctx.fillRect(x+p,   y+11*p, 3*p, p);
-        ctx.fillRect(x+5*p, y+11*p, 3*p, p);
-        // Attack: arm + sword
-        if (attacking) {
-          ctx.fillStyle = '#F8A040';
-          ctx.fillRect(x+8*p, y+5*p, 2*p, p);
-          ctx.fillStyle = '#8B4513';
-          ctx.fillRect(x+8*p, y+4*p, 2*p, 3*p);
-          ctx.fillStyle = '#D8D8D8';
-          ctx.fillRect(x+10*p, y+5*p, 7*p, p);
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(x+16*p, y+4*p, p, 3*p);
-        }
-      }
+      // ── Refs HUD ──
+      const hearts  = ['zh1','zh2','zh3'].map(function(id) { return document.getElementById(id); });
+      const scoreEl = document.getElementById('zeldaScore');
+      const goEl    = document.getElementById('zeldaGameover');
+      const restBtn = document.getElementById('zeldaRestart');
 
-      function drawEnemy(e) {
-        const x = Math.round(e.x), y = GY - EH * PX;
-        const p = PX;
-        if (e.flash > 0 && Math.floor(e.flash / 3) % 2 === 0) return;
-        // Helmet
-        ctx.fillStyle = '#8B3030';
-        ctx.fillRect(x+2*p, y,     4*p, 2*p);
-        ctx.fillStyle = '#B04040';
-        ctx.fillRect(x+p,   y+2*p, 6*p, p);
-        // Face
-        ctx.fillStyle = '#E09060';
-        ctx.fillRect(x+2*p, y+3*p, 4*p, 2*p);
-        // Eyes (angry)
-        ctx.fillStyle = '#FF2020';
-        ctx.fillRect(x+2*p, y+3*p, p, p);
-        ctx.fillRect(x+5*p, y+3*p, p, p);
-        // Body
-        ctx.fillStyle = '#C02828';
-        ctx.fillRect(x+p,   y+5*p, 6*p, 4*p);
-        // Arms
-        ctx.fillStyle = '#A02020';
-        ctx.fillRect(x,     y+5*p, p,   3*p);
-        ctx.fillRect(x+7*p, y+5*p, p,   3*p);
-        // Legs
-        ctx.fillRect(x+2*p, y+9*p,  2*p, 2*p);
-        ctx.fillRect(x+5*p, y+9*p,  2*p, 2*p);
-        // Boots
-        ctx.fillStyle = '#600000';
-        ctx.fillRect(x+p,   y+11*p, 3*p, p);
-        ctx.fillRect(x+5*p, y+11*p, 3*p, p);
-      }
+      var s   = null; // état (null = pas encore démarré)
+      var raf = null;
+      var linkW = 0;  // largeur sprite Link (calculée au 1er draw)
 
       function updateHUD() {
-        heartEls.forEach((h, i) => { if (h) h.classList.toggle('empty', i >= s.lives); });
+        hearts.forEach(function(h, i) { if (h) h.classList.toggle('empty', i >= s.lives); });
         if (scoreEl) scoreEl.textContent = '★ ' + s.score;
       }
 
+      function drawBg() {
+        var bg = imgs.bg;
+        if (bg.complete && bg.naturalHeight) { ctx.drawImage(bg, 0, 0, W, H); }
+        else { ctx.fillStyle = '#0d0b2e'; ctx.fillRect(0, 0, W, H); }
+      }
+
+      function drawLink() {
+        var img = s.attacking ? imgs.attack : imgs.link;
+        if (!img.complete || !img.naturalHeight) return;
+        var w = iw(img, CHAR_H);
+        linkW = w;
+        ctx.drawImage(img, LINK_X, GROUND_Y - CHAR_H, w, CHAR_H);
+      }
+
+      function drawEnemies() {
+        s.enemies.forEach(function(e) {
+          var fa = e.type === 0 ? imgs.e1a : imgs.e2a;
+          var fb = e.type === 0 ? imgs.e1b : imgs.e2b;
+          var img = Math.floor(s.frame / 8) % 2 === 0 ? fa : fb;
+          if (!img.complete || !img.naturalHeight) return;
+          var w = iw(img, CHAR_H);
+          e.w = w;
+          ctx.drawImage(img, Math.round(e.x), GROUND_Y - CHAR_H, w, CHAR_H);
+        });
+      }
+
+      function drawHits() {
+        var img = imgs.hit;
+        if (!img.complete || !img.naturalHeight) return;
+        var hh = Math.round(CHAR_H * 0.65);
+        var hw = iw(img, hh);
+        s.hits.forEach(function(h) {
+          ctx.globalAlpha = h.life / 18;
+          ctx.drawImage(img, Math.round(h.x), GROUND_Y - CHAR_H, hw, hh);
+          ctx.globalAlpha = 1;
+        });
+      }
+
       function tick() {
-        if (s.dead) return;
+        if (!s || s.dead) return;
         s.frame++;
+
         // Spawn
         s.spawnT++;
         if (s.spawnT >= s.spawnInterval) {
           s.spawnT = 0;
-          s.spawnInterval = Math.max(65, 160 - s.score * 4);
-          s.enemies.push({ x: W + 6, speed: 0.5 + Math.random() * 0.3 + s.score * 0.015, flash: 0 });
+          s.spawnInterval = Math.max(55, 180 - s.score * 7);
+          var spd = 1.4 + Math.random() * 0.6 + s.score * 0.09;
+          s.enemies.push({ x: W + 20, speed: spd, type: Math.random() < 0.5 ? 0 : 1, w: Math.round(CHAR_H * 0.6) });
         }
-        // Attack timer
-        if (s.attacking) { s.attackTimer--; if (s.attackTimer <= 0) s.attacking = false; }
-        // Move enemies & collision
-        s.enemies.forEach(e => {
+
+        // Timer attaque
+        if (s.attacking) { s.atkTimer--; if (s.atkTimer <= 0) s.attacking = false; }
+
+        // Décroissance effets de hit
+        s.hits = s.hits.filter(function(h) { h.life--; return h.life > 0; });
+
+        // Déplacement ennemis + collision Link
+        var lRight = LINK_X + (linkW || Math.round(CHAR_H * 0.55));
+        s.enemies.forEach(function(e) {
           e.x -= e.speed;
-          if (e.flash > 0) e.flash--;
-          if (e.x < LX + LW * PX && e.x > -10) {
-            e.x = -999;
-            s.lives = Math.max(0, s.lives - 1);
+          if (!e.dead && e.x + (e.w || Math.round(CHAR_H * 0.5)) * 0.4 <= lRight) {
+            e.dead = true;
+            s.lives--;
             updateHUD();
-            if (s.lives === 0) {
+            if (s.lives <= 0) {
               s.dead = true;
               if (raf) { cancelAnimationFrame(raf); raf = null; }
               if (goEl) goEl.classList.add('show');
             }
           }
         });
-        s.enemies = s.enemies.filter(e => e.x > -20);
-        // Draw
+        s.enemies = s.enemies.filter(function(e) { return !e.dead && e.x > -(e.w || CHAR_H); });
+
+        // Rendu
         ctx.clearRect(0, 0, W, H);
         drawBg();
-        drawLink(s.attacking);
-        s.enemies.forEach(drawEnemy);
+        drawLink();
+        drawEnemies();
+        drawHits();
       }
 
       function loop() { tick(); raf = requestAnimationFrame(loop); }
 
       function attack() {
-        if (s.dead) return;
-        s.attacking = true; s.attackTimer = 18;
-        const hitL = LX + LW * PX;
-        const hitR = hitL + 8 * PX;
-        let hit = false;
-        s.enemies.forEach(e => {
-          const mid = e.x + EW * PX / 2;
+        if (!s || s.dead) return;
+        s.attacking = true; s.atkTimer = 22;
+        var hitL = LINK_X + (linkW || Math.round(CHAR_H * 0.55));
+        var hitR = hitL + SWORD_REACH;
+        s.enemies.forEach(function(e) {
+          if (e.dead) return;
+          var mid = e.x + (e.w || Math.round(CHAR_H * 0.5)) / 2;
           if (mid >= hitL && mid <= hitR) {
-            e.x = -999; e.flash = 6;
-            s.score++; hit = true;
+            e.dead = true; s.score++;
+            s.hits.push({ x: e.x, life: 18 });
+            updateHUD();
           }
         });
-        if (hit) updateHUD();
       }
 
       function restart() {
-        if (raf) cancelAnimationFrame(raf);
-        s = { lives:3, score:0, attacking:false, attackTimer:0, enemies:[], spawnT:0, spawnInterval:160, dead:false, frame:0 };
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+        s = { lives:3, score:0, attacking:false, atkTimer:0, enemies:[], hits:[], spawnT:0, spawnInterval:180, dead:false, frame:0 };
+        linkW = 0;
         updateHUD();
         if (goEl) goEl.classList.remove('show');
         loop();
       }
 
-      canvas.addEventListener('click', attack);
-      canvas.addEventListener('touchend', e => { e.preventDefault(); attack(); }, { passive: false });
-      if (restBtn) restBtn.addEventListener('click', restart);
+      function startGame() {
+        if (raf) return;                    // déjà en cours
+        if (!s) { restart(); return; }      // première fois
+        if (s.dead) return;                 // game over : attendre REJOUER
+        loop();                             // reprendre après pause
+      }
 
-      // Expose pour le flip handler
+      function pauseGame() {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+      }
+
+      // Attaque : clic/tap sur le canvas
+      canvas.addEventListener('click',    function(e) { e.stopPropagation(); attack(); });
+      canvas.addEventListener('touchend', function(e) { e.preventDefault(); e.stopPropagation(); attack(); }, { passive: false });
+      if (restBtn) restBtn.addEventListener('click', function(e) { e.stopPropagation(); restart(); });
+
+      // Pause hors écran
+      var obs = new IntersectionObserver(function(entries) {
+        if (!entries[0].isIntersecting) pauseGame();
+      }, { threshold: 0.1 });
+      var block = document.getElementById('vibeZelda');
+      if (block) obs.observe(block);
+
+      window._zeldaStart   = startGame;
+      window._zeldaPause   = pauseGame;
       window._zeldaRestart = restart;
-      window._zeldaPause = function() { if (raf) { cancelAnimationFrame(raf); raf = null; } };
-
-      // Pause quand hors écran
-      const observer = new IntersectionObserver(entries => {
-        const vis = entries[0].isIntersecting;
-        const flipped = document.getElementById('vibeZelda').classList.contains('flipped');
-        if (vis && flipped && !s.dead && !raf) { loop(); }
-        else if ((!vis || !flipped) && raf) { cancelAnimationFrame(raf); raf = null; }
-      }, { threshold: 0.2 });
-      const block = document.getElementById('vibeZelda');
-      if (block) observer.observe(block);
-
-      // Ne pas démarrer au chargement (jeu masqué au recto)
     })();
 
-    // ── ZELDA FLIP ──
+    // ── ZELDA — hover desktop / tap mobile ──
     (function() {
-      const card = document.getElementById('vibeZelda');
-      const backBtn = document.getElementById('zeldaBackBtn');
+      var card    = document.getElementById('vibeZelda');
+      var backBtn = document.getElementById('zeldaBackBtn');
       if (!card) return;
+      var isDesktop = window.matchMedia('(hover: hover)').matches;
 
-      card.addEventListener('click', function(e) {
-        if (card.classList.contains('flipped')) return;
-        card.classList.add('flipped');
-        setTimeout(function() {
-          if (window._zeldaRestart) window._zeldaRestart();
-        }, 330); // démarre le jeu à mi-flip
-      });
-
-      if (backBtn) backBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        if (window._zeldaPause) window._zeldaPause();
-        card.classList.remove('flipped');
-      });
+      if (isDesktop) {
+        card.addEventListener('mouseenter', function() { if (window._zeldaStart) window._zeldaStart(); });
+        card.addEventListener('mouseleave', function() { if (window._zeldaPause) window._zeldaPause(); });
+      } else {
+        // Mobile : tap = afficher le jeu et lancer ; canvas gère l'attaque
+        card.addEventListener('click', function(e) {
+          if (card.classList.contains('hovered')) return;
+          card.classList.add('hovered');
+          if (window._zeldaStart) window._zeldaStart();
+        });
+        if (backBtn) backBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (window._zeldaPause) window._zeldaPause();
+          card.classList.remove('hovered');
+        });
+      }
     })();
 
 
