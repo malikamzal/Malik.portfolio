@@ -716,7 +716,7 @@
       flex: 1; display: flex; flex-direction: column;
       justify-content: center; padding: 8px 0;
     }
-    .vibe-block:hover { transform: translateY(-3px); border-color: rgba(201,240,61,.3); }
+    @media (hover: hover) { .vibe-block:hover { transform: translateY(-3px); border-color: rgba(201,240,61,.3); } }
     .vibe-label {
       font-size: .52rem; letter-spacing: .14em; text-transform: uppercase;
       color: var(--muted); font-family: var(--font-display); font-weight: 700; margin-bottom: 7px;
@@ -771,7 +771,7 @@
 
     /* ── Film — crossfade ── */
     .vibe-film { padding: 0; cursor: pointer; overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s; }
-    .vibe-film:hover { transform: translateY(-2px); border-color: rgba(201,240,61,.3); }
+    @media (hover: hover) { .vibe-film:hover { transform: translateY(-2px); border-color: rgba(201,240,61,.3); } }
     .film-inner { flex: 1; min-height: 190px; position: relative; }
     .film-face { position: absolute; inset: 0; border-radius: 15px; overflow: hidden; }
     .film-face-front { transition: opacity .4s ease; }
@@ -825,7 +825,7 @@
 
     /* ── Livre — crossfade ── */
     .vibe-book { padding: 0; cursor: pointer; overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s; }
-    .vibe-book:hover { transform: translateY(-2px); border-color: rgba(201,240,61,.3); }
+    @media (hover: hover) { .vibe-book:hover { transform: translateY(-2px); border-color: rgba(201,240,61,.3); } }
     .book-inner { flex: 1; min-height: 190px; position: relative; }
     .book-face { position: absolute; inset: 0; border-radius: 15px; overflow: hidden; }
     .book-face-front { background: var(--surface); padding: 18px; display: flex; flex-direction: column; transition: opacity .4s ease; }
@@ -5067,13 +5067,16 @@
       });
     })();
 
-    // ── FILM & LIVRE — crossfade : CSS :hover desktop / tap mobile ──
+    // ── FILM & LIVRE — crossfade mobile (touchstart) ──
     (function() {
-      if (window.matchMedia('(hover: hover)').matches) return; // desktop géré par CSS
+      if (window.matchMedia('(hover: hover)').matches) return;
       ['vibeFilm', 'vibeBook'].forEach(function(id) {
-        const card = document.getElementById(id);
+        var card = document.getElementById(id);
         if (!card) return;
-        card.addEventListener('click', function() { card.classList.toggle('hovered'); });
+        card.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          card.classList.toggle('hovered');
+        }, { passive: false });
       });
     })();
 
@@ -5117,7 +5120,8 @@
           vinyl.classList.remove('spinning');
         });
       } else {
-        card.addEventListener('click', function() {
+        card.addEventListener('touchstart', function(e) {
+          e.preventDefault();
           if (audio.paused) {
             audio.play().catch(function() {});
             vinyl.classList.add('spinning');
@@ -5126,7 +5130,7 @@
             audio.currentTime = 0;
             vinyl.classList.remove('spinning');
           }
-        });
+        }, { passive: false });
       }
     })();
 
@@ -5345,16 +5349,37 @@
         card.addEventListener('mouseenter', function() { if (window._zeldaStart) window._zeldaStart(); });
         card.addEventListener('mouseleave', function() { if (window._zeldaPause) window._zeldaPause(); });
       } else {
-        // Mobile : touchstart sur la face recto → révèle + lance
+        // Mobile : touchstart sur la face recto → ferme autres cartes, révèle + lance
         var front = card.querySelector('.zelda-face-front');
         if (front) {
           front.addEventListener('touchstart', function(e) {
             e.preventDefault();
+            // Ferme film/book si ouverts
+            ['vibeFilm','vibeBook'].forEach(function(id) {
+              var c = document.getElementById(id);
+              if (c) c.classList.remove('hovered');
+            });
             card.classList.add('hovered');
             setTimeout(function() { if (window._zeldaStart) window._zeldaStart(); }, 50);
           }, { passive: false });
         }
       }
+    })();
+
+    // ── Fermeture Zelda au tap sur une autre carte (mobile) ──
+    (function() {
+      if (window.matchMedia('(hover: hover)').matches) return;
+      ['vibeFilm','vibeBook','vibeMusic'].forEach(function(id) {
+        var c = document.getElementById(id);
+        if (!c) return;
+        c.addEventListener('touchstart', function() {
+          var zelda = document.getElementById('vibeZelda');
+          if (zelda && zelda.classList.contains('hovered')) {
+            zelda.classList.remove('hovered');
+            if (window._zeldaPause) window._zeldaPause();
+          }
+        }, { passive: true });
+      });
     })();
 
 
