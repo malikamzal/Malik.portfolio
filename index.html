@@ -941,9 +941,18 @@
     .zelda-heart { width: 20px; height: 20px; object-fit: contain; transition: opacity .3s; }
     .zelda-heart.empty { opacity: .18; }
     .zelda-score {
-      font-family: var(--font-display); font-size: .52rem;
-      letter-spacing: .1em; color: rgba(255,255,255,.55);
+      font-family: var(--font-display); font-size: .65rem; font-weight: 700;
+      letter-spacing: .1em; color: var(--accent);
       pointer-events: none;
+    }
+    .zelda-gameover-score {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 800;
+      color: #fff; letter-spacing: .05em; line-height: 1;
+    }
+    .zelda-gameover-score-label {
+      font-family: var(--font-display); font-size: .42rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .14em;
+      color: rgba(255,255,255,.4); margin-bottom: 4px;
     }
     .zelda-mid {
       position: absolute; top: 50%; left: 0; right: 0;
@@ -3487,6 +3496,8 @@
               </div>
               <div class="zelda-gameover" id="zeldaGameover">
                 <div class="zelda-gameover-title">GAME OVER</div>
+                <div class="zelda-gameover-score-label">Score</div>
+                <div class="zelda-gameover-score" id="zeldaFinalScore">0</div>
                 <button class="zelda-gameover-btn" id="zeldaRestart">REJOUER</button>
               </div>
             </div>
@@ -5128,10 +5139,26 @@
       }
 
       // ── Refs HUD ──
-      const hearts  = ['zh1','zh2','zh3'].map(function(id) { return document.getElementById(id); });
-      const scoreEl = document.getElementById('zeldaScore');
-      const goEl    = document.getElementById('zeldaGameover');
-      const restBtn = document.getElementById('zeldaRestart');
+      const hearts      = ['zh1','zh2','zh3'].map(function(id) { return document.getElementById(id); });
+      const scoreEl     = document.getElementById('zeldaScore');
+      const finalScoreEl= document.getElementById('zeldaFinalScore');
+      const goEl        = document.getElementById('zeldaGameover');
+      const restBtn     = document.getElementById('zeldaRestart');
+
+      // Compteur animé (incrémente de displayed → target)
+      var displayedScore = 0;
+      var scoreRaf = null;
+      function animateScore(target) {
+        if (scoreRaf) cancelAnimationFrame(scoreRaf);
+        function step() {
+          if (displayedScore < target) {
+            displayedScore = Math.min(displayedScore + 1, target);
+            if (scoreEl) scoreEl.textContent = '★ ' + displayedScore;
+            scoreRaf = requestAnimationFrame(step);
+          }
+        }
+        scoreRaf = requestAnimationFrame(step);
+      }
 
       var s   = null; // état (null = pas encore démarré)
       var raf = null;
@@ -5139,7 +5166,7 @@
 
       function updateHUD() {
         hearts.forEach(function(h, i) { if (h) h.classList.toggle('empty', i >= s.lives); });
-        if (scoreEl) scoreEl.textContent = '★ ' + s.score;
+        animateScore(s.score);
       }
 
       function drawBg() {
@@ -5210,6 +5237,7 @@
             if (s.lives <= 0) {
               s.dead = true;
               if (raf) { cancelAnimationFrame(raf); raf = null; }
+              if (finalScoreEl) finalScoreEl.textContent = s.score;
               if (goEl) goEl.classList.add('show');
             }
           }
@@ -5245,7 +5273,8 @@
       function restart() {
         if (raf) { cancelAnimationFrame(raf); raf = null; }
         s = { lives:3, score:0, attacking:false, atkTimer:0, enemies:[], hits:[], spawnT:0, spawnInterval:180, dead:false, frame:0 };
-        linkW = 0;
+        linkW = 0; displayedScore = 0;
+        if (scoreEl) scoreEl.textContent = '★ 0';
         updateHUD();
         if (goEl) goEl.classList.remove('show');
         loop();
