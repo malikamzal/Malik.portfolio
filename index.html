@@ -919,7 +919,6 @@
     .zelda-face-back { opacity: 0; transition: opacity .4s ease; background: #000; }
     .vibe-zelda:hover .zelda-face-front, .vibe-zelda.hovered .zelda-face-front { opacity: 0; }
     .vibe-zelda:hover .zelda-face-back,  .vibe-zelda.hovered .zelda-face-back  { opacity: 1; }
-    @media (hover: hover) { .zelda-back-btn { display: none; } }
     .vibe-zelda-bg {
       position: absolute; inset: -10%; width: 120%; height: 120%;
       object-fit: cover; object-position: 90% center; z-index: 0;
@@ -938,8 +937,8 @@
       letter-spacing: .14em; text-transform: uppercase;
       color: var(--muted); font-weight: 700;
     }
-    .zelda-hearts { display: flex; gap: 3px; }
-    .zelda-heart { font-size: .8rem; line-height: 1; transition: opacity .3s; }
+    .zelda-hearts { display: flex; gap: 5px; align-items: center; }
+    .zelda-heart { width: 20px; height: 20px; object-fit: contain; transition: opacity .3s; }
     .zelda-heart.empty { opacity: .18; }
     .zelda-score {
       font-family: var(--font-display); font-size: .52rem;
@@ -966,14 +965,6 @@
       image-rendering: pixelated; image-rendering: crisp-edges;
       min-height: 190px; cursor: crosshair;
     }
-    .zelda-back-btn {
-      position: absolute; top: 10px; right: 10px; z-index: 4;
-      background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.2);
-      border-radius: 50%; width: 24px; height: 24px;
-      color: rgba(255,255,255,.7); font-size: .65rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .zelda-back-btn:hover { background: rgba(0,0,0,.8); color: #fff; }
     .zelda-gameover {
       position: absolute; inset: 0;
       background: rgba(0,0,0,.84);
@@ -3488,13 +3479,12 @@
               <canvas id="zeldaCanvas"></canvas>
               <div class="zelda-hud-top">
                 <div class="zelda-hearts">
-                  <span class="zelda-heart" id="zh1">❤️</span>
-                  <span class="zelda-heart" id="zh2">❤️</span>
-                  <span class="zelda-heart" id="zh3">❤️</span>
+                  <img class="zelda-heart" id="zh1" src="01_SOURCES/ABOUT_ME/JEU_ZELDA_SPRITE1.png" alt="♥">
+                  <img class="zelda-heart" id="zh2" src="01_SOURCES/ABOUT_ME/JEU_ZELDA_SPRITE1.png" alt="♥">
+                  <img class="zelda-heart" id="zh3" src="01_SOURCES/ABOUT_ME/JEU_ZELDA_SPRITE1.png" alt="♥">
                 </div>
                 <div class="zelda-score" id="zeldaScore">★ 0</div>
               </div>
-              <button class="zelda-back-btn" id="zeldaBackBtn">✕</button>
               <div class="zelda-gameover" id="zeldaGameover">
                 <div class="zelda-gameover-title">GAME OVER</div>
                 <button class="zelda-gameover-btn" id="zeldaRestart">REJOUER</button>
@@ -5118,7 +5108,7 @@
 
       // ── Dimensions & constantes ──
       const GROUND_Y    = Math.round(H * 0.87); // sol dans BG1
-      const CHAR_H      = Math.round(H * 0.46); // hauteur des sprites perso
+      const CHAR_H      = Math.round(H * 0.28); // hauteur des sprites perso
       const LINK_X      = Math.round(W * 0.05); // position X de Link
       const SWORD_REACH = Math.round(W * 0.22); // portée épée à droite de Link
 
