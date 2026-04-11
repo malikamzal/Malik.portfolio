@@ -22,7 +22,7 @@
       --r: 8px;
     }
 
-    html { scroll-behavior: smooth; background: #09090c; }
+    html { scroll-behavior: smooth; background: #09090c; touch-action: manipulation; }
 
     body {
       background: var(--bg);
@@ -839,8 +839,8 @@
     @media (hover: hover) { .vibe-book:hover { transform: translateY(-2px); border-color: rgba(201,240,61,.3); } }
     .book-inner { flex: 1; min-height: 190px; position: relative; }
     .book-face { position: absolute; inset: 0; border-radius: 15px; overflow: hidden; }
-    .book-face-front { background: var(--surface); padding: 18px; display: flex; flex-direction: column; transition: opacity .4s ease; }
-    .book-face-back { background: var(--surface); padding: 18px; display: flex; flex-direction: column; opacity: 0; transition: opacity .4s ease; }
+    .book-face-front { background: var(--surface); padding: 16px; display: flex; flex-direction: column; transition: opacity .4s ease; }
+    .book-face-back { background: var(--surface); padding: 16px; display: flex; flex-direction: column; opacity: 0; transition: opacity .4s ease; }
     @media (hover: hover) {
       .vibe-book:hover .book-face-front { opacity: 0; }
       .vibe-book:hover .book-face-back  { opacity: 1; }
@@ -1085,7 +1085,7 @@
       .vibes-carousel-wrap { grid-column: unset; }
       .vibes-carousel-nav { display: flex; }
       .vibes-blocks { display: block; }
-      .vibe-block { display: none; height: 190px; min-height: unset; padding: 14px; }
+      .vibe-block { display: none; height: 190px; min-height: unset; padding: 16px; }
       .vibe-block.carousel-active { display: flex; }
       /* Cartes sans padding interne : ne pas laisser le reset mobile les affecter */
       .vibe-film, .vibe-book, .vibe-zelda { padding: 0; }
