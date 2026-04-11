@@ -782,8 +782,12 @@
       padding: 18px; display: flex; flex-direction: column; justify-content: center;
       opacity: 0; transition: opacity .4s ease;
     }
-    .vibe-film:hover .film-face-front, .vibe-film.hovered .film-face-front { opacity: 0; }
-    .vibe-film:hover .film-face-back,  .vibe-film.hovered .film-face-back  { opacity: 1; }
+    @media (hover: hover) {
+      .vibe-film:hover .film-face-front { opacity: 0; }
+      .vibe-film:hover .film-face-back  { opacity: 1; }
+    }
+    .vibe-film.hovered .film-face-front { opacity: 0; }
+    .vibe-film.hovered .film-face-back  { opacity: 1; }
     .vibe-film-bg {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
@@ -826,9 +830,14 @@
     .book-face { position: absolute; inset: 0; border-radius: 15px; overflow: hidden; }
     .book-face-front { background: var(--surface); padding: 18px; display: flex; flex-direction: column; transition: opacity .4s ease; }
     .book-face-back { background: var(--surface); padding: 18px; display: flex; flex-direction: column; opacity: 0; transition: opacity .4s ease; }
-    .vibe-book:hover .book-face-front, .vibe-book.hovered .book-face-front { opacity: 0; }
-    .vibe-book:hover .book-face-back,  .vibe-book.hovered .book-face-back  { opacity: 1; }
-    .vibe-book:hover .vibe-book-cover  { animation: none; }
+    @media (hover: hover) {
+      .vibe-book:hover .book-face-front { opacity: 0; }
+      .vibe-book:hover .book-face-back  { opacity: 1; }
+      .vibe-book:hover .vibe-book-cover { animation: none; }
+    }
+    .vibe-book.hovered .book-face-front { opacity: 0; }
+    .vibe-book.hovered .book-face-back  { opacity: 1; }
+    .vibe-book.hovered .vibe-book-cover { animation: none; }
     /* Recto inner layout */
     .vibe-book-inner {
       display: flex; align-items: stretch;
@@ -5308,20 +5317,16 @@
         if (raf) { cancelAnimationFrame(raf); raf = null; }
       }
 
-      // Attaque : clic/tap sur le canvas
-      canvas.addEventListener('click',    function(e) { e.stopPropagation(); attack(); });
-      canvas.addEventListener('touchend', function(e) { e.preventDefault(); e.stopPropagation(); attack(); }, { passive: false });
+      // Attaque canvas : clic desktop / touchstart mobile
+      canvas.addEventListener('click', function(e) { e.stopPropagation(); attack(); });
+      canvas.addEventListener('touchstart', function(e) { e.preventDefault(); e.stopPropagation(); attack(); }, { passive: false });
       if (restBtn) restBtn.addEventListener('click', function(e) { e.stopPropagation(); restart(); });
+      if (restBtn) restBtn.addEventListener('touchstart', function(e) { e.preventDefault(); e.stopPropagation(); restart(); }, { passive: false });
 
-      // Pause hors écran, reprend si visible + carte active
+      // Pause hors écran
       var block = document.getElementById('vibeZelda');
       var obs = new IntersectionObserver(function(entries) {
-        var vis = entries[0].isIntersecting;
-        if (!vis) {
-          pauseGame();
-        } else if (block && block.classList.contains('hovered') && !raf && s && !s.dead) {
-          loop();
-        }
+        if (!entries[0].isIntersecting) pauseGame();
       }, { threshold: 0.1 });
       if (block) obs.observe(block);
 
@@ -5330,10 +5335,9 @@
       window._zeldaRestart = restart;
     })();
 
-    // ── ZELDA — hover desktop / tap mobile ──
+    // ── ZELDA — hover desktop / touchstart mobile ──
     (function() {
-      var card    = document.getElementById('vibeZelda');
-      var backBtn = document.getElementById('zeldaBackBtn');
+      var card = document.getElementById('vibeZelda');
       if (!card) return;
       var isDesktop = window.matchMedia('(hover: hover)').matches;
 
@@ -5341,18 +5345,15 @@
         card.addEventListener('mouseenter', function() { if (window._zeldaStart) window._zeldaStart(); });
         card.addEventListener('mouseleave', function() { if (window._zeldaPause) window._zeldaPause(); });
       } else {
-        // Mobile : tap = afficher le jeu et lancer ; taps suivants = attaque
-        card.addEventListener('click', function(e) {
-          if (!card.classList.contains('hovered')) {
+        // Mobile : touchstart sur la face recto → révèle + lance
+        var front = card.querySelector('.zelda-face-front');
+        if (front) {
+          front.addEventListener('touchstart', function(e) {
+            e.preventDefault();
             card.classList.add('hovered');
-          }
-          if (window._zeldaStart) window._zeldaStart();
-        });
-        if (backBtn) backBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (window._zeldaPause) window._zeldaPause();
-          card.classList.remove('hovered');
-        });
+            setTimeout(function() { if (window._zeldaStart) window._zeldaStart(); }, 50);
+          }, { passive: false });
+        }
       }
     })();
 
