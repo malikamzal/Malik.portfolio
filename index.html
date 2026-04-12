@@ -7,6 +7,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Protection — sélection désactivée globalement */
+    body { -webkit-user-select: none; -moz-user-select: none; user-select: none; }
+    input, textarea, [contenteditable] { -webkit-user-select: text; user-select: text; }
 
     :root {
       --bg: #0a0a0a;
@@ -6558,6 +6561,16 @@ function applyCard(card, rel, instant) {
     wrap.addEventListener('touchmove', e => { e.preventDefault(); setSplit(e.touches[0].clientX); }, { passive: false });
   })();
 
+
+    // ── PROTECTION ──
+    // Clic droit désactivé
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    // Drag désactivé
+    document.addEventListener('dragstart', e => e.preventDefault());
+    // Console warning
+    console.clear();
+    console.log('%c⚠ Stop.', 'color:#C9F03D;font-size:2rem;font-weight:900;');
+    console.log('%cCe portfolio est la propriété de Malik Amzal.\nToute reproduction est interdite sans autorisation.', 'color:#aaa;font-size:.85rem;');
 </script>
 </body>
 </html>
