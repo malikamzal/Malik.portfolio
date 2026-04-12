@@ -128,7 +128,8 @@
       font-family: var(--font-display);
       font-size: .7rem;
       font-weight: 700;
-      letter-spacing: .04em;
+      letter-spacing: .06em;
+      text-transform: uppercase;
       color: #0a0a0a;
       cursor: none;
       border: none;
@@ -707,13 +708,14 @@
     .tl-cta {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 22px;
-      border: 1px solid var(--border); border-radius: 100px;
+      border: 1px solid rgba(201,240,61,.5); border-radius: 100px;
       font-family: var(--font-display); font-size: .72rem; font-weight: 700;
       letter-spacing: .06em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none; cursor: none;
+      color: var(--text); text-decoration: none; cursor: none;
+      background: transparent;
       transition: border-color .2s, color .2s, background .2s;
     }
-    .tl-cta:hover { border-color: rgba(201,240,61,.4); color: var(--text); background: rgba(201,240,61,.04); }
+    .tl-cta:hover { border-color: var(--accent); background: rgba(201,240,61,.06); }
     .tl-cta-icon { font-size: .9rem; }
 
     /* ── Vibe blocks — desktop : 4 cartes sur une ligne ── */
@@ -1180,8 +1182,19 @@
       font-size: 1rem; color: var(--text); margin-bottom: 4px;
     }
     .labo-card-desc {
-      font-size: .75rem; color: var(--muted); line-height: 1.4;
+      font-size: .75rem; color: var(--muted); line-height: 1.4; margin-bottom: 16px;
     }
+    .labo-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 18px;
+      border: 1px solid rgba(201,240,61,.5); border-radius: 100px;
+      font-family: var(--font-display); font-size: .65rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text); background: transparent; cursor: none;
+      transition: border-color .2s, background .2s;
+    }
+    .labo-cta:hover { border-color: var(--accent); background: rgba(201,240,61,.06); }
+    .labo-card.soon .labo-cta { display: none; }
 
     /* ── Skin Scanner Modal ── */
     /* ── GL PROJECT PAGE ── */
@@ -2712,13 +2725,14 @@
       display: inline-flex; align-items: center; gap: 8px;
       margin-top: 20px;
       padding: 10px 22px;
-      border: 1px solid var(--border); border-radius: 100px;
+      border: 1px solid rgba(201,240,61,.5); border-radius: 100px;
       font-family: var(--font-display); font-size: .72rem; font-weight: 700;
       letter-spacing: .06em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none; cursor: none;
+      color: var(--text); text-decoration: none; cursor: none;
+      background: transparent;
       transition: border-color .2s, color .2s, background .2s;
     }
-    .proj-outro-contact:hover { border-color: rgba(201,240,61,.4); color: var(--text); background: rgba(201,240,61,.04); }
+    .proj-outro-contact:hover { border-color: var(--accent); background: rgba(201,240,61,.06); }
 
     /* ── EXPERTISE & TOOLS ── */
     #expertise {
@@ -3332,6 +3346,7 @@
           <div class="labo-card-icon">🧀</div>
           <div class="labo-card-name">Littérature gratinée</div>
           <div class="labo-card-desc">Répondez au quiz mêlant littérature et connaissance fromagère</div>
+          <button class="labo-cta">Jouer</button>
         </div>
       </div>
 
@@ -3342,6 +3357,7 @@
           <div class="labo-card-icon">🤍</div>
           <div class="labo-card-name">Page blanche</div>
           <div class="labo-card-desc">Posez des pixels sur la toile pour me donner de l'inspiration</div>
+          <button class="labo-cta">Contribuer</button>
         </div>
       </div>
 
