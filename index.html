@@ -695,13 +695,19 @@
       background: var(--accent); animation: pulse 1.8s infinite;
     }
 
-    /* Expériences 2 colonnes */
-    .vibes-exp-label { margin-bottom: 20px; }
-    .exp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
-    .exp-col-left, .exp-col-right { display: flex; flex-direction: column; }
-
-    /* Outils dans la section vibes */
-    .vibes-tools { display: flex; flex-direction: column; gap: 16px; }
+    /* Bloc Expériences + Outils */
+    .vibes-exp-tools { display: flex; flex-direction: column; gap: 40px; }
+    .vibes-exp-tools-header { display: flex; flex-direction: column; gap: 8px; }
+    .vibes-exp-tools-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -.03em;
+      color: var(--text); line-height: 1.1; margin: 0;
+    }
+    .vibes-exp-tools-sub {
+      font-size: .9rem; color: var(--muted); font-style: italic; margin: 0;
+    }
+    .exp-tools-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .exp-tools-col-left, .exp-tools-col-right { display: flex; flex-direction: column; }
 
     /* CTA download */
     .tl-cta-wrap { margin-top: 20px; }
@@ -1095,8 +1101,8 @@
       .vibe-film, .vibe-book, .vibe-zelda { padding: 0; }
       .vibe-title { font-size: .95rem; }
       #zeldaCanvas { min-height: 130px; }
-      /* Expériences : 1 colonne sur mobile */
-      .exp-cols { grid-template-columns: 1fr; }
+      /* Expériences + outils : 1 colonne sur mobile */
+      .exp-tools-cols { grid-template-columns: 1fr; gap: 40px; }
       /* CTA full width */
       .tl-cta-wrap { display: block; }
       .tl-cta { display: flex; justify-content: center; width: 100%; box-sizing: border-box; }
@@ -3472,13 +3478,21 @@
         </div>
       </div>
 
-      <!-- ── Expériences ── -->
-      <div class="vibes-exp">
-        <div class="section-label vibes-exp-label">Des expériences qui comptent</div>
-        <div class="exp-cols">
+      <!-- ── Expériences + Outils ── -->
+      <div class="vibes-exp-tools reveal">
 
-          <!-- Colonne gauche : 3 premières expériences -->
-          <div class="exp-col-left">
+        <!-- Header -->
+        <div class="vibes-exp-tools-header">
+          <div class="section-label">Expériences</div>
+          <h3 class="vibes-exp-tools-title">Mes espaces d'expression</h3>
+          <p class="vibes-exp-tools-sub">De la contrainte nait la créativité.</p>
+        </div>
+
+        <!-- 2 colonnes : expériences gauche, outils droite -->
+        <div class="exp-tools-cols">
+
+          <!-- Colonne gauche : liste d'expériences -->
+          <div class="exp-tools-col-left">
             <div class="vtl">
 
               <div class="vtl-item">
@@ -3504,13 +3518,6 @@
                 </div>
                 <div class="vtl-info">Grand Palais</div>
               </div>
-
-            </div>
-          </div>
-
-          <!-- Colonne droite : 2 dernières expériences + CTA -->
-          <div class="exp-col-right">
-            <div class="vtl">
 
               <div class="vtl-item">
                 <div class="vtl-role-line">
@@ -3538,58 +3545,58 @@
             </div>
           </div>
 
-        </div>
-      </div>
+          <!-- Colonne droite : outils -->
+          <div class="exp-tools-col-right">
+            <div class="section-label" style="margin-bottom:20px">Les outils changent, les idées restent</div>
+            <div class="tags-row">
 
-      <!-- ── Outils ── -->
-      <div class="vibes-tools reveal">
-        <div class="section-label">Les outils changent, les idées restent</div>
-        <div class="tags-row">
+              <span class="etag">
+                <img src="01_SOURCES/STACK/figma.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Figma
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/figma.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Figma
-          </span>
+              <span class="etag">
+                <img src="01_SOURCES/STACK/weavy.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Weavy
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/weavy.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Weavy
-          </span>
+              <span class="etag">
+                <img src="01_SOURCES/STACK/jitter.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Jitter
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/jitter.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Jitter
-          </span>
+              <span class="etag">
+                <img src="01_SOURCES/STACK/figmaslides.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0;filter:hue-rotate(200deg)" alt="">
+                Figma Slides
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/figmaslides.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0;filter:hue-rotate(200deg)" alt="">
-            Figma Slides
-          </span>
+              <span class="etag">
+                <img src="01_SOURCES/STACK/claude.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Claude
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/claude.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Claude
-          </span>
+              <span class="etag">
+                <img src="01_SOURCES/STACK/midjourney.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Midjourney
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/midjourney.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Midjourney
-          </span>
+              <span class="etag">
+                <img src="01_SOURCES/STACK/photoshop.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Photoshop
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/photoshop.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Photoshop
-          </span>
+              <span class="etag">
+                <img src="01_SOURCES/STACK/illustrator.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Illustrator
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/illustrator.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Illustrator
-          </span>
+              <span class="etag">
+                <img src="01_SOURCES/STACK/miro.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Miro
+              </span>
 
-          <span class="etag">
-            <img src="01_SOURCES/STACK/miro.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Miro
-          </span>
+            </div>
+          </div>
 
         </div>
       </div>
