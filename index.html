@@ -1099,11 +1099,11 @@
       #zeldaCanvas { min-height: 130px; }
       /* Expériences + outils : 1 colonne sur mobile */
       .exp-tools-cols { grid-template-columns: 1fr; gap: 64px; }
-      /* Projet outro mobile : texte en haut, boutons dessous côte à côte */
+      /* Projet outro mobile : flèches en haut, texte en dessous */
       .proj-outro { flex-direction: column; gap: 24px; }
-      .proj-outro-center { order: 1; text-align: center; }
-      .proj-nav { display: flex; gap: 0; order: 2; justify-content: space-between; width: 100%; }
-      .proj-nav-label { font-size: 9px; letter-spacing: .08em; }
+      .proj-nav { display: flex; gap: 0; order: 1; justify-content: space-between; width: 100%; }
+      .proj-outro-center { order: 2; text-align: center; }
+      .proj-outro-contact { display: flex; justify-content: center; width: 100%; box-sizing: border-box; }
       /* CTA full width */
       .tl-cta-wrap { display: block; }
       .tl-cta { display: flex; justify-content: center; width: 100%; box-sizing: border-box; }
@@ -2706,11 +2706,22 @@
       color: var(--accent);
     }
     .proj-nav-label {
-      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      font-size: 10px; font-weight: 600; letter-spacing: .10em;
       text-transform: uppercase; color: rgba(255,255,255,.4);
       transition: color .2s;
     }
     .proj-nav-btn:hover .proj-nav-label { color: var(--accent); }
+    .proj-outro-contact {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 20px;
+      padding: 10px 22px;
+      border: 1px solid var(--border); border-radius: 100px;
+      font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; cursor: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .proj-outro-contact:hover { border-color: rgba(201,240,61,.4); color: var(--text); background: rgba(201,240,61,.04); }
 
     /* ── EXPERTISE & TOOLS ── */
     #expertise {
@@ -3898,14 +3909,15 @@
         <div class="proj-outro-center">
           <span class="proj-outro-label">Fin du projet</span>
           <p class="proj-outro-phrase">Et maintenant, parlons du vôtre.</p>
+          <a href="mailto:malikamzal@gmail.com" class="proj-outro-contact">Me contacter</a>
         </div>
         <div class="proj-nav">
           <button class="proj-nav-btn proj-nav-prev" onclick="window._switchProject('pampers')">
             <span class="proj-nav-arrow">←</span>
-            <span class="proj-nav-label">Procter &amp; Gamble</span>
+            <span class="proj-nav-label">Précédent</span>
           </button>
           <button class="proj-nav-btn proj-nav-next" onclick="window._switchProject('mauboussin')">
-            <span class="proj-nav-label">Mauboussin</span>
+            <span class="proj-nav-label">Suivant</span>
             <span class="proj-nav-arrow">→</span>
           </button>
         </div>
@@ -4026,14 +4038,15 @@
         <div class="proj-outro-center">
           <span class="proj-outro-label">Fin du projet</span>
           <p class="proj-outro-phrase">Et maintenant, parlons du vôtre.</p>
+          <a href="mailto:malikamzal@gmail.com" class="proj-outro-contact">Me contacter</a>
         </div>
         <div class="proj-nav">
           <button class="proj-nav-btn proj-nav-prev" onclick="window._switchProject('galeries-lafayette')">
             <span class="proj-nav-arrow">←</span>
-            <span class="proj-nav-label">Galeries Lafayette</span>
+            <span class="proj-nav-label">Précédent</span>
           </button>
           <button class="proj-nav-btn proj-nav-next" onclick="window._switchProject('gotaxfree')">
-            <span class="proj-nav-label">GoTaxFree</span>
+            <span class="proj-nav-label">Suivant</span>
             <span class="proj-nav-arrow">→</span>
           </button>
         </div>
@@ -4233,14 +4246,15 @@
         <div class="proj-outro-center">
           <span class="proj-outro-label">Fin du projet</span>
           <p class="proj-outro-phrase">Et maintenant, parlons du vôtre.</p>
+          <a href="mailto:malikamzal@gmail.com" class="proj-outro-contact">Me contacter</a>
         </div>
         <div class="proj-nav">
           <button class="proj-nav-btn proj-nav-prev" onclick="window._switchProject('mauboussin')">
             <span class="proj-nav-arrow">←</span>
-            <span class="proj-nav-label">Mauboussin</span>
+            <span class="proj-nav-label">Précédent</span>
           </button>
           <button class="proj-nav-btn proj-nav-next" onclick="window._switchProject('pampers')">
-            <span class="proj-nav-label">Procter &amp; Gamble</span>
+            <span class="proj-nav-label">Suivant</span>
             <span class="proj-nav-arrow">→</span>
           </button>
         </div>
@@ -4359,14 +4373,15 @@
         <div class="proj-outro-center">
           <span class="proj-outro-label">Fin du projet</span>
           <p class="proj-outro-phrase">Et maintenant, parlons du vôtre.</p>
+          <a href="mailto:malikamzal@gmail.com" class="proj-outro-contact">Me contacter</a>
         </div>
         <div class="proj-nav">
           <button class="proj-nav-btn proj-nav-prev" onclick="window._switchProject('gotaxfree')">
             <span class="proj-nav-arrow">←</span>
-            <span class="proj-nav-label">GoTaxFree</span>
+            <span class="proj-nav-label">Précédent</span>
           </button>
           <button class="proj-nav-btn proj-nav-next" onclick="window._switchProject('galeries-lafayette')">
-            <span class="proj-nav-label">Galeries Lafayette</span>
+            <span class="proj-nav-label">Suivant</span>
             <span class="proj-nav-arrow">→</span>
           </button>
         </div>
