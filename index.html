@@ -102,20 +102,6 @@
 
     .nav-actions { display: flex; align-items: center; gap: 6px; }
 
-    /* Dark/Light toggle */
-    .nav-theme {
-      display: flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px;
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 100px;
-      background: rgba(255,255,255,.04);
-      font-size: 1rem;
-      color: var(--muted);
-      cursor: none;
-      transition: border-color .2s, color .2s, background .2s;
-    }
-    .nav-theme:hover { border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.07); }
-
     /* Toast notification */
     .toast {
       position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(12px);
@@ -2732,68 +2718,6 @@
     }
     .proj-outro-contact:hover { border-color: rgba(201,240,61,.4); color: var(--text); background: rgba(201,240,61,.04); }
 
-    /* ══ LIGHT MODE OVERRIDES ══ */
-
-    /* Accent plus foncé pour lisibilité */
-    body.light { --accent: #7aad00; }
-
-    /* Nav blanche */
-    body.light nav {
-      background: rgba(255,255,255,.92);
-      border-color: rgba(0,0,0,.1);
-    }
-    body.light .nav-logo { color: #111; }
-    body.light .nav-theme {
-      border-color: rgba(0,0,0,.15);
-      color: #444;
-      background: rgba(0,0,0,.04);
-    }
-
-    /* Hero */
-    body.light .hero-sub strong { color: #222; }
-
-    /* Vibe blocks restent dark */
-    body.light .vibe-block {
-      background: #1e1e1e;
-      border-color: rgba(255,255,255,.08);
-    }
-    body.light .vibe-reveal { background: #1e1e1e; }
-    /* Titre musique en blanc */
-    body.light .vibe-music .vibe-title { color: #fff; }
-    /* Carte livre : fond dark + txt blanc */
-    body.light .book-face-front,
-    body.light .book-face-back {
-      background: #1a1a1a;
-    }
-    body.light .book-face-front .vibe-title,
-    body.light .book-face-back .vibe-title { color: #fff; }
-    /* Film flip (back face) : fond dark */
-    body.light .film-face-back {
-      background: #1a1a1a;
-    }
-
-    /* Labo cards : titres et desc en blanc (fonds déjà dark) */
-    body.light .labo-card-name { color: #fff; }
-    body.light .labo-card-desc { color: rgba(255,255,255,.55); }
-
-    /* Labels proj-outro */
-    body.light .proj-outro-label { color: rgba(0,0,0,.35); }
-    body.light .proj-nav-label { color: rgba(0,0,0,.4); }
-    body.light .proj-nav-btn:hover .proj-nav-label { color: var(--accent); }
-
-    /* Carousel & nav buttons */
-    body.light .carousel-btn {
-      border-color: rgba(0,0,0,.2);
-      color: #222;
-    }
-    body.light .vibes-carousel-nav .carousel-btn { border-color: rgba(0,0,0,.2); }
-    body.light .proj-outro-contact { border-color: rgba(0,0,0,.15); }
-    body.light .proj-nav-arrow { border-color: rgba(0,0,0,.2); color: #222; }
-    body.light .proj-nav-btn:hover .proj-nav-arrow { border-color: var(--accent); color: var(--accent); }
-
-    /* Footer flèches */
-    body.light .footer-link::before { color: rgba(0,0,0,.35); }
-
     /* ── EXPERTISE & TOOLS ── */
     #expertise {
       padding: 56px 64px;
@@ -3249,8 +3173,7 @@
   <nav>
     <a href="#" class="nav-logo">MA<span>.</span></a>
     <div class="nav-actions">
-      <button class="nav-theme" id="themeBtn" onclick="toggleTheme()" aria-label="Changer de thème">🌙</button>
-      <button class="nav-contact" id="contactBtn" onclick="copyEmail()">
+<button class="nav-contact" id="contactBtn" onclick="copyEmail()">
         <span id="contactLabel">Contact</span>
       </button>
     </div>
@@ -4687,31 +4610,6 @@
         scrollHint: 'Scroll',
       }
     };
-    // ── DARK / LIGHT THEME ──
-    let isDark = true;
-    function toggleTheme() {
-      isDark = !isDark;
-      const btn = document.getElementById('themeBtn');
-      if (isDark) {
-        document.documentElement.style.removeProperty('--bg');
-        document.documentElement.style.removeProperty('--surface');
-        document.documentElement.style.removeProperty('--text');
-        document.documentElement.style.removeProperty('--muted');
-        document.documentElement.style.removeProperty('--border');
-        document.body.classList.remove('light');
-        btn.textContent = '🌙';
-        btn.setAttribute('aria-label', 'Passer en mode clair');
-      } else {
-        document.documentElement.style.setProperty('--bg', '#f5f4f0');
-        document.documentElement.style.setProperty('--surface', '#eceae4');
-        document.documentElement.style.setProperty('--text', '#111');
-        document.documentElement.style.setProperty('--muted', '#666');
-        document.documentElement.style.setProperty('--border', 'rgba(0,0,0,.12)');
-        document.body.classList.add('light');
-        btn.textContent = '☀️';
-      }
-    }
-
     // ── GLITCH ──
     function reattachGlitch() {
       const el = document.getElementById('heroHumain');
