@@ -641,16 +641,13 @@
     .vibes-header { margin-bottom: 48px; }
     .vibes-subtitle { font-size: .9rem; color: var(--muted); margin-top: 10px; font-style: italic; }
 
-    /* Vibes layout — desktop : 2 colonnes (exp gauche, cartes droite) */
+    /* Vibes layout — desktop : colonne verticale (cartes full width, puis exp, puis outils) */
     .vibes-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 64px;
-      align-items: start;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
     }
-    /* Inversion visuelle via grid-column : exp col 1, carousel col 2 */
-    .vibes-exp { grid-column: 1; grid-row: 1; }
-    .vibes-carousel-wrap { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; }
+    .vibes-carousel-wrap { display: flex; flex-direction: column; }
     .vibes-carousel-nav { display: none; } /* caché sur desktop */
     .vibes-carousel-counter {
       flex: 1; text-align: center;
@@ -698,8 +695,16 @@
       background: var(--accent); animation: pulse 1.8s infinite;
     }
 
+    /* Expériences 2 colonnes */
+    .vibes-exp-label { margin-bottom: 20px; }
+    .exp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
+    .exp-col-left, .exp-col-right { display: flex; flex-direction: column; }
+
+    /* Outils dans la section vibes */
+    .vibes-tools { display: flex; flex-direction: column; gap: 16px; }
+
     /* CTA download */
-    .tl-cta-wrap { margin-top: 28px; }
+    .tl-cta-wrap { margin-top: 20px; }
     .tl-cta {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 22px;
@@ -712,8 +717,8 @@
     .tl-cta:hover { border-color: rgba(201,240,61,.4); color: var(--text); background: rgba(201,240,61,.04); }
     .tl-cta-icon { font-size: .9rem; }
 
-    /* ── Vibe blocks — desktop : grille 2×2, toutes les cartes visibles ── */
-    .vibes-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; grid-auto-rows: 1fr; }
+    /* ── Vibe blocks — desktop : 4 cartes sur une ligne ── */
+    .vibes-blocks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     .vibe-block {
       background: var(--surface);
       border-radius: 16px; padding: 18px;
@@ -907,7 +912,7 @@
     .vibe-book-progress-wrap {
       height: 6px;
       background: rgba(255,255,255,.1); border-radius: 100px; overflow: hidden;
-      width: 75%;
+      width: 75%; margin-bottom: 5px;
     }
     .vibe-book-progress-bar {
       height: 100%; width: 30%;
@@ -980,7 +985,7 @@
       color: #fff; letter-spacing: .05em;
     }
     .zelda-mid {
-      position: absolute; top: 50%; left: 0; right: 0;
+      position: absolute; top: calc(50% - 9px); left: 0; right: 0;
       transform: translateY(-50%); padding: 0 16px; z-index: 2; pointer-events: none;
     }
     .zelda-game-title {
@@ -1080,17 +1085,18 @@
     .vibe-music-disc { display: none; }
 
     @media (max-width: 768px) {
-      /* Vibes : carrousel mobile — cartes en haut, exp en bas */
-      .vibes-grid { display: flex; flex-direction: column; gap: 40px; align-items: stretch; }
-      .vibes-carousel-wrap { grid-column: unset; }
+      /* Vibes : carrousel mobile */
+      .vibes-grid { gap: 40px; align-items: stretch; }
       .vibes-carousel-nav { display: flex; }
       .vibes-blocks { display: block; }
       .vibe-block { display: none; height: 190px; min-height: unset; padding: 16px; }
       .vibe-block.carousel-active { display: flex; }
-      /* Cartes sans padding interne : ne pas laisser le reset mobile les affecter */
+      /* Cartes sans padding interne */
       .vibe-film, .vibe-book, .vibe-zelda { padding: 0; }
       .vibe-title { font-size: .95rem; }
       #zeldaCanvas { min-height: 130px; }
+      /* Expériences : 1 colonne sur mobile */
+      .exp-cols { grid-template-columns: 1fr; }
       /* CTA full width */
       .tl-cta-wrap { display: block; }
       .tl-cta { display: flex; justify-content: center; width: 100%; box-sizing: border-box; }
@@ -3147,66 +3153,6 @@
     <div class="scroll-hint">Scroll</div>
   </section>
 
-  <!-- Expertise & Brands -->
-  <section id="expertise">
-    <div class="expertise-inner">
-
-      <!-- Tools -->
-      <div class="reveal">
-        <div class="expertise-label">Stack & outils</div>
-        <div class="tags-row">
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/figma.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Figma
-          </span>
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/weavy.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Weavy
-          </span>
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/jitter.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Jitter
-          </span>
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/figmaslides.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0;filter:hue-rotate(200deg)" alt="">
-            Figma Slides
-          </span>
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/claude.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Claude
-          </span>
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/midjourney.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Midjourney
-          </span>
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/photoshop.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Photoshop
-          </span>
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/illustrator.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Illustrator
-          </span>
-
-          <span class="etag">
-            <img src="01_SOURCES/STACK/miro.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
-            Miro
-          </span>
-
-        </div>
-      </div>
-
-    </div>
-  </section>
-
   <!-- Projects Carousel -->
   <section id="projets">
     <div class="projects-header reveal">
@@ -3528,57 +3474,126 @@
 
       <!-- ── Expériences ── -->
       <div class="vibes-exp">
-        <div class="vtl">
+        <div class="section-label vibes-exp-label">Des expériences qui comptent</div>
+        <div class="exp-cols">
 
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Product Designer</span>
-              <span class="vtl-date-right">Jan. 2023 — Aujourd'hui</span>
+          <!-- Colonne gauche : 3 premières expériences -->
+          <div class="exp-col-left">
+            <div class="vtl">
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Product Designer</span>
+                  <span class="vtl-date-right">Jan. 2023 — Aujourd'hui</span>
+                </div>
+                <div class="vtl-info">Galeries Lafayette</div>
+              </div>
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">UI Designer</span>
+                  <span class="vtl-date-right">Août 2018 — Jan. 2023</span>
+                </div>
+                <div class="vtl-info">TBWA\Paris</div>
+              </div>
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Médiateur culturel</span>
+                  <span class="vtl-date-right">Juillet 2018</span>
+                </div>
+                <div class="vtl-info">Grand Palais</div>
+              </div>
+
             </div>
-            <div class="vtl-info">Galeries Lafayette</div>
           </div>
 
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">UI Designer</span>
-              <span class="vtl-date-right">Août 2018 — Jan. 2023</span>
+          <!-- Colonne droite : 2 dernières expériences + CTA -->
+          <div class="exp-col-right">
+            <div class="vtl">
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Directeur artistique</span>
+                  <span class="vtl-date-right">Fév. 2016 — Mars 2018</span>
+                </div>
+                <div class="vtl-info">Agence Belazar</div>
+              </div>
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Assistant UX Designer</span>
+                  <span class="vtl-date-right">Mai — Août 2014</span>
+                </div>
+                <div class="vtl-info">Ici Barbès</div>
+              </div>
+
             </div>
-            <div class="vtl-info">TBWA\Paris</div>
+
+            <div class="tl-cta-wrap">
+              <a href="01_SOURCES/CV_AMZAL.pdf" id="cvBtn" class="tl-cta" target="_blank" rel="noopener">
+                <span class="tl-cta-icon">↓</span>
+                Télécharger le CV
+              </a>
+            </div>
           </div>
 
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Médiateur culturel</span>
-              <span class="vtl-date-right">Juillet 2018</span>
-            </div>
-            <div class="vtl-info">Grand Palais</div>
-          </div>
-
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Directeur artistique</span>
-              <span class="vtl-date-right">Fév. 2016 — Mars 2018</span>
-            </div>
-            <div class="vtl-info">Agence Belazar</div>
-          </div>
-
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Assistant UX Designer</span>
-              <span class="vtl-date-right">Mai — Août 2014</span>
-            </div>
-            <div class="vtl-info">Ici Barbès</div>
-          </div>
-
-        </div>
-
-        <div class="tl-cta-wrap">
-          <a href="#" id="cvBtn" class="tl-cta" target="_blank" rel="noopener">
-            <span class="tl-cta-icon">↓</span>
-            Télécharger le CV
-          </a>
         </div>
       </div>
+
+      <!-- ── Outils ── -->
+      <div class="vibes-tools reveal">
+        <div class="section-label">Les outils changent, les idées restent</div>
+        <div class="tags-row">
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/figma.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+            Figma
+          </span>
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/weavy.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+            Weavy
+          </span>
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/jitter.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+            Jitter
+          </span>
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/figmaslides.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0;filter:hue-rotate(200deg)" alt="">
+            Figma Slides
+          </span>
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/claude.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+            Claude
+          </span>
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/midjourney.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+            Midjourney
+          </span>
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/photoshop.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+            Photoshop
+          </span>
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/illustrator.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+            Illustrator
+          </span>
+
+          <span class="etag">
+            <img src="01_SOURCES/STACK/miro.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+            Miro
+          </span>
+
+        </div>
+      </div>
+
     </div>
 
   </section>
@@ -4390,7 +4405,7 @@
         <a class="footer-link" href="mailto:malikamzal@gmail.com">malikamzal@gmail.com</a>
         <a class="footer-link" href="tel:+33635367930">+33 06 35 36 79 30</a>
         <a class="footer-link" href="https://www.linkedin.com/in/malikamzal" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="footer-link" id="cvFooterBtn" href="#" target="_blank" rel="noopener">Voir mon CV</a>
+        <a class="footer-link" id="cvFooterBtn" href="01_SOURCES/CV_AMZAL.pdf" target="_blank" rel="noopener">Voir mon CV</a>
       </div>
     </div>
 
@@ -5467,8 +5482,8 @@
       var bin = atob(b64);
       var u = new Uint8Array(bin.length);
       for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
-      var blob = new Blob([u], {type: 'application/pdf'});
-      var url = URL.createObjectURL(blob);
+      // PDF servi directement depuis le dossier sources
+      var url = '01_SOURCES/CV_AMZAL.pdf';
       var btn = document.getElementById('cvBtn');
       if (btn) btn.href = url;
       var btnFooter = document.getElementById('cvFooterBtn');
