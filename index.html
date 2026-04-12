@@ -140,7 +140,6 @@
 
     @media (max-width: 600px) {
       nav { min-width: calc(100vw - 32px); top: 12px; border-radius: 16px; }
-      .nav-lang-label { display: none; }
     }
 
     /* Hero */
@@ -4570,36 +4569,6 @@
       }, { passive: true });
     })();
 
-    // ── LANG TOGGLE ──
-    let lang = 'fr';
-    const i18n = {
-      fr: {
-        heroLabel: 'Product Designer · Paris',
-        heroTitle: 'Je design des<br>produits <span class="hero-humain" id="heroHumain">humains</span>.',
-        heroBio: 'Coucou et bienvenue sur mon portfolio.<br><strong>Product Designer</strong> chez Galeries Lafayette avec + de 7 ans d\'expérience. Mon temps libre se divise entre la <strong>mode</strong>, la <strong>déco</strong>, les <strong>jeux vidéo</strong> et l\'<strong>expérimentation IA</strong>.',
-        stackLabel: 'Stack & outils',
-        projLabel: 'Travaux sélectionnés',
-        projTitle: 'Mes projets',
-        vibesLabel: 'Parcours',
-        vibesTitle: 'À propos de moi',
-        vibesSub: 'Ce que je consomme influence ce que je conçois.',
-        contactLabel: 'Contact',
-        scrollHint: 'Scroll',
-      },
-      en: {
-        heroLabel: 'Product Designer · Paris',
-        heroTitle: 'I design <br><span class="hero-humain" id="heroHumain">human</span> products.',
-        heroBio: 'Hey and welcome to my portfolio.<br><strong>Product Designer</strong> at Galeries Lafayette with 7+ years of experience. My time is split between <strong>fashion</strong>, <strong>decor</strong>, <strong>video games</strong> and <strong>AI experimentation</strong>.',
-        stackLabel: 'Stack & tools',
-        projLabel: 'Selected work',
-        projTitle: 'My projects',
-        vibesLabel: 'About',
-        vibesTitle: 'About me',
-        vibesSub: 'Product designer — and much more.',
-        contactLabel: 'Contact',
-        scrollHint: 'Scroll',
-      }
-    };
     // ── GLITCH ──
     function reattachGlitch() {
       const el = document.getElementById('heroHumain');
@@ -4633,9 +4602,7 @@
       const TOTAL = walletCards.length;
       let activeW = 0;
       let isAnimating = false;
-      const PEEK = '88%';
-
-      function applyCard(card, rel, instant) {
+function applyCard(card, rel, instant) {
         const ease = 'transform .45s cubic-bezier(.4,0,.2,1), opacity .45s ease, box-shadow .45s ease';
         card.style.transition = instant ? 'none' : ease;
 
