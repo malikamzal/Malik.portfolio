@@ -639,15 +639,21 @@
     .vibes-header { margin-bottom: 48px; }
     .vibes-subtitle { font-size: .9rem; color: var(--muted); margin-top: 10px; font-style: italic; }
 
-    /* Vibes layout — desktop : 2 colonnes (exp gauche, blocs droite) */
+    /* Vibes layout — desktop : colonne verticale (cartes full width, puis exp, puis outils) */
     .vibes-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 64px;
-      align-items: start;
-      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 72px;
     }
-    .vibes-exp { display: flex; flex-direction: column; }
+    .vibes-carousel-wrap { display: flex; flex-direction: column; }
+    .vibes-carousel-nav { display: none; } /* caché sur desktop */
+    .vibes-carousel-counter {
+      flex: 1; text-align: center;
+      font-family: var(--font-display); font-size: .78rem;
+      letter-spacing: .08em;
+      color: rgba(255,255,255,.4);
+    }
+    .vibes-carousel-counter .counter-current { color: var(--text); }
 
     /* ── Vertical timeline (left) — liste simplifiée ── */
     .vtl { display: flex; flex-direction: column; }
@@ -687,8 +693,15 @@
       background: var(--accent); animation: pulse 1.8s infinite;
     }
 
-    /* Bloc Expériences (inutilisé, gardé pour compatibilité) */
-    .vibes-exp-tools { display: flex; flex-direction: column; gap: 40px; }
+    /* Bloc Expériences + Outils */
+    .vibes-exp-tools { display: flex; flex-direction: column; gap: 40px; margin-top: 80px; }
+    .vibes-exp-tools-header { display: flex; flex-direction: column; gap: 0; }
+    .vibes-exp-tools-title { margin: 0; }
+    .vibes-exp-tools-sub {
+      font-size: .9rem; color: var(--muted); font-style: italic; margin: 10px 0 0;
+    }
+    .exp-tools-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .exp-tools-col-left, .exp-tools-col-right { display: flex; flex-direction: column; }
 
     /* CTA download */
     .tl-cta-wrap { margin-top: 20px; }
@@ -705,8 +718,8 @@
     .tl-cta:hover { border-color: var(--accent); background: rgba(201,240,61,.06); }
     .tl-cta-icon { font-size: .9rem; }
 
-    /* ── Vibe blocks — desktop : 2×2 ── */
-    .vibes-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    /* ── Vibe blocks — desktop : 4 cartes sur une ligne ── */
+    .vibes-blocks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     .vibe-block {
       background: var(--surface);
       border-radius: 16px; padding: 18px;
@@ -1073,14 +1086,18 @@
     .vibe-music-disc { display: none; }
 
     @media (max-width: 768px) {
-      /* Vibes : 1 colonne sur mobile */
-      .vibes-grid { grid-template-columns: 1fr; gap: 40px; }
-      .vibes-blocks { grid-template-columns: 1fr 1fr; }
-      .vibe-block { min-height: 160px; padding: 16px; }
+      /* Vibes : carrousel mobile */
+      .vibes-grid { gap: 40px; align-items: stretch; }
+      .vibes-carousel-nav { display: flex; }
+      .vibes-blocks { display: block; }
+      .vibe-block { display: none; height: 190px; min-height: unset; padding: 16px; }
+      .vibe-block.carousel-active { display: flex; }
       /* Cartes sans padding interne */
       .vibe-film, .vibe-book, .vibe-zelda { padding: 0; }
-      .vibe-title { font-size: .9rem; }
+      .vibe-title { font-size: .95rem; }
       #zeldaCanvas { min-height: 130px; }
+      /* Expériences + outils : 1 colonne sur mobile */
+      .exp-tools-cols { grid-template-columns: 1fr; gap: 64px; }
       /* Projet outro mobile : flèches en haut, texte en dessous */
       .proj-outro { flex-direction: column; gap: 0; padding: 16px 0 48px; }
       .proj-nav { display: flex; gap: 0; order: 1; justify-content: space-between; width: 100%; margin-bottom: 40px; }
@@ -3359,72 +3376,19 @@
   <!-- À propos Section -->
   <section id="vibes">
     <div class="vibes-header reveal">
-      <div class="section-label" id="vibesLabel">Parcours</div>
-      <h2 class="section-title" id="vibesTitle">À propos de moi</h2>
-      <p class="vibes-subtitle" id="vibesSub">Product designer. Joueur. Mélomane. Lecteur.</p>
+      <div class="section-label" id="vibesLabel">Influences</div>
+      <h2 class="section-title" id="vibesTitle">Ce qui me construit.</h2>
+      <p class="vibes-subtitle" id="vibesSub">Ce que je consomme influence ce que je conçois.</p>
     </div>
 
     <div class="vibes-grid">
 
-      <!-- ── Colonne gauche : expériences ── -->
-      <div class="vibes-exp reveal">
-        <div class="vtl">
-
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Product Designer</span>
-              <span class="tl-current"><span class="tl-current-dot"></span>En poste</span>
-            </div>
-            <div class="vtl-info">Galeries Lafayette · Jan. 2023 — Aujourd'hui</div>
-          </div>
-
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Product Designer</span>
-              <span class="vtl-date-right">Août 2018 — Jan. 2023</span>
-            </div>
-            <div class="vtl-info">TBWA\Paris</div>
-          </div>
-
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Médiateur culturel</span>
-              <span class="vtl-date-right">Juillet 2018</span>
-            </div>
-            <div class="vtl-info">Grand Palais</div>
-          </div>
-
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Directeur artistique</span>
-              <span class="vtl-date-right">Fév. 2016 — Mars 2018</span>
-            </div>
-            <div class="vtl-info">Agence Belazar</div>
-          </div>
-
-          <div class="vtl-item">
-            <div class="vtl-role-line">
-              <span class="vtl-role">Assistant UX Designer</span>
-              <span class="vtl-date-right">Mai — Août 2014</span>
-            </div>
-            <div class="vtl-info">Ici Barbès</div>
-          </div>
-
-        </div>
-
-        <div class="tl-cta-wrap">
-          <a href="01_SOURCES/CV_AMZAL.pdf" id="cvBtn" class="tl-cta" target="_blank" rel="noopener">
-            <span class="tl-cta-icon">↓</span>
-            Télécharger le CV
-          </a>
-        </div>
-      </div>
-
-      <!-- ── Colonne droite : 4 blocs vibe 2×2 ── -->
-      <div class="vibes-blocks reveal">
+      <!-- ── Carrousel de cartes ── -->
+      <div class="vibes-carousel-wrap">
+        <div class="vibes-blocks">
 
           <!-- 📖 Dracula -->
-          <div class="vibe-block vibe-book" id="vibeBook">
+          <div class="vibe-block vibe-book carousel-active" id="vibeBook">
             <div class="book-inner" id="bookInner">
 
               <!-- RECTO -->
@@ -3561,9 +3525,139 @@
             </div>
           </div>
 
-      </div><!-- /vibes-blocks -->
+        </div>
 
-    </div><!-- /vibes-grid -->
+        <!-- Navigation carrousel -->
+        <div class="carousel-nav vibes-carousel-nav">
+          <button class="carousel-btn" id="vibePrevBtn">←</button>
+          <span class="vibes-carousel-counter" id="vibesCounter">01 / 04</span>
+          <button class="carousel-btn" id="vibeNextBtn">→</button>
+        </div>
+      </div>
+
+      <!-- ── Expériences + Outils ── -->
+      <div class="vibes-exp-tools reveal">
+
+        <!-- Header -->
+        <div class="vibes-exp-tools-header">
+          <div class="section-label">Expériences</div>
+          <h3 class="section-title vibes-exp-tools-title">Mes lieux d'expression.</h3>
+          <p class="vibes-exp-tools-sub">De la contrainte nait la créativité.</p>
+        </div>
+
+        <!-- 2 colonnes : expériences gauche, outils droite -->
+        <div class="exp-tools-cols">
+
+          <!-- Colonne gauche : liste d'expériences -->
+          <div class="exp-tools-col-left">
+            <div class="vtl">
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Product Designer</span>
+                  <span class="vtl-date-right">Jan. 2023 — Aujourd'hui</span>
+                </div>
+                <div class="vtl-info">Galeries Lafayette</div>
+              </div>
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Product Designer</span>
+                  <span class="vtl-date-right">Août 2018 — Jan. 2023</span>
+                </div>
+                <div class="vtl-info">TBWA\Paris</div>
+              </div>
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Médiateur culturel</span>
+                  <span class="vtl-date-right">Juillet 2018</span>
+                </div>
+                <div class="vtl-info">Grand Palais</div>
+              </div>
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Directeur artistique</span>
+                  <span class="vtl-date-right">Fév. 2016 — Mars 2018</span>
+                </div>
+                <div class="vtl-info">Agence Belazar</div>
+              </div>
+
+              <div class="vtl-item">
+                <div class="vtl-role-line">
+                  <span class="vtl-role">Assistant UX Designer</span>
+                  <span class="vtl-date-right">Mai — Août 2014</span>
+                </div>
+                <div class="vtl-info">Ici Barbès</div>
+              </div>
+
+            </div>
+
+            <div class="tl-cta-wrap">
+              <a href="01_SOURCES/CV_AMZAL.pdf" id="cvBtn" class="tl-cta" target="_blank" rel="noopener">
+                <span class="tl-cta-icon">↓</span>
+                Télécharger le CV
+              </a>
+            </div>
+          </div>
+
+          <!-- Colonne droite : outils -->
+          <div class="exp-tools-col-right">
+            <div class="tags-row">
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/figma.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Figma
+              </span>
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/weavy.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Weavy
+              </span>
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/jitter.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Jitter
+              </span>
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/figmaslides.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0;filter:hue-rotate(200deg)" alt="">
+                Figma Slides
+              </span>
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/claude.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Claude
+              </span>
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/midjourney.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Midjourney
+              </span>
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/photoshop.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Photoshop
+              </span>
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/illustrator.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Illustrator
+              </span>
+
+              <span class="etag">
+                <img src="01_SOURCES/STACK/miro.svg" width="14" height="14" style="border-radius:3px;flex-shrink:0" alt="">
+                Miro
+              </span>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
 
   </section>
 
@@ -5391,7 +5485,41 @@ function applyCard(card, rel, instant) {
 
     // ── VIBES CAROUSEL ──
     (function() {
-      /* carousel vibes supprimé — toutes les cartes sont visibles en 2×2 */
+      var cardIds = ['vibeBook', 'vibeFilm', 'vibeZelda', 'vibeMusic'];
+      var current = 0;
+      var counter = document.getElementById('vibesCounter');
+      var prevBtn = document.getElementById('vibePrevBtn');
+      var nextBtn = document.getElementById('vibeNextBtn');
+
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+      function updateCounter() {
+        if (counter) counter.innerHTML =
+          '<span class="counter-current">' + pad(current + 1) + '</span> / ' + pad(cardIds.length);
+      }
+
+      function goTo(index) {
+        // Ferme l'état de la carte courante (hovered, audio, jeu…)
+        if (window._closeAllCards) window._closeAllCards(null);
+
+        // Retire la classe active de la carte courante
+        var prevCard = document.getElementById(cardIds[current]);
+        if (prevCard) prevCard.classList.remove('carousel-active');
+
+        // Calcul du nouvel index (circulaire)
+        current = (index + cardIds.length) % cardIds.length;
+
+        // Active la nouvelle carte
+        var nextCard = document.getElementById(cardIds[current]);
+        if (nextCard) nextCard.classList.add('carousel-active');
+
+        updateCounter();
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', function() { goTo(current - 1); });
+      if (nextBtn) nextBtn.addEventListener('click', function() { goTo(current + 1); });
+
+      updateCounter();
     })();
 
 
