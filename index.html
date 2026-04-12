@@ -280,7 +280,7 @@
       letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
     .section-title {
       font-family: var(--font-display);
@@ -2500,16 +2500,16 @@
     .quiz-intro-cta {
       align-self: flex-start;
       animation: introFadeUp .7s .5s ease both;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.5);
+      background: transparent;
+      border: 1px solid rgba(201,240,61,.5); color: var(--text);
       border-radius: 100px; padding: 12px 28px;
-      font-family: var(--font-display); font-size: .72rem;
-      letter-spacing: .18em; text-transform: uppercase;
+      font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
       cursor: none; transition: background .2s, color .2s, border-color .2s;
     }
     .quiz-intro-cta:hover {
-      background: rgba(255,255,255,.14);
-      border-color: rgba(255,255,255,.4); color: #fff;
+      background: rgba(201,240,61,.06);
+      border-color: var(--accent); color: var(--text);
     }
     @media (max-width: 768px) {
       #quizIntro {
@@ -3346,7 +3346,6 @@
           <div class="labo-card-icon">🧀</div>
           <div class="labo-card-name">Littérature gratinée</div>
           <div class="labo-card-desc">Répondez au quiz mêlant littérature et connaissance fromagère</div>
-          <button class="labo-cta">Jouer</button>
         </div>
       </div>
 
@@ -3357,7 +3356,6 @@
           <div class="labo-card-icon">🤍</div>
           <div class="labo-card-name">Page blanche</div>
           <div class="labo-card-desc">Posez des pixels sur la toile pour me donner de l'inspiration</div>
-          <button class="labo-cta">Contribuer</button>
         </div>
       </div>
 
@@ -3564,7 +3562,7 @@
 
               <div class="vtl-item">
                 <div class="vtl-role-line">
-                  <span class="vtl-role">UI Designer</span>
+                  <span class="vtl-role">Product Designer</span>
                   <span class="vtl-date-right">Août 2018 — Jan. 2023</span>
                 </div>
                 <div class="vtl-info">TBWA\Paris</div>
@@ -4524,7 +4522,7 @@
 
     <!-- Wordmark tronqué -->
     <div class="footer-wordmark">
-      <span class="footer-wordmark-text">À très vite</span>
+      <span class="footer-wordmark-text">À très <span style="color:var(--accent)">vite</span></span>
     </div>
 
     <!-- Barre mentions -->
