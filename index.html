@@ -102,24 +102,33 @@
 
     .nav-actions { display: flex; align-items: center; gap: 6px; }
 
-    /* Language toggle */
-    .nav-lang {
-      display: flex; align-items: center; gap: 5px;
-      padding: 8px 14px;
+    /* Dark/Light toggle */
+    .nav-theme {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 100px;
       background: rgba(255,255,255,.04);
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .04em;
+      font-size: 1rem;
       color: var(--muted);
       cursor: none;
       transition: border-color .2s, color .2s, background .2s;
-      white-space: nowrap;
-      font-family: var(--font-display);
     }
-    .nav-lang:hover { border-color: rgba(255,255,255,.25); color: var(--text); background: rgba(255,255,255,.07); }
-    .nav-lang-flag { font-size: .9rem; line-height: 1; }
+    .nav-theme:hover { border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.07); }
+
+    /* Toast notification */
+    .toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(12px);
+      background: #1a1a1a; border: 1px solid rgba(201,240,61,.3);
+      color: var(--text); border-radius: 100px;
+      padding: 10px 20px; font-size: .75rem; font-weight: 600;
+      letter-spacing: .04em; font-family: var(--font-display);
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0; pointer-events: none; z-index: 9999;
+      transition: opacity .25s, transform .25s;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* Copy email button */
     .nav-contact {
@@ -3172,15 +3181,13 @@
   <div class="cursor-ring" id="cursorRing"></div>
   <div class="tap-ripple" id="tapRipple"></div>
   <div class="konami-toast" id="konamiToast">🎮 +30 vies débloquées. Bon courage pour le prochain entretien.</div>
+  <div class="toast" id="emailToast">✓ Email copié</div>
 
   <!-- Nav -->
   <nav>
     <a href="#" class="nav-logo">MA<span>.</span></a>
     <div class="nav-actions">
-      <button class="nav-lang" id="langBtn" onclick="toggleLang()">
-        <span class="nav-lang-flag" id="langFlag">🇫🇷</span>
-        <span class="nav-lang-label" id="langLabel">FR</span>
-      </button>
+      <button class="nav-theme" id="themeBtn" onclick="toggleTheme()" aria-label="Changer de thème">🌙</button>
       <button class="nav-contact" id="contactBtn" onclick="copyEmail()">
         <span id="contactLabel">Contact</span>
       </button>
@@ -4618,22 +4625,26 @@
         scrollHint: 'Scroll',
       }
     };
-    function toggleLang() {
-      lang = lang === 'fr' ? 'en' : 'fr';
-      const t = i18n[lang];
-      document.getElementById('langFlag').textContent  = lang === 'fr' ? '🇫🇷' : '🇬🇧';
-      document.getElementById('langLabel').textContent = lang === 'fr' ? 'FR' : 'EN';
-      document.getElementById('contactLabel').textContent = t.contactLabel;
-      document.getElementById('heroLabel').textContent = t.heroLabel;
-      document.getElementById('heroTitleEl').innerHTML = t.heroTitle;
-      document.getElementById('heroBioEl').innerHTML   = t.heroBio;
-      document.querySelectorAll('.expertise-label')[0].textContent = t.stackLabel;
-      document.querySelector('.section-label').textContent = t.projLabel;
-      document.querySelector('.section-title').textContent = t.projTitle;
-      document.getElementById('vibesLabel').textContent = t.vibesLabel;
-      document.getElementById('vibesTitle').textContent = t.vibesTitle;
-      document.getElementById('vibesSub').textContent   = t.vibesSub;
-      reattachGlitch();
+    // ── DARK / LIGHT THEME ──
+    let isDark = true;
+    function toggleTheme() {
+      isDark = !isDark;
+      const btn = document.getElementById('themeBtn');
+      if (isDark) {
+        document.documentElement.style.removeProperty('--bg');
+        document.documentElement.style.removeProperty('--surface');
+        document.documentElement.style.removeProperty('--text');
+        document.documentElement.style.removeProperty('--muted');
+        document.documentElement.style.removeProperty('--border');
+        btn.textContent = '🌙';
+      } else {
+        document.documentElement.style.setProperty('--bg', '#f5f4f0');
+        document.documentElement.style.setProperty('--surface', '#eceae4');
+        document.documentElement.style.setProperty('--text', '#111');
+        document.documentElement.style.setProperty('--muted', '#666');
+        document.documentElement.style.setProperty('--border', 'rgba(0,0,0,.12)');
+        btn.textContent = '☀️';
+      }
     }
 
     // ── GLITCH ──
@@ -4645,15 +4656,13 @@
     reattachGlitch();
 
     // ── COPY EMAIL ──
+    let toastTimer = null;
     function copyEmail() {
       navigator.clipboard.writeText('malikamzal@gmail.com').then(() => {
-        const btn = document.getElementById('contactBtn');
-        const label = document.getElementById('contactLabel');
-        const orig = label.textContent;
-        label.textContent = 'Copié ✓';
-        btn.style.background = 'rgba(201,240,61,.15)';
-        btn.style.borderColor = 'var(--accent)';
-        setTimeout(() => { label.textContent = orig; btn.style.background=''; btn.style.borderColor=''; }, 2000);
+        const toast = document.getElementById('emailToast');
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
       });
     }
 
