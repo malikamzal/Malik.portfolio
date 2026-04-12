@@ -1101,7 +1101,7 @@
       .exp-tools-cols { grid-template-columns: 1fr; gap: 64px; }
       /* Projet outro mobile : texte en haut, boutons dessous côte à côte */
       .proj-outro { flex-direction: column; gap: 24px; }
-      .proj-nav { display: flex; gap: 12px; order: 2; justify-content: center; }
+      .proj-nav { display: flex; gap: 0; order: 2; justify-content: space-between; width: 100%; }
       .proj-outro-center { order: 1; }
       .proj-nav-prev, .proj-nav-next { order: unset; }
       /* CTA full width */
@@ -2684,7 +2684,7 @@
       font-size: 1.15rem; font-weight: 700; font-style: italic;
       letter-spacing: -.02em; color: var(--accent); margin: 0; line-height: 1.2;
     }
-    /* Bouton nav : flèche style carousel-btn + logo */
+    /* Bouton nav : flèche style carousel-btn + label marque */
     .proj-nav-btn {
       display: inline-flex; align-items: center; gap: 10px;
       background: transparent; border: none; cursor: none; padding: 0;
@@ -2701,13 +2701,12 @@
       background: rgba(201,240,61,.05);
       color: var(--accent);
     }
-    .proj-nav-logo {
-      height: 28px; width: auto; max-width: 90px;
-      object-fit: contain;
-      background: rgba(255,255,255,.9); border-radius: 6px; padding: 4px 8px;
-      opacity: .7; transition: opacity .2s;
+    .proj-nav-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.4);
+      transition: color .2s;
     }
-    .proj-nav-btn:hover .proj-nav-logo { opacity: 1; }
+    .proj-nav-btn:hover .proj-nav-label { color: var(--accent); }
 
     /* ── EXPERTISE & TOOLS ── */
     #expertise {
@@ -3899,10 +3898,10 @@
         <div class="proj-nav">
           <button class="proj-nav-btn proj-nav-prev" onclick="window._switchProject('pampers')">
             <span class="proj-nav-arrow">←</span>
-            <img src="01_SOURCES/PAMPERS_LOGO.png" class="proj-nav-logo" alt="Pampers">
+            <span class="proj-nav-label">Procter &amp; Gamble</span>
           </button>
           <button class="proj-nav-btn proj-nav-next" onclick="window._switchProject('mauboussin')">
-            <img src="01_SOURCES/MAUBOUSSIN_LOGO.jpg" class="proj-nav-logo" alt="Mauboussin">
+            <span class="proj-nav-label">Mauboussin</span>
             <span class="proj-nav-arrow">→</span>
           </button>
         </div>
@@ -4027,10 +4026,10 @@
         <div class="proj-nav">
           <button class="proj-nav-btn proj-nav-prev" onclick="window._switchProject('galeries-lafayette')">
             <span class="proj-nav-arrow">←</span>
-            <img src="01_SOURCES/GALERIES_LAFAYETTE_LOGO.png" class="proj-nav-logo" alt="Galeries Lafayette">
+            <span class="proj-nav-label">Galeries Lafayette</span>
           </button>
           <button class="proj-nav-btn proj-nav-next" onclick="window._switchProject('gotaxfree')">
-            <img src="01_SOURCES/GOTAXFREE_LOGO.webp" class="proj-nav-logo" alt="GoTaxFree">
+            <span class="proj-nav-label">GoTaxFree</span>
             <span class="proj-nav-arrow">→</span>
           </button>
         </div>
@@ -4234,10 +4233,10 @@
         <div class="proj-nav">
           <button class="proj-nav-btn proj-nav-prev" onclick="window._switchProject('mauboussin')">
             <span class="proj-nav-arrow">←</span>
-            <img src="01_SOURCES/MAUBOUSSIN_LOGO.jpg" class="proj-nav-logo" alt="Mauboussin">
+            <span class="proj-nav-label">Mauboussin</span>
           </button>
           <button class="proj-nav-btn proj-nav-next" onclick="window._switchProject('pampers')">
-            <img src="01_SOURCES/PAMPERS_LOGO.png" class="proj-nav-logo" alt="Pampers">
+            <span class="proj-nav-label">Procter &amp; Gamble</span>
             <span class="proj-nav-arrow">→</span>
           </button>
         </div>
@@ -4360,10 +4359,10 @@
         <div class="proj-nav">
           <button class="proj-nav-btn proj-nav-prev" onclick="window._switchProject('gotaxfree')">
             <span class="proj-nav-arrow">←</span>
-            <img src="01_SOURCES/GOTAXFREE_LOGO.webp" class="proj-nav-logo" alt="GoTaxFree">
+            <span class="proj-nav-label">GoTaxFree</span>
           </button>
           <button class="proj-nav-btn proj-nav-next" onclick="window._switchProject('galeries-lafayette')">
-            <img src="01_SOURCES/GALERIES_LAFAYETTE_LOGO.png" class="proj-nav-logo" alt="Galeries Lafayette">
+            <span class="proj-nav-label">Galeries Lafayette</span>
             <span class="proj-nav-arrow">→</span>
           </button>
         </div>
