@@ -2733,49 +2733,66 @@
     .proj-outro-contact:hover { border-color: rgba(201,240,61,.4); color: var(--text); background: rgba(201,240,61,.04); }
 
     /* ══ LIGHT MODE OVERRIDES ══ */
-    body.light .hero-sub strong {
-      color: #222;
+
+    /* Accent plus foncé pour lisibilité */
+    body.light { --accent: #7aad00; }
+
+    /* Nav blanche */
+    body.light nav {
+      background: rgba(255,255,255,.92);
+      border-color: rgba(0,0,0,.1);
     }
-    /* Vibe blocks restent dark en light mode */
+    body.light .nav-logo { color: #111; }
+    body.light .nav-theme {
+      border-color: rgba(0,0,0,.15);
+      color: #444;
+      background: rgba(0,0,0,.04);
+    }
+
+    /* Hero */
+    body.light .hero-sub strong { color: #222; }
+
+    /* Vibe blocks restent dark */
     body.light .vibe-block {
       background: #1e1e1e;
       border-color: rgba(255,255,255,.08);
     }
-    body.light .vibe-reveal {
-      background: #1e1e1e;
+    body.light .vibe-reveal { background: #1e1e1e; }
+    /* Titre musique en blanc */
+    body.light .vibe-music .vibe-title { color: #fff; }
+    /* Carte livre : fond dark + txt blanc */
+    body.light .book-face-front,
+    body.light .book-face-back {
+      background: #1a1a1a;
     }
-    /* Labels hardcodés blancs dans les proj-outro */
-    body.light .proj-outro-label {
-      color: rgba(0,0,0,.35);
+    body.light .book-face-front .vibe-title,
+    body.light .book-face-back .vibe-title { color: #fff; }
+    /* Film flip (back face) : fond dark */
+    body.light .film-face-back {
+      background: #1a1a1a;
     }
-    body.light .proj-nav-label {
-      color: rgba(0,0,0,.4);
-    }
-    body.light .proj-nav-btn:hover .proj-nav-label {
-      color: var(--accent);
-    }
-    /* Carousel buttons : renforce la bordure en light */
+
+    /* Labo cards : titres et desc en blanc (fonds déjà dark) */
+    body.light .labo-card-name { color: #fff; }
+    body.light .labo-card-desc { color: rgba(255,255,255,.55); }
+
+    /* Labels proj-outro */
+    body.light .proj-outro-label { color: rgba(0,0,0,.35); }
+    body.light .proj-nav-label { color: rgba(0,0,0,.4); }
+    body.light .proj-nav-btn:hover .proj-nav-label { color: var(--accent); }
+
+    /* Carousel & nav buttons */
     body.light .carousel-btn {
       border-color: rgba(0,0,0,.2);
       color: #222;
     }
-    /* Section vibes cards carousel nav */
-    body.light .vibes-carousel-nav .carousel-btn {
-      border-color: rgba(0,0,0,.2);
-    }
-    /* Proj-outro-contact : fond léger sur light */
-    body.light .proj-outro-contact {
-      border-color: rgba(0,0,0,.15);
-    }
-    /* Proj-nav-arrow visible en light */
-    body.light .proj-nav-arrow {
-      border-color: rgba(0,0,0,.2);
-      color: #222;
-    }
-    body.light .proj-nav-btn:hover .proj-nav-arrow {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
+    body.light .vibes-carousel-nav .carousel-btn { border-color: rgba(0,0,0,.2); }
+    body.light .proj-outro-contact { border-color: rgba(0,0,0,.15); }
+    body.light .proj-nav-arrow { border-color: rgba(0,0,0,.2); color: #222; }
+    body.light .proj-nav-btn:hover .proj-nav-arrow { border-color: var(--accent); color: var(--accent); }
+
+    /* Footer flèches */
+    body.light .footer-link::before { color: rgba(0,0,0,.35); }
 
     /* ── EXPERTISE & TOOLS ── */
     #expertise {
@@ -4683,6 +4700,7 @@
         document.documentElement.style.removeProperty('--border');
         document.body.classList.remove('light');
         btn.textContent = '🌙';
+        btn.setAttribute('aria-label', 'Passer en mode clair');
       } else {
         document.documentElement.style.setProperty('--bg', '#f5f4f0');
         document.documentElement.style.setProperty('--surface', '#eceae4');
