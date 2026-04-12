@@ -1101,9 +1101,9 @@
       .exp-tools-cols { grid-template-columns: 1fr; gap: 64px; }
       /* Projet outro mobile : texte en haut, boutons dessous côte à côte */
       .proj-outro { flex-direction: column; gap: 24px; }
+      .proj-outro-center { order: 1; text-align: center; }
       .proj-nav { display: flex; gap: 0; order: 2; justify-content: space-between; width: 100%; }
-      .proj-outro-center { order: 1; }
-      .proj-nav-prev, .proj-nav-next { order: unset; }
+      .proj-nav-label { font-size: 9px; letter-spacing: .08em; }
       /* CTA full width */
       .tl-cta-wrap { display: block; }
       .tl-cta { display: flex; justify-content: center; width: 100%; box-sizing: border-box; }
@@ -2670,10 +2670,14 @@
       padding: 64px 0 48px;
       display: flex; align-items: center; gap: 32px;
     }
-    .proj-nav { display: contents; } /* boutons = enfants directs du flex */
-    .proj-outro-center { order: 2; flex: 1; text-align: center; }
-    .proj-nav-prev { order: 1; }
-    .proj-nav-next { order: 3; }
+    .proj-outro-center { flex: 1; text-align: center; }
+    /* Desktop uniquement : display:contents pour intégrer les boutons dans le flex parent */
+    @media (min-width: 769px) {
+      .proj-nav { display: contents; }
+      .proj-outro-center { order: 2; }
+      .proj-nav-prev { order: 1; }
+      .proj-nav-next { order: 3; }
+    }
     .proj-outro-label {
       display: block;
       font-size: 11px; font-weight: 600; letter-spacing: .12em;
