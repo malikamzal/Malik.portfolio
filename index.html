@@ -1098,7 +1098,7 @@
       .vibe-title { font-size: .95rem; }
       #zeldaCanvas { min-height: 130px; }
       /* Expériences + outils : 1 colonne sur mobile */
-      .exp-tools-cols { grid-template-columns: 1fr; gap: 40px; }
+      .exp-tools-cols { grid-template-columns: 1fr; gap: 64px; }
       /* CTA full width */
       .tl-cta-wrap { display: block; }
       .tl-cta { display: flex; justify-content: center; width: 100%; box-sizing: border-box; }
@@ -2660,6 +2660,34 @@
       transform: none;
     }
 
+    /* ── PROJET OUTRO + NAV ── */
+    .proj-outro {
+      text-align: center;
+      padding: 64px 0 48px;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+    .proj-outro-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.25);
+    }
+    .proj-outro-phrase {
+      font-size: 1.15rem; font-weight: 700; font-style: italic;
+      letter-spacing: -.02em; color: var(--accent); margin: 0; line-height: 1.2;
+    }
+    .proj-nav {
+      display: flex; align-items: center; gap: 12px; margin-top: 8px;
+    }
+    .proj-nav-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      border: 1px solid var(--border); border-radius: 100px;
+      font-family: var(--font-display); font-size: .7rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--muted); background: transparent; cursor: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .proj-nav-btn:hover { border-color: rgba(201,240,61,.4); color: var(--text); background: rgba(201,240,61,.04); }
+
     /* ── EXPERTISE & TOOLS ── */
     #expertise {
       padding: 56px 64px;
@@ -3842,10 +3870,13 @@
 
       <p class="gl-visuals-caption"><span class="gl-vc-label">Génération de modèles</span> • Création d'un panel de mannequins et de poses via Weavy afin de réaliser des portées de vêtements.</p>
 
-      <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
-        <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
-        <p style="font-size: 28px; font-weight:800; font-style:italic; letter-spacing:-0.03em; color:#CCFF00; margin:0; line-height:1;">Merci pour la lecture&nbsp;:)</p>
-        <span style="font-size:13px; color:rgba(255,255,255,0.3); font-style:italic;">— Malik</span>
+      <div class="proj-outro">
+        <span class="proj-outro-label">Fin du projet</span>
+        <p class="proj-outro-phrase">Et maintenant, parlons du vôtre.</p>
+        <div class="proj-nav">
+          <button class="proj-nav-btn" onclick="window._switchProject('pampers')">← Pampers</button>
+          <button class="proj-nav-btn" onclick="window._switchProject('mauboussin')">Mauboussin →</button>
+        </div>
       </div>
 
     </div>
@@ -3959,10 +3990,13 @@
       <!-- Légende bloc 3 -->
       <p class="gl-visuals-caption"><span class="gl-vc-label">Génération d'assets</span> • Enrichissement des pages produits via l'IA à partir d'une image de bague.</p>
 
-      <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
-        <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
-        <p style="font-size: 28px; font-weight:800; font-style:italic; letter-spacing:-0.03em; color:#CCFF00; margin:0; line-height:1;">Merci pour la lecture&nbsp;:)</p>
-        <span style="font-size:13px; color:rgba(255,255,255,0.3); font-style:italic;">— Malik</span>
+      <div class="proj-outro">
+        <span class="proj-outro-label">Fin du projet</span>
+        <p class="proj-outro-phrase">Et maintenant, parlons du vôtre.</p>
+        <div class="proj-nav">
+          <button class="proj-nav-btn" onclick="window._switchProject('galeries-lafayette')">← Galeries Lafayette</button>
+          <button class="proj-nav-btn" onclick="window._switchProject('gotaxfree')">GoTaxFree →</button>
+        </div>
       </div>
 
     </div>
@@ -4155,10 +4189,13 @@
 
       <p class="gl-visuals-caption"><span class="gl-vc-label">Users Tests et impacts</span> • Validation des choix de création basé sur les avis des clients étrangers via les Tests Utilisateurs à chaque étape du processus de création.</p>
 
-      <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
-        <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
-        <p style="font-size: 28px; font-weight:800; font-style:italic; letter-spacing:-0.03em; color:#CCFF00; margin:0; line-height:1;">Merci pour la lecture&nbsp;:)</p>
-        <span style="font-size:13px; color:rgba(255,255,255,0.3); font-style:italic;">— Malik</span>
+      <div class="proj-outro">
+        <span class="proj-outro-label">Fin du projet</span>
+        <p class="proj-outro-phrase">Et maintenant, parlons du vôtre.</p>
+        <div class="proj-nav">
+          <button class="proj-nav-btn" onclick="window._switchProject('mauboussin')">← Mauboussin</button>
+          <button class="proj-nav-btn" onclick="window._switchProject('pampers')">Pampers →</button>
+        </div>
       </div>
 
     </div>
@@ -4270,10 +4307,13 @@
 
       <p class="gl-visuals-caption"><span class="gl-vc-label">Un système intuitif</span> • Pédagogie des interfaces autour des bénéfices des couches lavables et réutilisables.</p>
 
-      <div style="text-align:center; padding: 64px 0 48px; display:flex; flex-direction:column; align-items:center; gap:12px;">
-        <span style="font-size: 11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.25);">Fin du projet</span>
-        <p style="font-size: 28px; font-weight:800; font-style:italic; letter-spacing:-0.03em; color:#CCFF00; margin:0; line-height:1;">Merci pour la lecture&nbsp;:)</p>
-        <span style="font-size:13px; color:rgba(255,255,255,0.3); font-style:italic;">— Malik</span>
+      <div class="proj-outro">
+        <span class="proj-outro-label">Fin du projet</span>
+        <p class="proj-outro-phrase">Et maintenant, parlons du vôtre.</p>
+        <div class="proj-nav">
+          <button class="proj-nav-btn" onclick="window._switchProject('gotaxfree')">← GoTaxFree</button>
+          <button class="proj-nav-btn" onclick="window._switchProject('galeries-lafayette')">Galeries Lafayette →</button>
+        </div>
       </div>
 
     </div>
@@ -5813,6 +5853,10 @@
         history.pushState({ slug: '' }, '', location.pathname + location.search);
         Object.values(routes).forEach(r => { if (r.el.classList.contains('open')) r._close(); });
       }
+      window._switchProject = function(slug) {
+        Object.values(routes).forEach(r => { if (r.el.classList.contains('open')) r._close(); });
+        if (routes[slug]) openRoute(slug);
+      };
       function applyHash() {
         const slug = location.hash.slice(1);
         Object.values(routes).forEach(r => { if (r.el.classList.contains('open')) r._close(); });
