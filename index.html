@@ -1086,12 +1086,11 @@
     .vibe-music-disc { display: none; }
 
     @media (max-width: 768px) {
-      /* Vibes : carrousel mobile */
+      /* Vibes : liste verticale mobile (sans carrousel) */
       .vibes-grid { gap: 40px; align-items: stretch; }
-      .vibes-carousel-nav { display: flex; }
-      .vibes-blocks { display: block; }
-      .vibe-block { display: none; height: 190px; min-height: unset; padding: 16px; }
-      .vibe-block.carousel-active { display: flex; }
+      .vibes-carousel-nav { display: none; }
+      .vibes-blocks { display: flex; flex-direction: column; gap: 16px; }
+      .vibe-block { display: flex; height: 190px; min-height: unset; padding: 16px; }
       /* Cartes sans padding interne */
       .vibe-film, .vibe-book, .vibe-zelda { padding: 0; }
       .vibe-title { font-size: .95rem; }
@@ -2801,7 +2800,6 @@
       .hero { min-height: unset; padding-top: 100px; padding-bottom: 48px; }
       .hero-title { font-size: clamp(2.4rem, 10vw, 3.5rem); line-height: 1.08; }
       .carousel-outer, .carousel-nav { display: none; }
-      .vibes-carousel-nav { display: flex; }
       .project-card { min-width: unset; max-width: unset; }
       .projects-header { flex-direction: column; align-items: flex-start; gap: 16px; }
       .divider { margin: 0 24px; width: calc(100% - 48px); }
