@@ -1285,6 +1285,27 @@
       margin-bottom: 64px;
     }
     .gl-desc strong { color: var(--text); font-weight: 400; }
+    .gl-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin-top: 32px;
+    }
+    .gl-stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px 18px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .gl-stat-label {
+      font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); font-family: var(--font-display); font-weight: 700;
+    }
+    .gl-stat-value {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 2rem; letter-spacing: -.04em; color: var(--accent);
+      line-height: 1;
+    }
+    .gl-stat-sub {
+      font-size: .72rem; color: var(--muted); font-family: var(--font-body); line-height: 1.4;
+    }
     .gl-section-title {
       font-family: var(--font-display); font-weight: 700;
       font-size: 1.4rem; color: var(--text);
@@ -1486,6 +1507,7 @@
 
       /* En-tête : meta en grille 2 colonnes (Rôle & Périmètre alignés) */
       .gl-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+      .gl-stats { grid-template-columns: 1fr; }
 
       /* ── Blocs 1 & 3 : grille 2 cols → colonne unique ── */
       .gl-visuals-grid {
@@ -3690,11 +3712,25 @@
 
       <p class="gl-desc">
         Depuis 2023, je contribue à la refonte de l'écosystème digital (web &amp; app) des Galeries Lafayette, dans un contexte de transformation du retail vers le e-commerce.<br>
-        Au sein de l'équipe Product Design, j'ai participé à repenser l'expérience de bout en bout : parcours d'achat, cohérence cross-device, amélioration continue via des user tests et intégration des outils IA à la conception.<br><br>
-        <strong>Résultats :</strong><br>
-        Site • Traffic indice 150 vs N-1, panier moyen en hausse (1,2 → 1,6).<br>
-        App • trafic indice 200 vs N-1.
+        Au sein de l'équipe Product Design, j'ai participé à repenser l'expérience de bout en bout : parcours d'achat, cohérence cross-device, amélioration continue via des user tests et intégration des outils IA à la conception.
       </p>
+      <div class="gl-stats">
+        <div class="gl-stat">
+          <span class="gl-stat-label">Trafic Site</span>
+          <span class="gl-stat-value">×1,5</span>
+          <span class="gl-stat-sub">vs N-1</span>
+        </div>
+        <div class="gl-stat">
+          <span class="gl-stat-label">Panier moyen Site</span>
+          <span class="gl-stat-value">↑1,6</span>
+          <span class="gl-stat-sub">vs 1,2 l'année précédente</span>
+        </div>
+        <div class="gl-stat">
+          <span class="gl-stat-label">Trafic App</span>
+          <span class="gl-stat-value">×2</span>
+          <span class="gl-stat-sub">vs N-1</span>
+        </div>
+      </div>
 
       <div class="gl-visuals-grid">
         <!-- Bloc 1 : iPhone carousel -->
