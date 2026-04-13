@@ -1286,26 +1286,24 @@
     }
     .gl-desc strong { color: var(--text); font-weight: 400; }
     .gl-stats {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-      margin-top: 32px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 20px;
     }
     .gl-stat {
+      display: inline-flex; align-items: center; gap: 8px;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 20px 18px;
-      display: flex; flex-direction: column; gap: 6px;
+      border-radius: var(--r); padding: 7px 14px;
     }
     .gl-stat-label {
-      font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--muted); font-family: var(--font-display); font-weight: 700;
+      font-size: .72rem; letter-spacing: .03em;
+      color: var(--muted); font-family: var(--font-body);
     }
     .gl-stat-value {
-      font-family: var(--font-display); font-weight: 900;
-      font-size: 2rem; letter-spacing: -.04em; color: var(--accent);
-      line-height: 1;
+      font-family: var(--font-display); font-weight: 800;
+      font-size: .9rem; color: var(--text);
+      letter-spacing: -.01em;
     }
-    .gl-stat-sub {
-      font-size: .72rem; color: var(--muted); font-family: var(--font-body); line-height: 1.4;
-    }
+    .gl-stat-sub { display: none; }
     .gl-section-title {
       font-family: var(--font-display); font-weight: 700;
       font-size: 1.4rem; color: var(--text);
