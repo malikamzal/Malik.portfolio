@@ -3625,7 +3625,7 @@
             </div>
 
             <div class="tl-cta-wrap">
-              <a href="01_SOURCES/CV_AMZAL.pdf" id="cvBtn" class="tl-cta" target="_blank" rel="noopener">
+              <a href="/cv" id="cvBtn" class="tl-cta" target="_blank" rel="noopener">
                 <span class="tl-cta-icon">↓</span>
                 Télécharger le CV
               </a>
@@ -4579,7 +4579,7 @@
         <a class="footer-link" href="mailto:malikamzal@gmail.com">malikamzal@gmail.com</a>
         <a class="footer-link" href="tel:+33635367930">+33 06 35 36 79 30</a>
         <a class="footer-link" href="https://www.linkedin.com/in/malikamzal" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="footer-link" id="cvFooterBtn" href="01_SOURCES/CV_AMZAL.pdf" target="_blank" rel="noopener">Télécharger mon CV</a>
+        <a class="footer-link" id="cvFooterBtn" href="/cv" target="_blank" rel="noopener">Télécharger mon CV</a>
       </div>
     </div>
 
@@ -5605,7 +5605,7 @@ function applyCard(card, rel, instant) {
       var u = new Uint8Array(bin.length);
       for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
       // PDF servi directement depuis le dossier sources
-      var url = '01_SOURCES/CV_AMZAL.pdf';
+      var url = '/cv';
       var btn = document.getElementById('cvBtn');
       if (btn) btn.href = url;
       var btnFooter = document.getElementById('cvFooterBtn');
