@@ -5360,7 +5360,10 @@ function applyCard(card, rel, instant) {
         var map = { bg:'JEU_ZELDA_BG1.png', link:'JEU_ZELDA_SPRITE2.png', attack:'JEU_ZELDA_SPRITE3.png',
                     hit:'JEU_ZELDA_SPRITE4.png', e1a:'JEU_ZELDA_SPRITE5.png', e1b:'JEU_ZELDA_SPRITE6.png',
                     e2a:'JEU_ZELDA_SPRITE7.png', e2b:'JEU_ZELDA_SPRITE8.png',
-                    e3a:'JEU_ZELDA_SPRITE9.png', e3b:'JEU_ZELDA_SPRITE10.png' };
+                    e3a:'JEU_ZELDA_SPRITE9.png', e3b:'JEU_ZELDA_SPRITE10.png',
+                    e4a:'JEU_ZELDA_SPRITE12.webp', e4b:'JEU_ZELDA_SPRITE13.webp',
+                    e5a:'JEU_ZELDA_SPRITE14.webp', e5b:'JEU_ZELDA_SPRITE15.webp',
+                    e6a:'JEU_ZELDA_SPRITE18.webp', e6b:'JEU_ZELDA_SPRITE19.webp' };
         Object.keys(map).forEach(function(k) { imgs[k] = new Image(); imgs[k].src = S + map[k]; });
       })();
 
@@ -5418,8 +5421,8 @@ function applyCard(card, rel, instant) {
 
       function drawEnemies() {
         s.enemies.forEach(function(e) {
-          var fa = e.type === 0 ? imgs.e1a : e.type === 1 ? imgs.e2a : imgs.e3a;
-          var fb = e.type === 0 ? imgs.e1b : e.type === 1 ? imgs.e2b : imgs.e3b;
+          var fa = e.type === 0 ? imgs.e1a : e.type === 1 ? imgs.e2a : e.type === 2 ? imgs.e3a : e.type === 3 ? imgs.e4a : e.type === 4 ? imgs.e5a : imgs.e6a;
+          var fb = e.type === 0 ? imgs.e1b : e.type === 1 ? imgs.e2b : e.type === 2 ? imgs.e3b : e.type === 3 ? imgs.e4b : e.type === 4 ? imgs.e5b : imgs.e6b;
           var img = Math.floor(s.frame / 8) % 2 === 0 ? fa : fb;
           if (!img.complete || !img.naturalHeight) return;
           var w = iw(img, CHAR_H);
@@ -5450,7 +5453,7 @@ function applyCard(card, rel, instant) {
           s.spawnT = 0;
           s.spawnInterval = Math.max(55, 180 - s.score * 7);
           var spd = 1.4 + Math.random() * 0.6 + s.score * 0.09;
-          var rnd = Math.random(); var t = rnd < 0.33 ? 0 : rnd < 0.66 ? 1 : 2;
+          var rnd = Math.random(); var t = rnd < 0.17 ? 0 : rnd < 0.33 ? 1 : rnd < 0.5 ? 2 : rnd < 0.67 ? 3 : rnd < 0.83 ? 4 : 5;
           s.enemies.push({ x: W + 20, speed: spd, type: t, w: Math.round(CHAR_H * 0.6) });
         }
 
