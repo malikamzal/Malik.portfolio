@@ -1,4 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#0a0a0a"/>
-  <text x="16" y="22" font-family="'Syne', Arial Black, sans-serif" font-size="14" font-weight="800" fill="#C9F03D" text-anchor="middle" letter-spacing="-0.5">MA</text>
+  <polygon points="4,2 4,26 10,20 14,30 17,29 13,19 21,19" fill="#C9F03D"/>
 </svg>
