@@ -4659,13 +4659,32 @@
 
     // ── COPY EMAIL ──
     let toastTimer = null;
+    function showToast() {
+      const toast = document.getElementById('emailToast');
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
     function copyEmail() {
-      navigator.clipboard.writeText('malikamzal@gmail.com').then(() => {
-        const toast = document.getElementById('emailToast');
-        toast.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
-      });
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText('malikamzal@gmail.com').then(showToast).catch(() => {
+          const ta = document.createElement('textarea');
+          ta.value = 'malikamzal@gmail.com';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showToast();
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = 'malikamzal@gmail.com';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      }
     }
 
     // ── REVEAL SCROLL ──
