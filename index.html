@@ -6033,9 +6033,9 @@ function applyCard(card, rel, instant) {
       //    {{drawing}} (image base64), {{date}}, {{pixels}}
       // 3. Renseignez les 3 IDs ci-dessous
       // ════════════════════════════════════════════════════════
-      const EMAILJS_PUBLIC_KEY  = 'VOTRE_CLE_PUBLIQUE';
-      const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';
-      const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';
+      const EMAILJS_PUBLIC_KEY  = 'wI5NQWMuj-Jf61xDX';
+      const EMAILJS_SERVICE_ID  = 'service_78x5ruk';
+      const EMAILJS_TEMPLATE_ID = 'template_n95k5lt';
       if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'VOTRE_CLE_PUBLIQUE') {
         emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
       }
@@ -6206,20 +6206,22 @@ function applyCard(card, rel, instant) {
           tCtx.fillRect(x * PXSZ, y * PXSZ, PXSZ, PXSZ);
         }
 
-        // Envoi par email via EmailJS
+        // Envoi par email via EmailJS (image réduite pour respecter la limite de taille)
         if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'VOTRE_CLE_PUBLIQUE') {
+          const small = document.createElement('canvas');
+          const maxW = 800;
+          const scale = Math.min(1, maxW / tmp.width);
+          small.width  = Math.round(tmp.width  * scale);
+          small.height = Math.round(tmp.height * scale);
+          const sCtx = small.getContext('2d');
+          sCtx.imageSmoothingEnabled = false;
+          sCtx.drawImage(tmp, 0, 0, small.width, small.height);
           emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-            drawing: tmp.toDataURL('image/jpeg', 0.8),
+            drawing: small.toDataURL('image/jpeg', 0.6),
             date:    new Date().toLocaleString('fr-FR'),
             pixels:  Object.keys(pixelData).length
           }).catch(err => console.error('EmailJS:', err));
         }
-
-        // Sauvegarde locale du dessin (dossier Téléchargements)
-        const a = document.createElement('a');
-        a.download = `page-blanche-${Date.now()}.png`;
-        a.href = tmp.toDataURL('image/png');
-        a.click();
 
         pxThankyou.classList.add('visible');
       });
