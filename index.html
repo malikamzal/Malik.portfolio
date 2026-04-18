@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q4S0J0QWJR"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -6026,6 +6027,19 @@ function applyCard(card, rel, instant) {
         appId:             "VOTRE_APP_ID"
       };
       // ════════════════════════════════════════════════════════
+      // CONFIG EMAILJS — https://dashboard.emailjs.com
+      // 1. Créez un compte gratuit, ajoutez Gmail comme service
+      // 2. Créez un template HTML avec les variables :
+      //    {{drawing}} (image base64), {{date}}, {{pixels}}
+      // 3. Renseignez les 3 IDs ci-dessous
+      // ════════════════════════════════════════════════════════
+      const EMAILJS_PUBLIC_KEY  = 'VOTRE_CLE_PUBLIQUE';
+      const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';
+      const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';
+      if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'VOTRE_CLE_PUBLIQUE') {
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      }
+      // ════════════════════════════════════════════════════════
 
       const PXSZ = 6;
       let COLS = 0, ROWS = 0;
@@ -6141,7 +6155,7 @@ function applyCard(card, rel, instant) {
       function placePixel(x, y) {
         if (x < 0 || y < 0 || x >= COLS || y >= ROWS) return;
         const key = `${x},${y}`;
-        if (pixelData[key]) return;
+        if (pixelData[key] === selectedColor) return; // déjà la même couleur
         pixelData[key] = selectedColor;
         pixelHistory.push(key);
         render();
@@ -6178,6 +6192,35 @@ function applyCard(card, rel, instant) {
       const pxTyDone   = document.getElementById('pxTyDone');
 
       pxSend.addEventListener('click', () => {
+        // Générer l'image du dessin
+        const tmp = document.createElement('canvas');
+        tmp.width  = COLS * PXSZ;
+        tmp.height = ROWS * PXSZ;
+        const tCtx = tmp.getContext('2d');
+        tCtx.imageSmoothingEnabled = false;
+        tCtx.fillStyle = '#111114';
+        tCtx.fillRect(0, 0, tmp.width, tmp.height);
+        for (const [key, color] of Object.entries(pixelData)) {
+          const [x, y] = key.split(',').map(Number);
+          tCtx.fillStyle = color;
+          tCtx.fillRect(x * PXSZ, y * PXSZ, PXSZ, PXSZ);
+        }
+
+        // Envoi par email via EmailJS
+        if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'VOTRE_CLE_PUBLIQUE') {
+          emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            drawing: tmp.toDataURL('image/jpeg', 0.8),
+            date:    new Date().toLocaleString('fr-FR'),
+            pixels:  Object.keys(pixelData).length
+          }).catch(err => console.error('EmailJS:', err));
+        }
+
+        // Sauvegarde locale du dessin (dossier Téléchargements)
+        const a = document.createElement('a');
+        a.download = `page-blanche-${Date.now()}.png`;
+        a.href = tmp.toDataURL('image/png');
+        a.click();
+
         pxThankyou.classList.add('visible');
       });
       pxTyMore.addEventListener('click', () => {
