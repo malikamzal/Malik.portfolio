@@ -364,9 +364,9 @@
 
     /* Hero */
     .hero {
-      min-height: 100vh;
+      min-height: 140vh;
       display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 100px 64px 80px;
+      padding: 100px 64px 120px;
       position: relative;
       overflow: hidden;
     }
@@ -449,7 +449,7 @@
       font-size: clamp(3.8rem, 9vw, 8rem);
       line-height: .95;
       letter-spacing: -.04em;
-      margin-bottom: 60px;
+      margin-bottom: 24px;
       opacity: 0;
       animation: fadeUp .9s .35s forwards;
     }
@@ -2841,7 +2841,7 @@
     .footer-link:hover::before { color: var(--accent); }
 
     .footer-bar {
-      padding: 18px 64px;
+      padding: 18px 64px calc(18px + env(safe-area-inset-bottom, 0px));
       border-top: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center;
     }
@@ -2867,7 +2867,7 @@
 
     @media (max-width: 768px) {
       .footer-main { grid-template-columns: 1fr; padding: 48px 24px 40px; gap: 32px; }
-      .footer-bar { padding: 16px 24px; flex-direction: column; gap: 6px; align-items: flex-start; }
+      .footer-bar { padding: 16px 24px calc(16px + env(safe-area-inset-bottom, 0px)); flex-direction: column; gap: 6px; align-items: flex-start; }
       /* Mobile : taille réduite pour que le texte rentre dans l'écran */
       .footer-wordmark { font-size: clamp(32px, 11.5vw, 52px); padding: 0 24px; height: 0.72em; margin-top: 20px; }
     }
@@ -3020,8 +3020,11 @@
       #expertise { padding: 48px 24px; }
       .expertise-inner { grid-template-columns: 1fr; gap: 40px; }
       .hero, section { padding-left: 24px; padding-right: 24px; padding-top: 48px; padding-bottom: 48px; }
-      .hero { min-height: unset; padding-top: 100px; padding-bottom: 48px; }
-      .hero-title { font-size: clamp(2.4rem, 10vw, 3.5rem); line-height: 1.08; }
+      .hero { min-height: 78vh; padding-top: 128px; padding-bottom: 64px; justify-content: center; }
+      #projets { padding-top: 24px; }
+      .hero-title { font-size: clamp(2.4rem, 10vw, 3.5rem); line-height: 1.08; margin-bottom: 56px; }
+      .hero-visual-left { top: -45%; }
+      .hero-visual-right { top: 18%; }
       .carousel-outer, .carousel-nav { display: none; }
       .project-card { min-width: unset; max-width: unset; }
       .projects-header { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -3438,7 +3441,7 @@
           <img class="hero-avatar-inline" src="01_SOURCES/MALIK_AVATAR.webp" alt="Malik Amzal" id="heroAvatar" />
           <span class="hero-name">Malik Amzal</span>
         </div>
-        <p class="hero-xp">8 ans d'expérience en <strong>Product Design</strong> · Ouvert aux opportunités.<br><em class="hero-quote">Quand mon travail est bien fait, on oublie qu'un humain y a pensé.</em></p>
+        <p class="hero-xp">8 ans d'expérience en <strong>Product Design</strong> · Ouvert aux opportunités. <em class="hero-quote">Quand mon travail est bien fait, on oublie qu'un humain y a pensé.</em></p>
       </div>
 
     </div><!-- /hero-block -->
@@ -4920,7 +4923,7 @@ function applyCard(card, rel, instant) {
           card.style.transform = 'translateX(-50%)';
           card.style.opacity   = '1';
           card.style.zIndex    = '10';
-          card.style.boxShadow = '0 24px 64px rgba(0,0,0,.6)';
+          card.style.boxShadow = '0 4px 20px rgba(0,0,0,.35)';
         } else if (rel === 1 || rel === -1) {
           // card width = 78% container → center naturel à 89%
           // scale S = 0.82 → half-visual = 39% × 0.82 = 31.98%
