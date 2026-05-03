@@ -3021,7 +3021,7 @@
       #expertise { padding: 48px 24px; }
       .expertise-inner { grid-template-columns: 1fr; gap: 40px; }
       .hero, section { padding-left: 24px; padding-right: 24px; padding-top: 48px; padding-bottom: 48px; }
-      .hero { min-height: 78vh; padding-top: 128px; padding-bottom: 64px; justify-content: center; }
+      .hero { min-height: 100dvh; margin-top: calc(-1 * env(safe-area-inset-top, 0px)); padding-top: calc(128px + env(safe-area-inset-top, 0px)); padding-bottom: 64px; justify-content: center; }
       #projets { padding-top: 24px; }
       .hero-title { font-size: clamp(2.4rem, 10vw, 3.5rem); line-height: 1.08; margin-bottom: 56px; }
       .hero-visual-left { top: -45%; }
