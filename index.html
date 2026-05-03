@@ -2466,7 +2466,7 @@
     /* ── Quiz : Littérature gratinée ── */
     #quizModal {
       display: none; position: fixed; inset: 0; z-index: 9999;
-      background: #080808;
+      background: var(--bg);
       overflow: hidden;
     }
     #quizModal.open { display: block; }
@@ -2477,14 +2477,14 @@
     /* Layout split gauche / droite */
     .quiz-layout {
       position: absolute; inset: 0; display: flex;
-      background: #09090c;
+      background: var(--bg);
     }
 
     /* Colonne gauche — livre */
     .quiz-col-left {
       flex: 0 0 48%; position: relative;
       overflow: hidden;
-      background: #07070a;
+      background: var(--bg);
       display: flex; align-items: center; justify-content: center;
     }
     .quiz-book-img {
@@ -2677,7 +2677,7 @@
     /* Intro screen */
     #quizIntro {
       position: fixed; inset: 0; z-index: 30;
-      background: #09090c;
+      background: var(--bg);
       display: flex; align-items: center; justify-content: center;
       padding: 48px;
     }
