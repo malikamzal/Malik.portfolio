@@ -80,8 +80,6 @@
       position: fixed; inset: 0;
       pointer-events: none;
       z-index: 999;
-      background: transparent;
-      transition: background 2s ease;
       will-change: background;
     }
     @media (max-width: 768px) {
@@ -6962,20 +6960,62 @@ function applyCard(card, rel, instant) {
       if (!window.matchMedia('(max-width: 768px)').matches) return;
       const glow = document.getElementById('mobileGlow');
       if (!glow) return;
-      const c = '212,146,42';
-      const map = [
-        { el: document.getElementById('projets'), bg: `radial-gradient(ellipse 60% 40% at 18% 65%, rgba(${c},.08) 0%, transparent 70%)` },
-        { el: document.getElementById('labo'),    bg: `radial-gradient(ellipse 65% 45% at 72% 42%, rgba(${c},.09) 0%, transparent 70%)` },
-        { el: document.getElementById('vibes'),   bg: `radial-gradient(ellipse 55% 40% at 28% 55%, rgba(${c},.08) 0%, transparent 70%)` },
-      ].filter(s => s.el);
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (!e.isIntersecting) return;
-          const s = map.find(s => s.el === e.target);
-          if (s) glow.style.background = s.bg;
+
+      const C = '212,146,42';
+      const waypoints = [
+        { id: 'projets', x: 18, y: 65, a: .09 },
+        { id: 'labo',    x: 72, y: 42, a: .10 },
+        { id: 'vibes',   x: 28, y: 55, a: .09 },
+      ];
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+      let resolved = [];
+      function resolve() {
+        resolved = waypoints.map(wp => {
+          const el = document.getElementById(wp.id);
+          if (!el) return null;
+          const top = el.offsetTop;
+          return { ...wp, center: top + el.offsetHeight * 0.5, half: el.offsetHeight * 0.6 };
+        }).filter(Boolean);
+      }
+
+      let cx = 50, cy = 50, ca = 0;
+      let tx = 50, ty = 50, ta = 0;
+
+      function updateTarget() {
+        const mid = window.scrollY + window.innerHeight * 0.5;
+        let bx = 50, by = 50, ba = 0;
+        resolved.forEach(wp => {
+          const dist = Math.abs(mid - wp.center);
+          const fade = clamp(1 - dist / wp.half, 0, 1);
+          if (fade > 0) {
+            bx = lerp(bx, wp.x, fade);
+            by = lerp(by, wp.y, fade);
+            ba = Math.max(ba, wp.a * fade);
+          }
         });
-      }, { threshold: 0.25 });
-      map.forEach(s => obs.observe(s.el));
+        tx = bx; ty = by; ta = ba;
+      }
+
+      function tick() {
+        const f = 0.028;
+        cx = lerp(cx, tx, f);
+        cy = lerp(cy, ty, f);
+        ca = lerp(ca, ta, f);
+        glow.style.background = ca > 0.003
+          ? `radial-gradient(ellipse 65% 50% at ${cx.toFixed(2)}% ${cy.toFixed(2)}%, rgba(${C},${ca.toFixed(4)}) 0%, transparent 70%)`
+          : 'transparent';
+        requestAnimationFrame(tick);
+      }
+
+      window.addEventListener('scroll', updateTarget, { passive: true });
+      window.addEventListener('resize', () => { resolve(); updateTarget(); }, { passive: true });
+
+      resolve();
+      updateTarget();
+      tick();
     })();
 
     // Console warning
