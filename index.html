@@ -7003,7 +7003,7 @@ function applyCard(card, rel, instant) {
         const f = 0.028;
         cx = lerp(cx, tx, f);
         cy = lerp(cy, ty, f);
-        ca = lerp(ca, ta, f);
+        ca = lerp(ca, ta, 0.07);
         glow.style.background = ca > 0.003
           ? `radial-gradient(ellipse 65% 50% at ${cx.toFixed(2)}% ${cy.toFixed(2)}%, rgba(${C},${ca.toFixed(4)}) 0%, transparent 70%)`
           : 'transparent';
