@@ -74,6 +74,20 @@
 
     html { scroll-behavior: smooth; background: #171717; touch-action: manipulation; }
 
+    /* ── MOBILE AMBIENT GLOW ── */
+    #mobileGlow {
+      display: none;
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      background: transparent;
+      transition: background 2s ease;
+      will-change: background;
+    }
+    @media (max-width: 768px) {
+      #mobileGlow { display: block; }
+    }
+
     /* ── FOOTER BACKGROUND ── */
     footer {
       position: relative;
@@ -3420,6 +3434,9 @@
       </button>
     </div>
   </nav>
+
+  <!-- Mobile ambient glow -->
+  <div id="mobileGlow"></div>
 
   <!-- Hero -->
   <section class="hero">
@@ -6940,6 +6957,28 @@ function applyCard(card, rel, instant) {
     document.addEventListener('contextmenu', e => e.preventDefault());
     // Drag désactivé
     document.addEventListener('dragstart', e => e.preventDefault());
+    // ── MOBILE AMBIENT GLOW ──
+    (function() {
+      if (!window.matchMedia('(max-width: 768px)').matches) return;
+      const glow = document.getElementById('mobileGlow');
+      if (!glow) return;
+      const c = '212,146,42';
+      const map = [
+        { el: document.querySelector('.hero'),    bg: `radial-gradient(ellipse 65% 45% at 78% 28%, rgba(${c},.10) 0%, transparent 70%)` },
+        { el: document.getElementById('projets'), bg: `radial-gradient(ellipse 60% 40% at 18% 65%, rgba(${c},.08) 0%, transparent 70%)` },
+        { el: document.getElementById('labo'),    bg: `radial-gradient(ellipse 65% 45% at 72% 42%, rgba(${c},.09) 0%, transparent 70%)` },
+        { el: document.getElementById('vibes'),   bg: `radial-gradient(ellipse 55% 40% at 28% 55%, rgba(${c},.08) 0%, transparent 70%)` },
+      ].filter(s => s.el);
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const s = map.find(s => s.el === e.target);
+          if (s) glow.style.background = s.bg;
+        });
+      }, { threshold: 0.25 });
+      map.forEach(s => obs.observe(s.el));
+    })();
+
     // Console warning
     console.clear();
     console.log('%c⚠ Stop.', 'color:#C9F03D;font-size:2rem;font-weight:900;');
