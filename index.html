@@ -463,10 +463,10 @@
 
     .scroll-hint {
       position: absolute; bottom: 32px; right: 48px;
-      font-size: .7rem;
-      letter-spacing: .15em;
+      font-size: .75rem;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--text);
       writing-mode: vertical-rl;
       display: flex; align-items: center; gap: 12px;
       opacity: 0;
@@ -475,8 +475,8 @@
     .scroll-hint::before {
       content: '';
       display: block;
-      width: 1px; height: 40px;
-      background: linear-gradient(to bottom, transparent, var(--muted));
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--accent));
     }
 
     /* Section base */
