@@ -74,16 +74,12 @@
 
     html { scroll-behavior: smooth; background: #171717; touch-action: manipulation; }
 
-    /* ── MOBILE AMBIENT GLOW ── */
+    /* ── AMBIENT GLOW ── */
     #mobileGlow {
-      display: none;
       position: fixed; inset: 0;
       pointer-events: none;
       z-index: 999;
       will-change: background;
-    }
-    @media (max-width: 768px) {
-      #mobileGlow { display: block; }
     }
 
     /* ── FOOTER BACKGROUND ── */
@@ -6955,17 +6951,18 @@ function applyCard(card, rel, instant) {
     document.addEventListener('contextmenu', e => e.preventDefault());
     // Drag désactivé
     document.addEventListener('dragstart', e => e.preventDefault());
-    // ── MOBILE AMBIENT GLOW ──
+    // ── AMBIENT GLOW ──
     (function() {
-      if (!window.matchMedia('(max-width: 768px)').matches) return;
       const glow = document.getElementById('mobileGlow');
       if (!glow) return;
 
       const C = '212,146,42';
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      const intensity = isMobile ? 1 : 0.55;
       const waypoints = [
-        { id: 'projets', x: 18, y: 65, a: .06 },
-        { id: 'labo',    x: 72, y: 42, a: .07 },
-        { id: 'vibes',   x: 28, y: 55, a: .06 },
+        { id: 'projets', x: 18, y: 65, a: .06 * intensity },
+        { id: 'labo',    x: 72, y: 42, a: .07 * intensity },
+        { id: 'vibes',   x: 28, y: 55, a: .06 * intensity },
       ];
 
       function lerp(a, b, t) { return a + (b - a) * t; }
